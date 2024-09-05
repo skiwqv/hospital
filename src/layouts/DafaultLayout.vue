@@ -51,6 +51,7 @@
           >Contact</router-link
         >
       </div>
+      <button class="nav-button">Appointment</button>
     </div>
   </header>
   <main>

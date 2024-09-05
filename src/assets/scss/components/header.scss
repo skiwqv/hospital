@@ -46,8 +46,12 @@
     .nav-wrapper{
         background-color: $primary;
         height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
         .links-wrapper{
             display: flex;
+            margin-left: 15px;
             gap: 20px;
             .link{
                 font-weight: 400;
