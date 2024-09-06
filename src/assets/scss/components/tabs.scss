@@ -1,0 +1,116 @@
+
+.tabs {
+  display: flex;
+  .tab-buttons {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(31, 43, 108, 0.2);
+    border-radius: 5px;
+    width: 157px;
+    height: 484px;
+    background: $white;
+    align-items: center;
+    margin-right: 18px;
+
+    .tab-button {
+      display: flex;
+      flex-direction: column;
+      font-weight: 400;
+      cursor: pointer;
+      font-size: 16px;
+      text-align: center;
+      color: $black;
+      background-color: $white;
+      border: none;
+      width: 100%;
+      height: 100%;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      transition: background-color 0.3s, color 0.3s;
+
+      // Стили для иконок
+      .tab-icon path {
+        fill: $secondary; // Цвет по умолчанию
+      }
+
+      &:hover {
+        background: $primary;
+        color: $accent;
+
+        .tab-icon path {
+          fill: $accent; // Цвет иконки при наведении
+        }
+      }
+
+      &.active {
+        background: $primary;
+        color: $accent;
+
+        .tab-icon path {
+          fill: $accent; // Цвет иконки при активации
+        }
+      }
+    }
+
+    .tab-text {
+      display: flex;
+      justify-content: center;
+      font-weight: 500;
+      font-size: 14px;
+      color: $accent;
+      background: $primary;
+      border-radius: 0 0 5px 5px;
+      width: 157px;
+      height: 40px;
+    }
+  }
+  .tab-content{
+    max-width: 470px;
+    color: $black;
+    .content-title{
+        font-weight: 500;
+        font-size: 26px;
+        margin-bottom: 25px;
+    }
+    .content-list{
+        list-style: none;
+        max-height: 107px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 0;
+        
+        .content-list-item {
+            font-weight: 400;
+            font-size: 18px;
+            line-height: 140%;
+            flex: 1 1 45%;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            .list-circle {
+                background-color: $secondary;
+                border-radius: 50%;
+                width: 16px;
+                height: 16px;
+                margin-right: 10px; /* Отступ между кружком и текстом */
+                flex-shrink: 0; /* Запрещаем кружку сжиматься */
+              }
+          }          
+    }
+    .content-paragraph{
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 140%;
+        margin-top: 80px;
+    }
+  }
+  .tabs-images{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-left: 27px;
+  }
+}

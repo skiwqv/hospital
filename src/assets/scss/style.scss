@@ -3,3 +3,16 @@ body{
     padding: auto;
     font-family: $font-family-base;
 }
+.subtitle-base{
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: $secondary;
+}
+.title-base{
+    font-family: $font-family-display;
+    font-weight: 400;
+    font-size: 32px;
+    color: $primary;
+}

@@ -5,8 +5,8 @@
         <img class="image" src="../assets/images/home.png" alt="" />
         <div class="banner-holder">
           <div class="banner-text">
-            <span class="subtitle-home">Caring for Life</span>
-            <h1 class="home-title">
+            <span class="subtitle-base">Caring for Life</span>
+            <h1 class="title-base">
               Leading the Way <br />
               in Medical Excellence
             </h1>
@@ -33,8 +33,8 @@
       </div>
     </div>
     <section class="welcome-wrapper">
-      <span class="welcome-text">Welcome to Meddical</span>
-      <h2 class="welcome-title">A Great Place to Receive Care</h2>
+      <span class="subtitle-base">Welcome to Meddical</span>
+      <h2 class="title-base welcome-title">A Great Place to Receive Care</h2>
       <p class="welcome-paragraph">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
         placerat scelerisque tortor ornare ornare. Convallis felis vitae tortor
@@ -47,13 +47,67 @@
       </div>
       <img src="../assets/images/welcome_image.png" alt="" />
     </section>
+    <section class="services-wrapper">
+      <span class="subtitle-base">Care you can believe in</span>
+      <h2 class="title-base">Our Services</h2>
+      <tabs></tabs>
+    </section>
+    <section class="specialties-wrapper">
+      <span class="subtitle-base">Always Caring</span>
+      <h2 class="title-base">Our Specialties</h2>
+      <div class="specialties-container">
+        <div class="specialty" v-for="specialty in specialties">
+          <heart class="heart-icon"></heart>
+          <span class="specialty-title">{{ specialty }}</span>
+        </div>
+      </div>
+    </section>
+    <section class="book-wrapper">
+      <img
+        class="book-image"
+        src="../assets/images/bookImage.png"
+        alt="background image"
+      />
+      <div class="text-holder">
+        <div class="text">
+          <div class="text-wrapper">
+            <h2 class="book-title">Book an Appointment</h2>
+            <p class="book-paragraph">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
+              placerat scelerisque tortor ornare ornare. Convallis felis vitae
+              tortor augue. Velit nascetur proin massa in. Consequat faucibus
+              porttitor enim et.
+            </p>
+          </div>
+          <baseForm></baseForm>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
 <script setup>
+import { ref } from "vue";
 import callendar from "../components/icons/callendar.vue";
 import users from "../components/icons/users.vue";
 import cash from "../components/icons/cash.vue";
+import tabs from "../components/home/tabs.vue";
+import heart from "../assets/icons/heart.svg";
+import baseForm from "../components/forms/baseForm.vue";
+const specialties = ref([
+  "Neurology",
+  "Bones",
+  "Oncology",
+  "Otorhinolaryngology",
+  "Ophthalmology",
+  "Cardiovascular",
+  "Pulmonology",
+  "Renal Medicine",
+  "Gastroenterology",
+  "Urology",
+  "Dermatology",
+  "Gynaecology",
+]);
 </script>
 
 <style></style>
