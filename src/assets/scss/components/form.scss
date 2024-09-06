@@ -1,16 +1,78 @@
-.base-input{
-    border-radius: 5px 0 0 0;
-    border:none;
-    background: $primary;
-    width: 245px;
-    height: 50px;
-    padding: 0;
-    margin: 0;
-    outline: none;
-    box-shadow: none;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 140%;
-    color: $white;
-    padding-left: 22px;
+.form{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 500px;
+    .base-input{
+        border-radius: 5px;
+        border:1px solid $accent;
+        background: $primary;
+        width: 245px;
+        height: 50px;
+        padding: 0;
+        margin: 0;
+        outline: none;
+        box-shadow: none;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 140%;
+        color: $white;
+        padding-left: 22px;
+        &::placeholder{
+            color: $white;
+        }
+    }
+    .select-wrapper {
+        position: relative;
+        .select {
+            width: 100%;
+            -webkit-appearance: none; /* Для Safari и Chrome */
+            -moz-appearance: none; /* Для Firefox */
+            appearance: none; /* Убирает стандартную стрелку */
+        }
+        &::after{
+            content: '';
+            position: absolute;
+            right: 10px; /* Расположение иконки */
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px; /* Размер иконки */
+            height: 9px; /* Размер иконки */
+            background: url('../icons/arrow.svg') no-repeat center;
+            background-size: contain; /* Обеспечивает, что иконка не растягивается */
+            pointer-events: none; /* Не блокирует взаимодействие с `<select>` */
+        }
+      }
+      .base-textarea{
+          background-color: $primary;
+          grid-column: span 2;
+          height: 190px;
+          font-weight: 400;
+          font-size: 16px;
+          line-height: 140%;
+          color: $white;
+          padding: 22px 0 0 22px;
+          resize: none;
+          outline: none;
+          &::placeholder{
+            color: $white;
+        }
+      }
+      .form-button{
+        background-color: $accent;
+        grid-column: span 2;
+        border:none;
+        font-weight: 500;
+        font-size: 16px;
+        height: 50px;
+        line-height: 140%;
+        text-transform: uppercase;
+        text-align: center;
+        color: $primary;
+        border-radius: 0 0 5px 5px;
+        transition: background-color .3s;
+        cursor: pointer;
+        &:hover{
+            background-color: $accent-hover;
+        }
+      }
 }
