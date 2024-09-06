@@ -83,6 +83,10 @@
         </div>
       </div>
     </section>
+    <section class="doctors-wrapper">
+      <span class="subtitle-base">Trusted Care</span>
+      <h2 class="title-base welcome-title">Our Doctors</h2>
+    </section>
   </div>
 </template>
 
@@ -91,7 +95,7 @@ import { ref } from "vue";
 import callendar from "../components/icons/callendar.vue";
 import users from "../components/icons/users.vue";
 import cash from "../components/icons/cash.vue";
-import tabs from "../components/home/tabs.vue";
+import tabs from "../components/tabs/tabs.vue";
 import heart from "../assets/icons/heart.svg";
 import baseForm from "../components/forms/baseForm.vue";
 const specialties = ref([
