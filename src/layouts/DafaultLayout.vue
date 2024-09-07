@@ -8,21 +8,21 @@
       </div>
       <div class="info-wrapper">
         <div class="info">
-          <call-icon />
+          <callIcon />
           <div class="info-text-wrapper">
             <p class="info-title">Emergency</p>
             <p class="info-text">(237) 681-812-255</p>
           </div>
         </div>
         <div class="info">
-          <clock-icon />
+          <clockIcon />
           <div class="info-text-wrapper">
             <p class="info-title">Work Hour</p>
             <p class="info-text">09:00 - 20:00 Everyday</p>
           </div>
         </div>
         <div class="info">
-          <location-icon />
+          <locationIcon />
           <div class="info-text-wrapper">
             <p class="info-title">Location</p>
             <p class="info-text">0123 Some Place</p>
@@ -60,9 +60,9 @@
 </template>
 
 <script setup>
-import callIcon from "../components/icons/call.vue";
-import clockIcon from "../components/icons/clock.vue";
-import locationIcon from "../components/icons/location.vue";
+import callIcon from "../assets/icons/phone.svg";
+import clockIcon from "../assets/icons/clock.svg";
+import locationIcon from "../assets/icons/location.svg";
 </script>
 
 <style></style>

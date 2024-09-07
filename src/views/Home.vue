@@ -96,6 +96,7 @@
         </template>
       </Carousel>
     </section>
+    <contacts></contacts>
   </div>
 </template>
 
@@ -110,6 +111,7 @@ import baseForm from "../components/forms/baseForm.vue";
 import doctorItem from "../components/doctors/doctorItem.vue";
 import Carousel from "../components/carousels/Carousel.vue";
 import brenda from "../assets/images/brenda.jpg";
+import contacts from "../components/home/contacts.vue";
 const specialties = ref([
   "Neurology",
   "Bones",
