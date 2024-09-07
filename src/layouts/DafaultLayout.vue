@@ -8,21 +8,21 @@
       </div>
       <div class="info-wrapper">
         <div class="info">
-          <call-icon />
+          <callIcon />
           <div class="info-text-wrapper">
             <p class="info-title">Emergency</p>
             <p class="info-text">(237) 681-812-255</p>
           </div>
         </div>
         <div class="info">
-          <clock-icon />
+          <clockIcon />
           <div class="info-text-wrapper">
             <p class="info-title">Work Hour</p>
             <p class="info-text">09:00 - 20:00 Everyday</p>
           </div>
         </div>
         <div class="info">
-          <location-icon />
+          <locationIcon />
           <div class="info-text-wrapper">
             <p class="info-title">Location</p>
             <p class="info-text">0123 Some Place</p>
@@ -32,24 +32,15 @@
     </div>
     <div class="nav-wrapper">
       <div class="links-wrapper">
-        <router-link class="link" to="/" exact active-class="link-active"
-          >Home</router-link
+        <router-link
+          v-for="(link, index) in headerLinks"
+          :key="index"
+          class="link"
+          :to="link.to"
+          active-class="link-active"
         >
-        <router-link class="link" to="/about" active-class="link-active"
-          >About us</router-link
-        >
-        <router-link class="link" to="/about" active-class="link-active"
-          >Services</router-link
-        >
-        <router-link class="link" to="/about" active-class="link-active"
-          >Doctors</router-link
-        >
-        <router-link class="link" to="/about" active-class="link-active"
-          >News</router-link
-        >
-        <router-link class="link" to="/about" active-class="link-active"
-          >Contact</router-link
-        >
+          {{ link.label }}
+        </router-link>
       </div>
       <button class="nav-button">Appointment</button>
     </div>
@@ -57,12 +48,76 @@
   <main>
     <router-view />
   </main>
+  <footer class="footer">
+    <div class="footer-wrapper">
+      <div class="footer-container">
+        <h2 class="footer-logo">Meddical</h2>
+        <span class="footer-info"
+          >Leading the Way in Medical <br />
+          Execellence, Trusted Care.</span
+        >
+      </div>
+      <div class="footer-container">
+        <span class="footer-title">Important Links</span>
+        <div class="footer-content-wrapper">
+          <router-link
+            v-for="(link, index) in footerLinks"
+            :key="index"
+            class="footer-text"
+            :to="link.to"
+          >
+            {{ link.label }}
+          </router-link>
+        </div>
+      </div>
+      <div class="footer-container">
+        <span class="footer-title">Contact Us</span>
+        <div class="footer-content-wrapper">
+          <span class="footer-text">Call: (237) 681-812-255</span>
+          <span class="footer-text">Email: fildineesoe@gmail.com</span>
+          <span class="footer-text">Address: 0123 Some place</span>
+          <span class="footer-text">Some country</span>
+        </div>
+      </div>
+    </div>
+    <div class="divider-wrapper">
+      <div class="divider"></div>
+    </div>
+    <div class="creditionals-wrapper">
+      <span class="footer-title"
+        >© 2021 Hospital’s name All Rights Reserved by PNTEC-LTD</span
+      >
+      <div class="social-wrapper">
+        <linkedinIcon class="footer-icon"></linkedinIcon>
+        <facebookIcon class="footer-icon"></facebookIcon>
+        <instagramIcon class="footer-icon"></instagramIcon>
+      </div>
+    </div>
+  </footer>
 </template>
 
 <script setup>
-import callIcon from "../components/icons/call.vue";
-import clockIcon from "../components/icons/clock.vue";
-import locationIcon from "../components/icons/location.vue";
+import { ref } from "vue";
+import callIcon from "../assets/icons/phone.svg";
+import clockIcon from "../assets/icons/clock.svg";
+import locationIcon from "../assets/icons/location.svg";
+import linkedinIcon from "../assets/icons/linkdeIn.svg";
+import facebookIcon from "../assets/icons/facebook.svg";
+import instagramIcon from "../assets/icons/instagram.svg";
+const headerLinks = ref([
+  { label: "Home", to: "/", exact: true },
+  { label: "About us", to: "/about" },
+  { label: "Services", to: "/services" },
+  { label: "Doctors", to: "/doctors" },
+  { label: "News", to: "/news" },
+  { label: "Contact", to: "/contact" },
+]);
+const footerLinks = ref([
+  { label: "Appointment", to: "/appointment" },
+  { label: "Doctors", to: "/doctors" },
+  { label: "Services", to: "/services" },
+  { label: "About us", to: "/about" },
+]);
 </script>
 
 <style></style>

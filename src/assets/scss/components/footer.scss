@@ -1,0 +1,81 @@
+.footer{
+    margin-top: 68px;
+    width: 100%;
+    background-color: $primary;
+    color: $white;
+    display: flex;
+    padding: 75px 0;
+    flex-direction: column;
+    .footer-wrapper{
+        display: flex;
+        justify-content: space-between; /* Распределяем контейнеры */
+        max-width: 992px;
+        width: 100%;
+        margin: 0 auto; /* Центрируем по ширине экрана */
+        .footer-container{
+            display: flex;
+            flex-direction: column;
+            .footer-logo{
+                font-family: $font-family-display;
+                font-weight: 400;
+                font-size: 36px;
+                text-transform: uppercase;
+                color: $accent;
+                margin-top: 0;
+            }
+            .footer-title{
+                font-weight: 600;
+                font-size: 18px;
+                margin-bottom: 18px;
+            }
+            .footer-info{
+                font-weight: 400;
+                font-size: 18px;
+                line-height: 140%;
+            }
+            .footer-content-wrapper{
+                display: flex;
+                flex-direction: column;
+                gap: 14px;
+                .footer-text{
+                    font-weight: 400;
+                    font-size: 16px;
+                    text-decoration: none;
+                    color: $white;
+                }
+            }
+        }
+    }
+    .divider-wrapper{
+        display: flex;
+        justify-content: center;
+        padding: 50px 0;
+        .divider{
+            max-width: 992px;
+            width: 100%;
+            height: 1px;
+            border-bottom: 1px solid $accent;
+            display: flex;
+        }
+    }
+    .creditionals-wrapper{
+        display: flex;
+        justify-content: space-between; /* Распределяем контейнеры */
+        max-width: 992px;
+        width: 100%;
+        margin: 0 auto; /* Центрируем по ширине экрана */
+        .social-wrapper{
+            display: flex;
+            gap: 20px;
+            .footer-icon path{
+                width: 24px;
+                height: 24px;
+                fill: $accent;
+                cursor: pointer;
+                &:hover{
+                    fill: $accent-hover;
+                }
+            }
+        }
+    }
+}
