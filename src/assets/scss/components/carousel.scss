@@ -1,0 +1,80 @@
+
+
+// responsive mixins
+@mixin tablet {
+  @media (min-width: 768px) {
+    @content;
+  }
+}
+@mixin desktop {
+  @media (min-width: 1024px) {
+    @content;
+  }
+}
+.carusel-holder {
+    position: relative;
+  
+    .carousel {
+      width: 100%;
+      display: flex;
+      gap: 20px;
+  
+      &__control {
+        display: flex;
+        width: 10%;
+        align-items: center;
+        justify-content: center;
+  
+        &:hover {
+          cursor: pointer;
+        }
+      }
+  
+      & ul {
+        display: flex;
+        margin: 0;
+        padding: 0;
+        gap: 20px;
+        max-height: 538px;
+      }
+  
+      &__item {
+        width: calc(100% / #{$amount-items--mobile});
+  
+        @include tablet {
+          width: calc(100% / 3);
+        }
+        @include desktop {
+          width: calc(100% / #{$amount-items--desktop});
+        }
+  
+        & img {
+          height: 100%;
+        }
+      }
+    }
+  
+    .carousel__indicators {
+      display: flex;
+      justify-content: center;
+      margin-top: 66px; // Отступ вниз от карусели
+      gap: 10px;
+  
+      .indicator {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background-color: $accent;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+  
+        &.active {
+          background-color: $primary;
+        }
+  
+        &:hover {
+          background-color: $accent-hover; // Не забудь добавить переменную $accent-hover
+        }
+      }
+    }
+  }
