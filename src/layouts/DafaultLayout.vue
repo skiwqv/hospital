@@ -42,7 +42,7 @@
           {{ link.label }}
         </router-link>
       </div>
-      <button class="nav-button">Appointment</button>
+      <button class="nav-button">Sign Up</button>
     </div>
   </header>
   <main>
@@ -107,15 +107,13 @@ import instagramIcon from "../assets/icons/instagram.svg";
 const headerLinks = ref([
   { label: "Home", to: "/", exact: true },
   { label: "About us", to: "/about" },
-  { label: "Services", to: "/services" },
   { label: "Doctors", to: "/doctors" },
-  { label: "News", to: "/news" },
-  { label: "Contact", to: "/contact" },
+  { label: "Appointment", to: "/appointment" },
 ]);
 const footerLinks = ref([
+  { label: "Home", to: "/", exact: true },
   { label: "Appointment", to: "/appointment" },
   { label: "Doctors", to: "/doctors" },
-  { label: "Services", to: "/services" },
   { label: "About us", to: "/about" },
 ]);
 </script>
