@@ -36,13 +36,14 @@
           v-for="(link, index) in headerLinks"
           :key="index"
           class="link"
+          :exact="link.exact"
           :to="link.to"
           active-class="link-active"
         >
           {{ link.label }}
         </router-link>
       </div>
-      <button class="nav-button">Appointment</button>
+      <button class="nav-button" @click="toSignIn">Sign In</button>
     </div>
   </header>
   <main>
@@ -104,18 +105,20 @@ import locationIcon from "../assets/icons/location.svg";
 import linkedinIcon from "../assets/icons/linkdeIn.svg";
 import facebookIcon from "../assets/icons/facebook.svg";
 import instagramIcon from "../assets/icons/instagram.svg";
+import router from "../router";
+const toSignIn = () => {
+  router.push("/signIn");
+};
 const headerLinks = ref([
   { label: "Home", to: "/", exact: true },
   { label: "About us", to: "/about" },
-  { label: "Services", to: "/services" },
   { label: "Doctors", to: "/doctors" },
-  { label: "News", to: "/news" },
-  { label: "Contact", to: "/contact" },
+  { label: "Appointment", to: "/appointment" },
 ]);
 const footerLinks = ref([
+  { label: "Home", to: "/", exact: true },
   { label: "Appointment", to: "/appointment" },
   { label: "Doctors", to: "/doctors" },
-  { label: "Services", to: "/services" },
   { label: "About us", to: "/about" },
 ]);
 </script>

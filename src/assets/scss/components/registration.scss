@@ -1,0 +1,104 @@
+.registration-wrapper {
+    margin: 40px auto;
+    max-width: 1100px;
+    width: 100%;
+    max-height: 900px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .bg-image {
+        background-image: url('../images/register.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        border-radius: 5px;
+        max-width: 1100px;
+        width: 100%;
+        min-height: 700px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .form-wrapper {
+            background-color: #fff;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 900px;
+            padding: 20px;
+            box-sizing: border-box;
+
+            .title-base {
+                margin-bottom: 20px;
+                text-align: center;
+            }
+
+            .form-holder {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                /* Две колонки */
+                gap: 20px;
+                justify-content: center;
+
+                .input-group {
+                    display: flex;
+                    flex-direction: column;
+                    position: relative;
+                }
+
+                .base-input,
+                .select-wrapper {
+                    box-sizing: border-box;
+                    width: 100%;
+                    padding: 10px;
+                }
+
+                .input-error {
+                    border: 1px solid red;
+                }
+
+                .error {
+                    color: red;
+                    font-size: 12px;
+                    margin-top: 5px;
+                }
+            }
+
+            .form-button {
+                grid-column: 1 / -1;
+                /* Кнопка занимает всю ширину */
+                background-color: $accent;
+                border: none;
+                font-weight: 500;
+                font-size: 16px;
+                height: 50px;
+                line-height: 140%;
+                text-transform: uppercase;
+                text-align: center;
+                color: $primary;
+                border-radius: 5px;
+                transition: background-color 0.3s;
+                width: 100%;
+                max-width: 268px;
+                margin: 20px auto 0;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: $accent-hover;
+                }
+            }
+
+            .base-subtitle {
+                text-align: center;
+                margin-top: 20px;
+
+                .form-link {
+                    color: $secondary;
+                }
+            }
+        }
+    }
+}
