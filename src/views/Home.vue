@@ -102,9 +102,9 @@
 
 <script setup>
 import { ref } from "vue";
-import callendar from "../components/icons/callendar.vue";
-import users from "../components/icons/users.vue";
-import cash from "../components/icons/cash.vue";
+import callendar from "../assets/icons/Calendar.svg";
+import users from "../assets/icons/Team.svg";
+import cash from "../assets/icons/Cash.svg";
 import tabs from "../components/tabs/tabs.vue";
 import heart from "../assets/icons/heart.svg";
 import baseForm from "../components/forms/baseForm.vue";
