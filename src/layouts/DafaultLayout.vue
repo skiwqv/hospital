@@ -38,7 +38,7 @@
           class="link"
           :exact="link.exact"
           :to="link.to"
-          active-class="link-active"
+          :class="{ 'link-active': isActive(link.to) }"
         >
           {{ link.label }}
         </router-link>
@@ -106,8 +106,13 @@ import linkedinIcon from "../assets/icons/linkdeIn.svg";
 import facebookIcon from "../assets/icons/facebook.svg";
 import instagramIcon from "../assets/icons/instagram.svg";
 import router from "../router";
+import { useRoute } from "vue-router";
+const route = useRoute();
 const toSignIn = () => {
   router.push("/signIn");
+};
+const isActive = (path) => {
+  return route.path == path;
 };
 const headerLinks = ref([
   { label: "Home", to: "/", exact: true },

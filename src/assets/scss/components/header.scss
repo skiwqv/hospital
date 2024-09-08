@@ -1,40 +1,48 @@
-.header{
+.header {
     display: flex;
     flex-direction: column;
-    .upper-header-wrapper{
+
+    .upper-header-wrapper {
         display: flex;
         justify-content: space-evenly;
         height: 80px;
         align-items: center;
-        .logo-wrapper{
+
+        .logo-wrapper {
             display: flex;
             align-items: center;
-            .logo-text{
+
+            .logo-text {
                 font-family: $font-family-display;
                 font-weight: 400;
                 font-size: 36px;
                 text-transform: uppercase;
                 color: $primary;
-                .logo-text-secondary{
-                    color:$secondary
+
+                .logo-text-secondary {
+                    color: $secondary
                 }
             }
         }
-        .info-wrapper{
+
+        .info-wrapper {
             display: flex;
             gap: 30px;
-            .info{
+
+            .info {
                 display: flex;
-                align-items:center;
+                align-items: center;
                 gap: 8px;
-                .info-title{
+
+                .info-title {
                     font-weight: 500;
                     font-size: 16px;
                     text-transform: uppercase;
                     color: $primary;
                     margin: 0;
                 }
-                .info-text{
+
+                .info-text {
                     font-weight: 500;
                     font-size: 16px;
                     color: $secondary;
@@ -43,23 +51,34 @@
             }
         }
     }
-    .nav-wrapper{
+
+    .nav-wrapper {
         background-color: $primary;
         height: 80px;
         display: flex;
         align-items: center;
         justify-content: space-around;
-        .links-wrapper{
+
+        .links-wrapper {
             display: flex;
             margin-left: 15px;
             gap: 20px;
-            .link{
+
+            .link {
                 font-weight: 400;
                 font-size: 18px;
                 color: $white;
                 text-decoration: none;
+                transition: font-weight .3s, font-size .3s, color .3s;
+
+                &:hover {
+                    font-weight: 600;
+                    font-size: 18px;
+                    color: $accent;
+                }
             }
-            .link-active{
+
+            .link-active {
                 font-weight: 600;
                 font-size: 18px;
                 color: $accent;
