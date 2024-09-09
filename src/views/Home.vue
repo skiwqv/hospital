@@ -1,6 +1,6 @@
 <template>
   <div class="home-wrapper">
-    <div class="images-wrapper">
+    <section class="images-wrapper">
       <div class="banner">
         <img class="image" src="../assets/images/home.png" alt="" />
         <div class="banner-holder">
@@ -31,7 +31,7 @@
           <cash />
         </div>
       </div>
-    </div>
+    </section>
     <section class="welcome-wrapper">
       <span class="subtitle-base">Welcome to Meddical</span>
       <h2 class="title-base welcome-title">A Great Place to Receive Care</h2>
@@ -102,16 +102,16 @@
 
 <script setup>
 import { ref } from "vue";
-import callendar from "../assets/icons/Calendar.svg";
-import users from "../assets/icons/Team.svg";
-import cash from "../assets/icons/Cash.svg";
-import tabs from "../components/tabs/tabs.vue";
-import heart from "../assets/icons/heart.svg";
-import baseForm from "../components/forms/baseForm.vue";
-import doctorItem from "../components/doctors/doctorItem.vue";
+import Callendar from "../assets/icons/Calendar.svg";
+import Users from "../assets/icons/Team.svg";
+import Cash from "../assets/icons/Cash.svg";
+import Tabs from "../components/tabs/tabs.vue";
+import Heart from "../assets/icons/heart.svg";
+import BaseForm from "../components/forms/baseForm.vue";
+import DoctorItem from "../components/doctors/doctorItem.vue";
 import Carousel from "../components/carousels/Carousel.vue";
-import brenda from "../assets/images/brenda.jpg";
-import contacts from "../components/home/contacts.vue";
+import Brenda from "../assets/images/brenda.jpg";
+import Contacts from "../components/home/contacts.vue";
 const specialties = ref([
   "Neurology",
   "Bones",
@@ -128,7 +128,7 @@ const specialties = ref([
 ]);
 const doctors = ref([
   {
-    avatar: brenda,
+    avatar: Brenda,
     name: "Dr. John Smith",
     speciality: "Cardiologist",
     social: {
