@@ -1,0 +1,53 @@
+.doctors-wrapper {
+    .banner {
+        position: relative;
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.5);
+            z-index: 5; // Убедитесь, что он ниже .banner-holder
+        }
+
+        .image {
+            position: relative;
+            width: 100%;
+        }
+
+        .banner-holder {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10; // Этот блок выше overlay
+
+            .banner-text {
+                width: 1200px;
+                margin: 0 auto;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+
+                .title-base {
+                    font-weight: 400;
+                    font-size: 48px;
+                }
+            }
+        }
+    }
+
+    .doctors {
+        display: flex;
+        flex-wrap: wrap;
+        max-width: 992px;
+        margin: 80px auto;
+        gap: 20px;
+        justify-content: center;
+        align-items: center;
+    }
+}
