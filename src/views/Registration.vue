@@ -110,8 +110,9 @@
 
 <script setup>
 import { useForm } from "vee-validate";
+import { useAppStore } from "../store/app";
 import * as yup from "yup";
-
+const appStore = useAppStore();
 const schema = yup.object({
   name: yup.string().required("Name is required"),
   surname: yup.string().required("Surname is required"),
@@ -157,7 +158,7 @@ const signIn = handleSubmit((values) => {
     bdate: values.bdate,
     password: values.password,
   };
-  console.log(userData);
+  appStore.logBack();
 });
 </script>
 
