@@ -2,12 +2,16 @@
   display: flex;
   flex-direction: column;
   border-radius: 5px 5px 0 0;
+  max-height: 540px;
+  margin-top: 20px;
+
   .doctor-avatar {
     max-width: 317px;
     min-height: 350px;
     object-fit: cover;
     border-radius: 5px 5px 0 0;
   }
+
   .doctor-name {
     font-weight: 400;
     font-size: 18px;
@@ -16,6 +20,7 @@
     margin-top: 31px;
     padding: 0;
   }
+
   .doctor-speciality {
     font-weight: 700;
     font-size: 18px;
@@ -25,24 +30,29 @@
     margin-top: 19px;
     padding: 0;
   }
+
   .info-wrapper {
     background-color: $accent;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 0;
+
     .social-wrapper {
       display: flex;
       gap: 20px;
       margin-bottom: 24px;
+
       .social-icon {
         cursor: pointer;
+
         &:hover path {
           fill: $primary-hover;
         }
       }
     }
   }
+
   .doctor-button {
     border-radius: 0 0 5px 5px;
     width: 100%;
@@ -58,6 +68,7 @@
     padding: 0;
     cursor: pointer;
     transition: background-color 0.3s;
+
     &:hover {
       background-color: $primary-hover;
     }
