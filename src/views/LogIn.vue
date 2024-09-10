@@ -43,6 +43,10 @@
 <script setup>
 import { useForm } from "vee-validate";
 import * as yup from "yup";
+import { useAppStore } from "../store/app";
+import router from "../router";
+const appStore = useAppStore();
+import { getTokenFromCookies } from "../helpers/Cookies";
 
 const schema = yup.object({
   email: yup.string().email("Invalid email").required("Email is required"),
@@ -64,12 +68,17 @@ const [password] = defineField("password", {
   validateOnModelUpdate: false,
 });
 
-const signUp = handleSubmit(() => {
+const signUp = handleSubmit(async () => {
   const userData = {
     email: values.email,
     password: values.password,
   };
-  console.log(userData);
+  await appStore.logInUser(userData);
+  const token = getTokenFromCookies("access");
+  if (token) {
+    await appStore.getUserData();
+  }
+  router.push("/");
 });
 </script>
 
