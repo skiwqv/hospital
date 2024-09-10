@@ -45,7 +45,11 @@
         <span class="link-button-text">Learn More</span>
         <img src="../assets/images/Vector.png" alt="" />
       </div>
-      <img src="../assets/images/welcome_image.png" alt="" />
+      <img
+        class="welcome-image"
+        src="../assets/images/welcome_image.png"
+        alt=""
+      />
     </section>
     <section class="services-wrapper">
       <span class="subtitle-base">Care you can believe in</span>
@@ -62,7 +66,7 @@
         </div>
       </div>
     </section>
-    <section class="book-wrapper">
+    <!-- <section class="book-wrapper">
       <img
         class="book-image"
         src="../assets/images/bookImage.png"
@@ -82,10 +86,10 @@
           <baseForm></baseForm>
         </div>
       </div>
-    </section>
-    <section class="doctors-wrapper">
+    </section> -->
+    <section class="doctors-wrapper-section">
       <span class="subtitle-base">Trusted Care</span>
-      <h2 class="title-base welcome-title">Our Doctors</h2>
+      <h2 class="title-base">Our Doctors</h2>
       <Carousel :items="doctors">
         <template #default="{ visibleItems }">
           <doctorItem

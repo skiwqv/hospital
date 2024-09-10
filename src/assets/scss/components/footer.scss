@@ -1,4 +1,4 @@
-.footer{
+.footer {
     margin-top: 68px;
     width: 100%;
     background-color: $primary;
@@ -6,38 +6,52 @@
     display: flex;
     padding: 75px 0;
     flex-direction: column;
-    .footer-wrapper{
+
+    .footer-wrapper {
         display: flex;
-        justify-content: space-between; /* Распределяем контейнеры */
+        justify-content: space-between;
         max-width: 992px;
         width: 100%;
-        margin: 0 auto; /* Центрируем по ширине экрана */
-        .footer-container{
+        margin: 0 auto;
+
+        @include respond-to(md) {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .footer-container {
             display: flex;
             flex-direction: column;
-            .footer-logo{
+            align-items: center;
+
+            .footer-logo {
                 font-family: $font-family-display;
                 font-weight: 400;
-                font-size: 36px;
+                font-size: 24px;
                 text-transform: uppercase;
                 color: $accent;
                 margin-top: 0;
             }
-            .footer-title{
+
+            .footer-title {
                 font-weight: 600;
-                font-size: 18px;
-                margin-bottom: 18px;
+                font-size: 16px;
+                margin: 18px 0px;
             }
-            .footer-info{
+
+            .footer-info {
                 font-weight: 400;
                 font-size: 18px;
                 line-height: 140%;
             }
-            .footer-content-wrapper{
+
+            .footer-content-wrapper {
                 display: flex;
                 flex-direction: column;
                 gap: 14px;
-                .footer-text{
+
+                .footer-text {
                     font-weight: 400;
                     font-size: 16px;
                     text-decoration: none;
@@ -46,11 +60,13 @@
             }
         }
     }
-    .divider-wrapper{
+
+    .divider-wrapper {
         display: flex;
         justify-content: center;
         padding: 50px 0;
-        .divider{
+
+        .divider {
             max-width: 992px;
             width: 100%;
             height: 1px;
@@ -58,21 +74,35 @@
             display: flex;
         }
     }
-    .creditionals-wrapper{
+
+    .creditionals-wrapper {
         display: flex;
-        justify-content: space-between; /* Распределяем контейнеры */
+        justify-content: space-between;
         max-width: 992px;
         width: 100%;
-        margin: 0 auto; /* Центрируем по ширине экрана */
-        .social-wrapper{
+        margin: 0 auto;
+        align-items: center;
+
+        @include respond-to(md) {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .social-wrapper {
             display: flex;
             gap: 20px;
-            .footer-icon path{
+
+            @include respond-to(md) {
+                margin-top: 20px;
+            }
+
+            .footer-icon path {
                 width: 24px;
                 height: 24px;
                 fill: $accent;
                 cursor: pointer;
-                &:hover{
+
+                &:hover {
                     fill: $accent-hover;
                 }
             }

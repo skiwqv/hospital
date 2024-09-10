@@ -6,7 +6,37 @@
     height: 100%;
     display: flex;
     justify-content: center;
+    flex-direction: column;
     align-items: center;
+
+    .tabs {
+        display: flex;
+        gap: 40px;
+        margin-bottom: 30px;
+
+        .tab {
+            font-weight: 400;
+            background-color: $primary;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 18px;
+            color: $white;
+            text-decoration: none;
+            transition: font-weight .3s, font-size .3s, color .3s;
+
+            &:hover {
+                font-weight: 600;
+                font-size: 18px;
+                color: $accent;
+            }
+        }
+
+        .tab-active {
+            font-weight: 600;
+            font-size: 18px;
+            color: $accent;
+        }
+    }
 
     .bg-image {
         background-image: url('../images/register.jpg');
@@ -36,12 +66,23 @@
                 text-align: center;
             }
 
+            .doctor {
+                grid-column: 1 / -1;
+            }
+
             .form-holder {
                 display: grid;
                 grid-template-columns: repeat(2, 1fr);
-                /* Две колонки */
                 gap: 20px;
                 justify-content: center;
+
+                @include respond-to(sm) {
+                    display: flex;
+                    flex-direction: column;
+                    width: 100%;
+                    gap: 0;
+                    align-items: stretch;
+                }
 
                 .input-group {
                     display: flex;
@@ -54,6 +95,18 @@
                     box-sizing: border-box;
                     width: 100%;
                     padding: 10px;
+
+                    @include respond-to(sm) {
+                        width: auto;
+                    }
+
+                    select {
+                        width: 100%; // Применяем 100% ширины для select на больших экранах
+
+                        @include respond-to(sm) {
+                            width: auto; // Для маленьких экранов применяем auto
+                        }
+                    }
                 }
 
                 .input-error {
@@ -69,7 +122,6 @@
 
             .form-button {
                 grid-column: 1 / -1;
-                /* Кнопка занимает всю ширину */
                 background-color: $accent;
                 border: none;
                 font-weight: 500;

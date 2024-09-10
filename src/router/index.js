@@ -15,6 +15,19 @@ const routes = [
         path: "/signUp",
         name: "Sign Up",
         component: () => import("../views/Registration.vue"),
+        redirect: "/signUp/user",
+        children: [
+          {
+            path: "/signUp/user",
+            name: "User Form",
+            component: () => import("../components/forms/UserForm.vue"),
+          },
+          {
+            path: "/signUp/doctor",
+            name: "Doctor Form",
+            component: () => import("../components/forms/DoctorForm.vue"),
+          },
+        ],
       },
       {
         path: "/signIn",

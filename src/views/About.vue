@@ -10,7 +10,11 @@
     </section>
     <section class="about-info-wrapper">
       <div>
-        <img src="../assets/images/about-image.png" alt="about-image" />
+        <img
+          class="info-image"
+          src="../assets/images/about-image.png"
+          alt="about-image"
+        />
       </div>
       <div class="info-wrapper">
         <span class="subtitle-base">Welcome to Meddical</span>
