@@ -3,12 +3,14 @@
 import { defineStore } from "pinia";
 import apiClient from "../services/api";
 export const useAppStore = defineStore("app", {
-  state: () => ({}),
+  state: () => ({
+    currentUser: null,
+  }),
   getters: {},
   actions: {
-    logBack: async () => {
-      const response = await apiClient.get("/admin");
-      console.log(response.data);
+    registerUser: async (user) => {
+      const resp = await apiClient.post("/users/patient-registration/", user);
+      console.log(resp);
     },
   },
 });

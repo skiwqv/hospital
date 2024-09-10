@@ -1,25 +1,28 @@
-body{
+body {
     margin: 0;
     padding: auto;
     font-family: $font-family-base;
 }
-.subtitle-base{
+
+.subtitle-base {
     font-weight: 700;
     font-size: 18px;
     letter-spacing: 0.16em;
     text-transform: uppercase;
     color: $secondary;
 }
-.title-base{
+
+.title-base {
     font-family: $font-family-display;
     font-weight: 400;
     font-size: 32px;
     color: $primary;
 }
+
 //inputs
-.base-input{
+.base-input {
     border-radius: 5px;
-    border:1px solid $accent;
+    border: 1px solid $accent;
     background: $primary;
     width: 245px;
     height: 50px;
@@ -32,28 +35,32 @@ body{
     line-height: 140%;
     color: $white;
     padding-left: 22px;
-    &::placeholder{
+
+    &::placeholder {
         color: $white;
     }
 }
+
 .select-wrapper {
     position: relative;
+
     .select {
         width: 100%;
-        -webkit-appearance: none; 
-        -moz-appearance: none; 
+        -webkit-appearance: none;
+        -moz-appearance: none;
         appearance: none;
     }
-    &::after{
+
+    &::after {
         content: '';
         position: absolute;
-        right: 10px;             
+        right: 10px;
         top: 50%;
         transform: translateY(-50%);
-        width: 16px; 
-        height: 9px; 
+        width: 16px;
+        height: 9px;
         background: url('../icons/arrow.svg') no-repeat center;
         background-size: contain;
-        pointer-events: none; 
+        pointer-events: none;
     }
-  }
+}
