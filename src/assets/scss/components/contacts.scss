@@ -1,27 +1,34 @@
 .contacts-wrapper {
-  margin-top: 68px;
   display: flex;
   flex-direction: column;
   align-items: center;
+
   .contacts-holder {
     display: flex;
     gap: 20px;
+
+    @include respond-to(md) {
+      flex-direction: column;
+    }
+
     .contact {
       background-color: $accent;
       border-radius: 5px;
-      width: 233px;
-      height: 233px;
+      max-width: 233px;
+      max-height: 233px;
       color: $primary;
       padding: 28px;
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      .contact-icon{
+
+      .contact-icon {
         margin-bottom: 28px;
         width: 40px;
         height: 38px;
       }
+
       .contact-title {
         font-weight: 700;
         font-size: 18px;
@@ -30,6 +37,7 @@
         padding: 0;
         margin-bottom: 18px;
       }
+
       .contact-text {
         font-weight: 400;
         font-size: 16px;

@@ -8,21 +8,21 @@
       </div>
       <div class="info-wrapper">
         <div class="info">
-          <callIcon />
+          <callIcon class="info-icon" />
           <div class="info-text-wrapper">
             <p class="info-title">Emergency</p>
             <p class="info-text">(237) 681-812-255</p>
           </div>
         </div>
         <div class="info">
-          <clockIcon />
+          <clockIcon class="info-icon" />
           <div class="info-text-wrapper">
             <p class="info-title">Work Hour</p>
             <p class="info-text">09:00 - 20:00 Everyday</p>
           </div>
         </div>
         <div class="info">
-          <locationIcon />
+          <locationIcon class="info-icon" />
           <div class="info-text-wrapper">
             <p class="info-title">Location</p>
             <p class="info-text">0123 Some Place</p>
@@ -31,6 +31,11 @@
       </div>
     </div>
     <div class="nav-wrapper">
+      <div class="logo-wrapper-nav">
+        <span class="logo-text"
+          >Med<span class="logo-text-secondary">dical</span></span
+        >
+      </div>
       <div class="links-wrapper">
         <router-link
           v-for="(link, index) in headerLinks"
@@ -42,6 +47,23 @@
         >
           {{ link.label }}
         </router-link>
+      </div>
+      <div class="menu-icon" @click="isMenuOpen = !isMenuOpen">
+        <component :is="isMenuOpen ? CloseIcon : BurgerMenuIcon" />
+      </div>
+      <div class="nav-menu" :class="{ open: isMenuOpen }">
+        <router-link
+          v-for="(link, index) in headerLinks"
+          :key="index"
+          class="link"
+          :exact="link.exact"
+          :to="link.to"
+          :class="{ 'link-active': isActive(link.to) }"
+          @click="isMenuOpen = !isMenuOpen"
+        >
+          {{ link.label }}
+        </router-link>
+        <button class="nav-button" @click="toSignIn">Sign In</button>
       </div>
       <button class="nav-button" @click="toSignIn">Sign In</button>
     </div>
@@ -105,11 +127,16 @@ import locationIcon from "../assets/icons/location.svg";
 import linkedinIcon from "../assets/icons/linkdeIn.svg";
 import facebookIcon from "../assets/icons/facebook.svg";
 import instagramIcon from "../assets/icons/instagram.svg";
+import BurgerMenuIcon from "../assets/icons/burger-menu.svg";
+import CloseIcon from "../assets/icons/close.svg";
 import router from "../router";
 import { useRoute } from "vue-router";
+
+const isMenuOpen = ref(false);
 const route = useRoute();
 const toSignIn = () => {
   router.push("/signIn");
+  isMenuOpen.value = !isMenuOpen.value;
 };
 const isActive = (path) => {
   return route.path == path;

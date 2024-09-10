@@ -1,4 +1,4 @@
-.nav-button{
+.nav-button {
     border-radius: 50px;
     padding: 13px 35px;
     max-width: 173px;
@@ -10,4 +10,9 @@
     cursor: pointer;
     outline: none;
     border: none;
+    transition: background-color .3s;
+
+    &:hover {
+        background-color: $accent-hover;
+    }
 }

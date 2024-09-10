@@ -5,12 +5,19 @@
     .upper-header-wrapper {
         display: flex;
         justify-content: space-evenly;
-        height: 80px;
+        min-height: 80px;
+        padding: 20px 0;
+        box-sizing: border-box;
         align-items: center;
+        flex-wrap: wrap;
 
         .logo-wrapper {
             display: flex;
             align-items: center;
+
+            @include respond-to(md) {
+                display: none;
+            }
 
             .logo-text {
                 font-family: $font-family-display;
@@ -29,6 +36,11 @@
             display: flex;
             gap: 30px;
 
+            @include respond-to(md) {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
             .info {
                 display: flex;
                 align-items: center;
@@ -40,6 +52,10 @@
                     text-transform: uppercase;
                     color: $primary;
                     margin: 0;
+
+                    @include respond-to(md) {
+                        font-size: 14px;
+                    }
                 }
 
                 .info-text {
@@ -47,6 +63,10 @@
                     font-size: 16px;
                     color: $secondary;
                     margin: 0;
+
+                    @include respond-to(md) {
+                        font-size: 14px;
+                    }
                 }
             }
         }
@@ -58,11 +78,36 @@
         display: flex;
         align-items: center;
         justify-content: space-around;
+        position: relative;
+
+        .logo-wrapper-nav {
+            display: none;
+
+            @include respond-to(md) {
+                display: block;
+            }
+
+            .logo-text {
+                font-family: $font-family-display;
+                font-weight: 400;
+                font-size: 36px;
+                text-transform: uppercase;
+                color: $accent;
+
+                .logo-text-secondary {
+                    color: $white
+                }
+            }
+        }
 
         .links-wrapper {
             display: flex;
             margin-left: 15px;
             gap: 20px;
+
+            @include respond-to(md) {
+                display: none;
+            }
 
             .link {
                 font-weight: 400;
@@ -82,6 +127,66 @@
                 font-weight: 600;
                 font-size: 18px;
                 color: $accent;
+            }
+        }
+
+        .menu-icon {
+            display: none;
+
+            @include respond-to(md) {
+                display: block;
+            }
+        }
+
+        .nav-menu {
+            display: none;
+
+            @include respond-to(md) {
+                display: block;
+                position: absolute;
+                top: -100vh;
+                left: 0;
+                width: 100%;
+                background-color: $accent;
+                padding: 20px 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+                transition: top 0.6s ease-in-out;
+            }
+
+            .link {
+                font-weight: 400;
+                font-size: 24px;
+                color: $primary;
+                text-decoration: none;
+            }
+
+            .link-active {
+                font-weight: 600;
+            }
+
+            .nav-button {
+                display: block;
+                border-radius: 50px;
+                padding: 13px 35px;
+                background-color: $primary;
+                font-weight: 500;
+                font-size: 16px;
+                color: $accent;
+                width: 50%;
+            }
+        }
+
+        .nav-menu.open {
+            top: 100%;
+            z-index: 999;
+        }
+
+        .nav-button {
+            @include respond-to(md) {
+                display: none;
             }
         }
     }

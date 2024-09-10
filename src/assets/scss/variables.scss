@@ -1,20 +1,25 @@
 //colors
-$primary:#1F2B6C;
-$secondary:#159EEC;
-$accent:#BFD2F8;
-$black:#212124;
-$white:#FCFEFE;
-$primary-hover:#32429e;
-$accent-hover:#b0c1e2;
+$primary: #1F2B6C;
+$secondary: #159EEC;
+$accent: #BFD2F8;
+$black: #212124;
+$white: #FCFEFE;
+$primary-hover: #32429e;
+$accent-hover: #b0c1e2;
 
 
 //fonts
-$font-family-base:"Work Sans";
-$font-family-display:"Yeseva One", serif;
+$font-family-base: "Work Sans";
+$font-family-display: "Yeseva One", serif;
 
 //items
 $amount-items--desktop: 3;
 $amount-items--tablet: 2;
-$amount-items--mobile: 1; 
+$amount-items--mobile: 1;
 
-
+//breakpoints
+$breakpoint-xs: 480px;
+$breakpoint-sm: 768px;
+$breakpoint-md: 992px;
+$breakpoint-lg: 1200px;
+$breakpoint-xl: 1500px;

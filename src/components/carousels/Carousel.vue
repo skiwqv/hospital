@@ -28,7 +28,7 @@ const props = defineProps({
   },
 });
 
-const visibleCount = 3;
+const visibleCount = 1;
 const startIndex = ref(0);
 let intervalId;
 
