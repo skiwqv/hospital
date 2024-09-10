@@ -21,6 +21,7 @@
 <script setup>
 import { ref, computed, defineProps, onMounted, onBeforeUnmount } from "vue";
 
+// Получаем массив карточек через props
 const props = defineProps({
   items: {
     type: Array,
@@ -28,12 +29,16 @@ const props = defineProps({
   },
 });
 
-const visibleCount = 1;
+// Реактивное количество видимых карточек (изначально 1)
+const visibleCount = ref(1);
 const startIndex = ref(0);
 let intervalId;
 
+// Рассчитываем видимые карточки
 const visibleItems = computed(() => {
-  let endIndex = startIndex.value + visibleCount;
+  if (props.items.length === 0) return []; // Если нет элементов, возвращаем пустой массив
+
+  let endIndex = startIndex.value + visibleCount.value;
   if (endIndex > props.items.length) {
     return [
       ...props.items.slice(startIndex.value, props.items.length),
@@ -43,28 +48,50 @@ const visibleItems = computed(() => {
   return props.items.slice(startIndex.value, endIndex);
 });
 
+// Индикаторы для карусели
 const indicators = computed(() => {
-  return new Array(Math.ceil(props.items.length / visibleCount));
+  if (visibleCount.value <= 0 || props.items.length === 0) return []; // Проверка для исключения ошибки
+  return new Array(Math.ceil(props.items.length / visibleCount.value));
 });
 
+// Проверка активного индикатора
 const isActiveIndicator = (index) => {
-  return Math.floor(startIndex.value / visibleCount) === index;
+  return Math.floor(startIndex.value / visibleCount.value) === index;
 };
 
+// Переключение на конкретный слайд
 const goToSlide = (index) => {
-  startIndex.value = index * visibleCount;
+  startIndex.value = index * visibleCount.value;
 };
 
+// Следующий слайд
 const next = () => {
-  startIndex.value = (startIndex.value + visibleCount) % props.items.length;
+  startIndex.value =
+    (startIndex.value + visibleCount.value) % props.items.length;
 };
 
+// Функция для изменения количества видимых карточек
+const updateVisibleCount = () => {
+  if (window.innerWidth <= 768) {
+    visibleCount.value = 1; // Для мобильных устройств
+  } else if (window.innerWidth <= 1024) {
+    visibleCount.value = 2; // Для планшетов
+  } else {
+    visibleCount.value = 3; // Для больших экранов
+  }
+};
+
+// Инициализация карусели
 onMounted(() => {
-  intervalId = setInterval(next, 8000);
+  updateVisibleCount(); // Изначально задаем количество карточек
+  window.addEventListener("resize", updateVisibleCount); // Обновляем при изменении экрана
+  intervalId = setInterval(next, 8000); // Автопереключение через 8 секунд
 });
 
+// Очищаем интервал и слушатель
 onBeforeUnmount(() => {
   clearInterval(intervalId);
+  window.removeEventListener("resize", updateVisibleCount);
 });
 </script>
 
