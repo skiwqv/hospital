@@ -63,9 +63,17 @@
         >
           {{ link.label }}
         </router-link>
-        <button class="nav-button" @click="toSignIn">Sign In</button>
+        <button v-if="!currentUser" class="nav-button" @click="toSignIn">
+          Sign In
+        </button>
+        <button v-else class="nav-button" @click="logOut">Log Out</button>
       </div>
-      <button class="nav-button" @click="toSignIn">Sign In</button>
+      <button v-if="!currentUser" class="nav-button" @click="toSignIn">
+        Sign In
+      </button>
+      <div v-else class="user-wrapper">
+        <span class="link">{{ currentUser.first_name }}</span>
+      </div>
     </div>
   </header>
   <main>
@@ -120,7 +128,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import callIcon from "../assets/icons/phone.svg";
 import clockIcon from "../assets/icons/clock.svg";
 import locationIcon from "../assets/icons/location.svg";
@@ -131,16 +139,29 @@ import BurgerMenuIcon from "../assets/icons/burger-menu.svg";
 import CloseIcon from "../assets/icons/close.svg";
 import router from "../router";
 import { useRoute } from "vue-router";
+import { useAppStore } from "../store/app";
+const appStore = useAppStore();
+
+const currentUser = computed(() => appStore.currentUser);
 
 const isMenuOpen = ref(false);
 const route = useRoute();
+
 const toSignIn = () => {
   router.push("/signIn");
   isMenuOpen.value = !isMenuOpen.value;
 };
+
+const logOut = () => {
+  appStore.logOut();
+  isMenuOpen.value = !isMenuOpen.value;
+  router.push("/");
+};
+
 const isActive = (path) => {
   return route.path == path;
 };
+
 const headerLinks = ref([
   { label: "Home", to: "/", exact: true },
   { label: "About us", to: "/about" },
