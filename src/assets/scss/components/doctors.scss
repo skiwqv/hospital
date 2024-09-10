@@ -21,17 +21,24 @@
         .banner-holder {
             position: absolute;
             top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            z-index: 10; // Этот блок выше overlay
+            z-index: 10;
+            display: flex;
+            justify-content: center; // Horizontal centering
+            align-items: center; // Vertical centering
+            text-align: center; // Ensure text is centered
 
             .banner-text {
-                width: 1200px;
+                width: 90%;
+                max-width: 1200px;
                 margin: 0 auto;
-                height: 100%;
                 display: flex;
                 flex-direction: column;
-                justify-content: center;
+                justify-content: center; // Center text vertically
+                align-items: center; // Center text horizontally
+                text-align: center; // Ensure text alignment is centered
 
                 .title-base {
                     font-weight: 400;

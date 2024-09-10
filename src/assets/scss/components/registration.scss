@@ -73,9 +73,16 @@
             .form-holder {
                 display: grid;
                 grid-template-columns: repeat(2, 1fr);
-                /* Две колонки */
                 gap: 20px;
                 justify-content: center;
+
+                @include respond-to(sm) {
+                    display: flex;
+                    flex-direction: column;
+                    width: 100%;
+                    gap: 0;
+                    align-items: stretch;
+                }
 
                 .input-group {
                     display: flex;
@@ -88,6 +95,18 @@
                     box-sizing: border-box;
                     width: 100%;
                     padding: 10px;
+
+                    @include respond-to(sm) {
+                        width: auto;
+                    }
+
+                    select {
+                        width: 100%; // Применяем 100% ширины для select на больших экранах
+
+                        @include respond-to(sm) {
+                            width: auto; // Для маленьких экранов применяем auto
+                        }
+                    }
                 }
 
                 .input-error {
@@ -103,7 +122,6 @@
 
             .form-button {
                 grid-column: 1 / -1;
-                /* Кнопка занимает всю ширину */
                 background-color: $accent;
                 border: none;
                 font-weight: 500;
