@@ -7,6 +7,9 @@ const apiClient = axios.create({
 
 const authorizedApiClient = axios.create({
   baseURL: import.meta.env.VITE_APP_SERVICE_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 if (token) {

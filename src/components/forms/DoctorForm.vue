@@ -40,13 +40,11 @@ const { handleSubmit, values, defineField, errors } = useForm({
 const [key] = defineField("key", { validateOnModelUpdate: false });
 
 const signIn = handleSubmit(async () => {
-  const userData = {
-    key: values.key,
-  };
-  // const response = await appStore.registerDoctorKey(userData);
-  // if (response.success) {
-  //   router.push("/signUp/doctorProfile");
-  // }
+  const response = await appStore.checkTocken(values.key);
+  console.log(response);
+  if (response.statusText == "OK") {
+    router.push("/signUp/doctorProfile");
+  }
 });
 </script>
 <style></style>
