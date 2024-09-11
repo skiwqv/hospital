@@ -6,36 +6,64 @@ export const useAppStore = defineStore("app", {
   state: () => ({
     currentUser: null,
   }),
-  getters: {
-    isLoggedIn: (state) => !!state.currentUser.id,
-  },
+
+  getters: {},
+
   actions: {
     async registerUser(user) {
-      await apiClient.post("/users/patient-registration/", user);
+      try {
+        await apiClient.post("/users/patient-registration/", user);
+      } catch (error) {
+        console.error("Failed to register user:", error);
+      }
     },
+
     async logInUser(user) {
-      const resp = await apiClient.post("/users/login/", user);
-      document.cookie = `access=${resp.data.accessToken};Secure;max-age=86400;`;
-      document.cookie = `refresh=${resp.data.refreshToken};Secure;max-age=86400;`;
-      authorizedApiClient.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${resp.data.accessToken}`;
+      try {
+        const { data } = await apiClient.post("/users/login/", user);
+        this.setAuthTokens(data.accessToken, data.refreshToken);
+        this.setAuthorizationHeader(data.accessToken);
+      } catch (error) {
+        console.error("Login failed:", error);
+      }
     },
+
     async getUserData() {
       try {
-        const resp = await authorizedApiClient.get("/users/detail/");
-        this.currentUser = resp.data;
-        console.log(this.currentUser);
+        const { data } = await authorizedApiClient.get("/users/detail/");
+        this.currentUser = data;
       } catch (error) {
         console.error("Failed to get user data:", error);
       }
     },
+
     async logOut() {
-      const refreshToken = getTokenFromCookies("refresh");
-      authorizedApiClient.post("users/logout/", { refresh: refreshToken });
+      try {
+        const refreshToken = getTokenFromCookies("refresh");
+        await authorizedApiClient.post("/users/logout/", {
+          refresh: refreshToken,
+        });
+        this.clearAuthTokens();
+        this.currentUser = null;
+      } catch (error) {
+        console.error("Logout failed:", error);
+      }
+    },
+
+    setAuthTokens(accessToken, refreshToken) {
+      document.cookie = `access=${accessToken};Secure;max-age=86400;`;
+      document.cookie = `refresh=${refreshToken};Secure;max-age=86400;`;
+    },
+
+    setAuthorizationHeader(token) {
+      authorizedApiClient.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${token}`;
+    },
+
+    clearAuthTokens() {
       deleteCookie("access");
       deleteCookie("refresh");
-      this.currentUser = null;
     },
   },
 });
