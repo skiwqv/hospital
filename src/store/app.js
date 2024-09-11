@@ -5,6 +5,7 @@ import { getTokenFromCookies, deleteCookie } from "../helpers/Cookies";
 export const useAppStore = defineStore("app", {
   state: () => ({
     currentUser: null,
+    subRoles: null,
   }),
 
   getters: {},
@@ -32,6 +33,7 @@ export const useAppStore = defineStore("app", {
       try {
         const { data } = await authorizedApiClient.get("/users/detail/");
         this.currentUser = data;
+        console.log(data);
       } catch (error) {
         console.error("Failed to get user data:", error);
       }
@@ -49,7 +51,33 @@ export const useAppStore = defineStore("app", {
         console.error("Logout failed:", error);
       }
     },
-
+    async checkTocken(key) {
+      try {
+        const resp = await apiClient.post("/users/doctor/key-validate/", {
+          access_key: key,
+        });
+        localStorage.setItem("doctor_id", resp.data.id);
+        return resp;
+      } catch (error) {
+        console.error("Check token failed:", error);
+      }
+    },
+    async getSubRoles() {
+      try {
+        const resp = await apiClient.get("/users/users/subroles/");
+        this.subRoles = resp.data.sub_roles;
+        console.log(this.subRoles);
+      } catch (error) {
+        console.error("Check token failed:", error);
+      }
+    },
+    async finishDoctorRegister(user) {
+      try {
+        await apiClient.patch("/users/doctor/update/", user);
+      } catch (error) {
+        console.error("doctor failed:", error);
+      }
+    },
     setAuthTokens(accessToken, refreshToken) {
       document.cookie = `access=${accessToken};Secure;max-age=86400;`;
       document.cookie = `refresh=${refreshToken};Secure;max-age=86400;`;

@@ -7,11 +7,6 @@ import { useAppStore } from "./store/app";
 import { getTokenFromCookies } from "./helpers/Cookies";
 const appStore = useAppStore();
 const token = getTokenFromCookies("access");
-// watch(token, () => {
-//   if (token.value) {
-//     appStore.getUserData();
-//   }
-// });
 onMounted(() => {
   if (token) {
     appStore.getUserData();

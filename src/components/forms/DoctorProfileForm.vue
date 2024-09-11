@@ -91,6 +91,21 @@
             errors.confirmPassword
           }}</span>
         </div>
+        <div class="input-group">
+          <select
+            v-model="specialties"
+            class="base-input"
+            :class="{ 'input-error': errors.specialties }"
+          >
+            <option :value="string" disabled selected>Specialties</option>
+            <option v-for="text in subRoles" :key="text.id" :value="text.id">
+              {{ text.sub_role }}
+            </option>
+          </select>
+          <span class="error" v-if="errors.gender">{{
+            errors.specialties
+          }}</span>
+        </div>
         <button @click="signIn" class="form-button">Finish Sign Up</button>
       </form>
       <span class="base-subtitle"
@@ -102,16 +117,21 @@
 </template>
 
 <script setup>
+import { onMounted, computed } from "vue";
 import { useForm } from "vee-validate";
 import { useAppStore } from "../../store/app";
 import * as yup from "yup";
+import router from "../../router";
 const appStore = useAppStore();
+const subRoles = computed(() => appStore.subRoles);
+
 const schema = yup.object({
   name: yup.string().required("Name is required"),
   surname: yup.string().required("Surname is required"),
   email: yup.string().email("Invalid email").required("Email is required"),
   phone: yup.string().required("Phone is required"),
   gender: yup.string().required("Gender is required"),
+  specialties: yup.string().required("Specialties is required"),
   bdate: yup.date().required("Birthday date is required"),
   password: yup
     .string()
@@ -135,6 +155,9 @@ const [email] = defineField("email", {
 });
 const [phone] = defineField("phone", { validateOnModelUpdate: false });
 const [gender] = defineField("gender", { validateOnModelUpdate: false });
+const [specialties] = defineField("specialties", {
+  validateOnModelUpdate: false,
+});
 const [bdate] = defineField("bdate", { validateOnModelUpdate: false });
 const [password] = defineField("password", { validateOnModelUpdate: false });
 const [confirmPassword] = defineField("confirmPassword", {
@@ -150,8 +173,15 @@ const signIn = handleSubmit((values) => {
     gender: values.gender,
     date_birth: values.bdate,
     password: values.password,
+    sub_role: values.specialties,
+    id: localStorage.getItem("doctor_id"),
   };
-  appStore.registerUser(userData);
+  appStore.finishDoctorRegister(userData);
+  router.push("/signIn");
+});
+
+onMounted(() => {
+  appStore.getSubRoles();
 });
 </script>
 <style></style>

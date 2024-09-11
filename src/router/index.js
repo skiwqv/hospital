@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import DefaultLayout from "../layouts/DafaultLayout.vue";
 import { getTokenFromCookies } from "../helpers/Cookies";
-
+import { useAppStore } from "../store/app";
 const routes = [
   {
     path: "/",
@@ -64,7 +64,7 @@ const routes = [
   {
     path: "/admin",
     component: () => import("../layouts/AdminLayout.vue"),
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, requiresAdmin: true },
     children: [
       {
         path: "",
@@ -82,10 +82,13 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   const token = getTokenFromCookies("access");
-
+  const appStore = useAppStore();
+  const currentUser = appStore.currentUser;
   if (to.meta.requiresAuth && !token) {
     next({ name: "SignIn" });
   } else if (to.meta.requiresGuest && token) {
+    next({ name: "Home" });
+  } else if (to.meta.requiresAdmin && currentUser.role !== "admin") {
     next({ name: "Home" });
   } else {
     next();
