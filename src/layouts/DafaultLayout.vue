@@ -72,7 +72,15 @@
         Sign In
       </button>
       <div v-else class="user-wrapper">
-        <span class="link">{{ currentUser.first_name }}</span>
+        <div class="dropdown" @click="dropdownVisible = !dropdownVisible">
+          <span class="link">{{ currentUser.first_name }}</span>
+          <span>
+            <ArrowIcon></ArrowIcon>
+          </span>
+          <div v-if="dropdownVisible" class="dropdown-menu">
+            <button @click="logOut" class="nav-button">Log Out</button>
+          </div>
+        </div>
       </div>
     </div>
   </header>
@@ -137,6 +145,7 @@ import facebookIcon from "../assets/icons/facebook.svg";
 import instagramIcon from "../assets/icons/instagram.svg";
 import BurgerMenuIcon from "../assets/icons/burger-menu.svg";
 import CloseIcon from "../assets/icons/close.svg";
+import ArrowIcon from "../assets/icons/arrow.svg";
 import router from "../router";
 import { useRoute } from "vue-router";
 import { useAppStore } from "../store/app";
@@ -145,6 +154,7 @@ const appStore = useAppStore();
 const currentUser = computed(() => appStore.currentUser);
 
 const isMenuOpen = ref(false);
+const dropdownVisible = ref(false);
 const route = useRoute();
 
 const toSignIn = () => {

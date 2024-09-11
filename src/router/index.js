@@ -1,6 +1,8 @@
 // Composables
 import { createRouter, createWebHistory } from "vue-router";
 import DefaultLayout from "../layouts/DafaultLayout.vue";
+import { useAppStore } from "../store/app";
+
 const routes = [
   {
     path: "/",
@@ -27,6 +29,12 @@ const routes = [
             name: "Doctor Form",
             component: () => import("../components/forms/DoctorForm.vue"),
           },
+          {
+            path: "/signUp/doctorProfile",
+            name: "Doctor Profile",
+            component: () =>
+              import("../components/forms/DoctorProfileForm.vue"),
+          },
         ],
       },
       {
@@ -48,6 +56,7 @@ const routes = [
         path: "/appointment",
         name: "Appointment",
         component: () => import("../views/Appointment.vue"),
+        meta: { requiresAuth: true },
       },
     ],
   },
@@ -56,6 +65,18 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+// Навигационный гвард
+router.beforeEach((to, from, next) => {
+  const appStore = useAppStore();
+  const isAuthenticated = !!appStore.currentUser;
+
+  if (to.meta.requiresAuth && !isAuthenticated) {
+    next({ name: "SignIn" });
+  } else {
+    next();
+  }
 });
 
 export default router;
