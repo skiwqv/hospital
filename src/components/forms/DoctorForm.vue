@@ -26,6 +26,7 @@
 import { useForm } from "vee-validate";
 import { useAppStore } from "../../store/app";
 import * as yup from "yup";
+import router from "../../router";
 const appStore = useAppStore();
 const schema = yup.object({
   key: yup.string().required("Key is required"),
@@ -38,11 +39,14 @@ const { handleSubmit, values, defineField, errors } = useForm({
 
 const [key] = defineField("key", { validateOnModelUpdate: false });
 
-const signIn = handleSubmit(() => {
+const signIn = handleSubmit(async () => {
   const userData = {
     key: values.key,
   };
-  appStore.logBack();
+  // const response = await appStore.registerDoctorKey(userData);
+  // if (response.success) {
+  //   router.push("/signUp/doctorProfile");
+  // }
 });
 </script>
 <style></style>

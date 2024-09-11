@@ -180,6 +180,49 @@
             }
         }
 
+        .user-wrapper {
+            position: relative;
+            cursor: pointer;
+
+            @include respond-to(md) {
+                display: none;
+            }
+
+            .link {
+                font-weight: 400;
+                font-size: 18px;
+                color: $white;
+                text-decoration: none;
+                transition: font-weight .3s, font-size .3s, color .3s;
+                margin-right: 10px;
+
+                &:hover {
+                    font-weight: 600;
+                    font-size: 18px;
+                    color: $accent;
+                }
+            }
+
+            .dropdown {
+                position: relative;
+
+                .dropdown-menu {
+                    position: absolute;
+                    display: flex;
+                    top: 110%;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    min-width: 200px;
+                    max-width: 100%;
+                    background-color: $primary;
+                    padding: 20px;
+                    border-radius: 4px;
+                    z-index: 1000;
+                    justify-content: center;
+                }
+            }
+        }
+
         .nav-menu.open {
             top: 100%;
             z-index: 999;
