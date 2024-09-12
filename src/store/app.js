@@ -33,7 +33,7 @@ export const useAppStore = defineStore("app", {
       try {
         const { data } = await authorizedApiClient.get("/users/detail/");
         this.currentUser = data;
-        console.log(data);
+        return data;
       } catch (error) {
         console.error("Failed to get user data:", error);
       }

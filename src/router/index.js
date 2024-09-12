@@ -83,16 +83,29 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const token = getTokenFromCookies("access");
   const appStore = useAppStore();
-  const currentUser = appStore.currentUser;
+  let currentUser = appStore.currentUser;
+
   if (to.meta.requiresAuth && !token) {
-    next({ name: "SignIn" });
-  } else if (to.meta.requiresGuest && token) {
-    next({ name: "Home" });
-  } else if (to.meta.requiresAdmin && currentUser.role !== "admin") {
-    next({ name: "Home" });
-  } else {
-    next();
+    return next({ name: "SignIn" });
   }
+
+  if (to.meta.requiresGuest && token) {
+    return next({ name: "Home" });
+  }
+
+  if (!currentUser && token) {
+    try {
+      currentUser = await appStore.getUserData();
+    } catch (error) {
+      return next({ name: "SignIn" });
+    }
+  }
+
+  if (to.meta.requiresAdmin && currentUser.role !== "admin") {
+    return next({ name: "Home" });
+  }
+
+  next();
 });
 
 export default router;
