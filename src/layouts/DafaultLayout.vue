@@ -75,10 +75,18 @@
         <div class="dropdown" @click="dropdownVisible = !dropdownVisible">
           <ProfileIcon class="user-icon"></ProfileIcon>
           <div v-if="dropdownVisible" class="dropdown-menu">
-            <div class="items-wrapper" @click="toProfile">
-              <span class="menu-item">
+            <div class="items-wrapper">
+              <span class="menu-item" @click="toProfile">
                 <ProfileCardIcon class="menu-item-icon"></ProfileCardIcon>
                 Profile</span
+              >
+              <span
+                class="menu-item"
+                @click="toAdmin"
+                v-if="currentUser.role == 'admin'"
+              >
+                <AdminIcon class="menu-item-icon"></AdminIcon>
+                Admin</span
               >
               <span class="menu-item" @click="logOut">
                 <LogOutIcon class="logout-icon"></LogOutIcon>
@@ -154,6 +162,7 @@ import CloseIcon from "../assets/icons/close.svg";
 import ProfileIcon from "../assets/icons/profile.svg";
 import ProfileCardIcon from "../assets/icons/profileCard.svg";
 import LogOutIcon from "../assets/icons/logout.svg";
+import AdminIcon from "../assets/icons/admin.svg";
 import router from "../router";
 import { useRoute } from "vue-router";
 import { useAppStore } from "../store/app";
@@ -179,6 +188,11 @@ const logOut = () => {
 const toProfile = () => {
   isMenuOpen.value = !isMenuOpen.value;
   router.push("/profile");
+};
+
+const toAdmin = () => {
+  isMenuOpen.value = !isMenuOpen.value;
+  router.push("/admin");
 };
 
 const isActive = (path) => {

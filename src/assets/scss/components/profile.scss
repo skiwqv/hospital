@@ -1,0 +1,13 @@
+.profile-wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 0 80px;
+    background-color: #f1f5f9;
+
+    .profile-text {
+        font-size: 32px;
+        margin: 0.67em 0;
+        border-bottom: 3px solid #333;
+        width: 20%;
+    }
+}
