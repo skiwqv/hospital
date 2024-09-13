@@ -3,14 +3,21 @@
     <div class="general">
       <div class="avatar-box">
         <div class="dropzone">
-          <img class="avatar" src="../../assets/images/brenda.jpg" alt="" />
-          <input type="file" required hidden id="imge" />
+          <img
+            class="avatar"
+            :src="
+              imagePreview ||
+              (currentUser.avatar ? currentUser.avatar : brendaPlaceholder)
+            "
+            alt=""
+          />
+          <input type="file" required hidden id="imge" @change="onFileChange" />
           <label for="imge">
             <UploadIcon class="upload-icon"></UploadIcon>
           </label>
         </div>
         <h3 class="profile-name">{{ fullName }}</h3>
-        <button class="update-button">Update</button>
+        <button class="update-button" @click="updateProfile">Update</button>
       </div>
       <div class="info-box">
         <h4 class="info-title">General Information</h4>
@@ -51,6 +58,7 @@
             <input
               v-model="currentUser.date_birth"
               type="date"
+              disabled
               class="info-input"
             />
           </div>
@@ -104,7 +112,7 @@ import { ref, computed } from "vue";
 import { useAppStore } from "../../store/app";
 import UploadIcon from "../../assets/icons/upload.svg";
 import DeleteIcon from "../../assets/icons/delete.svg";
-
+import brendaPlaceholder from "../../assets/images/brenda.jpg";
 const appStore = useAppStore();
 
 const currentUser = computed(() => appStore.currentUser);
@@ -112,7 +120,8 @@ const fullName = computed(() => {
   return `${currentUser.value.first_name} ${currentUser.value.last_name}`;
 });
 
-// Пример данных для таблицы пациентов
+const imageSrc = ref(null);
+const imagePreview = ref(null);
 const appointments = ref([
   {
     patient: "John Doe",
@@ -158,7 +167,23 @@ const appointments = ref([
   },
 ]);
 
-// Функция для отмены записи
+const onFileChange = (event) => {
+  const file = event.target.files[0];
+  imageSrc.value = file;
+  imagePreview.value = URL.createObjectURL(file);
+};
+
+const updateProfile = () => {
+  const user = {
+    first_name: currentUser.value.first_name,
+    last_name: currentUser.value.last_name,
+    email: currentUser.value.email,
+    avatar: imageSrc.value,
+    phone: currentUser.value.phone,
+  };
+  appStore.updateProfile(user);
+};
+
 const cancelAppointment = (index) => {
   appointments.value.splice(index, 1);
 };

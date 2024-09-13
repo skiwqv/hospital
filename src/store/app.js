@@ -78,6 +78,17 @@ export const useAppStore = defineStore("app", {
         console.error("doctor failed:", error);
       }
     },
+    async updateProfile(user) {
+      try {
+        await authorizedApiClient.patch("/users/update/", user, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+      } catch (error) {
+        console.error("doctor failed:", error);
+      }
+    },
     setAuthTokens(accessToken, refreshToken) {
       document.cookie = `access=${accessToken};Secure;max-age=86400;`;
       document.cookie = `refresh=${refreshToken};Secure;max-age=86400;`;
