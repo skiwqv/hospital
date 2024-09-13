@@ -4,6 +4,20 @@ body {
     font-family: $font-family-base;
 }
 
+// Глобальные стили скроллбара
+::-webkit-scrollbar {
+    width: 8px; // Узкий скролл
+}
+
+::-webkit-scrollbar-track {
+    background-color: #f1f1f1; // Светло-серый трек
+    border-radius: 10px; // Закругленные края трека
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #ccc; // Серый цвет скролла
+    border-radius: 10px; // Закругленные края скролла
+}
 
 
 .subtitle-base {
