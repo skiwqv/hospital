@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
 import { apiClient, authorizedApiClient } from "../services/api";
-// import { getTokenFromCookies, deleteCookie } from "../helpers/Cookies";
 
 export const useAdminStore = defineStore("admin", {
   state: () => ({

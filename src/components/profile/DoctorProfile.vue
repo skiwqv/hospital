@@ -108,64 +108,24 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useAppStore } from "../../store/app";
+import { useAppointmentStore } from "../../store/appointment";
 import UploadIcon from "../../assets/icons/upload.svg";
 import DeleteIcon from "../../assets/icons/delete.svg";
 import brendaPlaceholder from "../../assets/images/brenda.jpg";
+
 const appStore = useAppStore();
+const appointmentStore = useAppointmentStore();
 
 const currentUser = computed(() => appStore.currentUser);
+const appointments = computed(() => appointmentStore.appointments);
 const fullName = computed(() => {
   return `${currentUser.value.first_name} ${currentUser.value.last_name}`;
 });
 
 const imageSrc = ref(null);
 const imagePreview = ref(null);
-const appointments = ref([
-  {
-    patient: "John Doe",
-    date: "2024-09-15",
-    time: "10:30 AM",
-    message: "Follow-up consultation",
-  },
-  {
-    patient: "Jane Smith",
-    date: "2024-09-18",
-    time: "02:00 PM",
-    message: "Initial consultation",
-  },
-  {
-    patient: "Michael Johnson",
-    date: "2024-09-20",
-    time: "09:00 AM",
-    message: "Regular check-up",
-  },
-  {
-    patient: "Michael Johnson",
-    date: "2024-09-20",
-    time: "09:00 AM",
-    message: "Regular check-up",
-  },
-  {
-    patient: "Michael Johnson",
-    date: "2024-09-20",
-    time: "09:00 AM",
-    message: "Regular check-up",
-  },
-  {
-    patient: "Michael Johnson",
-    date: "2024-09-20",
-    time: "09:00 AM",
-    message: "Regular check-up",
-  },
-  {
-    patient: "Michael Johnson",
-    date: "2024-09-20",
-    time: "09:00 AM",
-    message: "Regular check-up",
-  },
-]);
 
 const onFileChange = (event) => {
   const file = event.target.files[0];
@@ -187,6 +147,11 @@ const updateProfile = () => {
 const cancelAppointment = (index) => {
   appointments.value.splice(index, 1);
 };
+
+onMounted(async () => {
+  appointmentStore.getAppointments();
+  console.log(appointments.value);
+});
 </script>
 
 <style></style>

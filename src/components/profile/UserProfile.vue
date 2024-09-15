@@ -81,7 +81,6 @@
           <thead class="table-head">
             <tr>
               <th class="head-title">Doctor</th>
-              <th class="head-title">Department</th>
               <th class="head-title">Date</th>
               <th class="head-title">Time</th>
               <th class="head-title">Message</th>
@@ -90,8 +89,7 @@
           </thead>
           <tbody>
             <tr v-for="(appointment, index) in appointments" :key="index">
-              <td class="table-content">{{ appointment.doctor }}</td>
-              <td class="table-content">{{ appointment.department }}</td>
+              <td class="table-content">{{ appointment.doctor_name }}</td>
               <td class="table-content">{{ appointment.date }}</td>
               <td class="table-content">{{ appointment.time }}</td>
               <td class="table-content">{{ appointment.message }}</td>
@@ -110,144 +108,25 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useAppStore } from "../../store/app";
+import { useAppointmentStore } from "../../store/appointment";
 import UploadIcon from "../../assets/icons/upload.svg";
 import DeleteIcon from "../../assets/icons/delete.svg";
 import brendaPlaceholder from "../../assets/images/brenda.jpg";
 
 const appStore = useAppStore();
+const appointmentStore = useAppointmentStore();
 
 const currentUser = computed(() => appStore.currentUser);
+const appointments = computed(() => appointmentStore.appointments);
+
 const fullName = computed(() => {
   return `${currentUser.value.first_name} ${currentUser.value.last_name}`;
 });
 
 const imageSrc = ref(null);
 const imagePreview = ref(null);
-
-const appointments = ref([
-  {
-    doctor: "Dr. Brenda Cooper",
-    department: "Cardiology",
-    date: "2024-09-15",
-    time: "10:30 AM",
-    message: "Follow-up appointment",
-  },
-  {
-    doctor: "Dr. James Smith",
-    department: "Orthopedics",
-    date: "2024-09-18",
-    time: "02:00 PM",
-    message: "Initial consultation",
-  },
-  {
-    doctor: "Dr. Amanda Lee",
-    department: "Pediatrics",
-    date: "2024-09-20",
-    time: "09:00 AM",
-    message: "Child's regular checkup",
-  },
-  {
-    doctor: "Dr. Amanda Lee",
-    department: "Pediatrics",
-    date: "2024-09-20",
-    time: "09:00 AM",
-    message: "Child's regular checkup",
-  },
-  {
-    doctor: "Dr. Amanda Lee",
-    department: "Pediatrics",
-    date: "2024-09-20",
-    time: "09:00 AM",
-    message: "Child's regular checkup",
-  },
-  {
-    doctor: "Dr. Amanda Lee",
-    department: "Pediatrics",
-    date: "2024-09-20",
-    time: "09:00 AM",
-    message: "Child's regular checkup",
-  },
-  {
-    doctor: "Dr. Amanda Lee",
-    department: "Pediatrics",
-    date: "2024-09-20",
-    time: "09:00 AM",
-    message: "Child's regular checkup",
-  },
-  {
-    doctor: "Dr. Amanda Lee",
-    department: "Pediatrics",
-    date: "2024-09-20",
-    time: "09:00 AM",
-    message: "Child's regular checkup",
-  },
-  {
-    doctor: "Dr. Amanda Lee",
-    department: "Pediatrics",
-    date: "2024-09-20",
-    time: "09:00 AM",
-    message: "Child's regular checkup",
-  },
-  {
-    doctor: "Dr. Amanda Lee",
-    department: "Pediatrics",
-    date: "2024-09-20",
-    time: "09:00 AM",
-    message: "Child's regular checkup",
-  },
-  {
-    doctor: "Dr. Amanda Lee",
-    department: "Pediatrics",
-    date: "2024-09-20",
-    time: "09:00 AM",
-    message: "Child's regular checkup",
-  },
-  {
-    doctor: "Dr. Amanda Lee",
-    department: "Pediatrics",
-    date: "2024-09-20",
-    time: "09:00 AM",
-    message: "Child's regular checkup",
-  },
-  {
-    doctor: "Dr. Amanda Lee",
-    department: "Pediatrics",
-    date: "2024-09-20",
-    time: "09:00 AM",
-    message: "Child's regular checkup",
-  },
-  {
-    doctor: "Dr. Amanda Lee",
-    department: "Pediatrics",
-    date: "2024-09-20",
-    time: "09:00 AM",
-    message: "Child's regular checkup",
-  },
-  {
-    doctor: "Dr. Amanda Lee",
-    department: "Pediatrics",
-    date: "2024-09-20",
-    time: "09:00 AM",
-    message: "Child's regular checkup",
-  },
-  {
-    doctor: "Dr. Amanda Lee",
-    department: "Pediatrics",
-    date: "2024-09-20",
-    time: "09:00 AM",
-    message: "Child's regular checkup",
-  },
-  {
-    doctor: "Dr. Amanda Lee",
-    department: "Pediatrics",
-    date: "2024-09-20",
-    time: "09:00 AM",
-    message:
-      " Child's regular checkupChild's regular checkupChild's regular checkupChild's regular checkupChild's regular checkupChild's regular checkup",
-  },
-]);
 
 const onFileChange = (event) => {
   const file = event.target.files[0];
@@ -269,6 +148,11 @@ const updateProfile = () => {
 const deleteAppointment = (index) => {
   appointments.value.splice(index, 1);
 };
+
+onMounted(async () => {
+  appointmentStore.getAppointments();
+  console.log(appointments.value);
+});
 </script>
 
 <style></style>

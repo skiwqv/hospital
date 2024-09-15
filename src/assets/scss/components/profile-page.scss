@@ -6,6 +6,10 @@
         align-items: center;
         margin-bottom: 20px;
 
+        @include respond-to(md) {
+            flex-direction: column;
+        }
+
         .avatar-box {
             text-align: center;
             padding: 20px;
@@ -49,7 +53,7 @@
 
         .info-box {
             width: 90%;
-            box-sizing: border-box; // Включаем отступы и границы в ширину
+            box-sizing: border-box;
 
             .info-title {
                 color: gray;
@@ -72,10 +76,18 @@
                 width: 100%;
                 box-sizing: border-box;
 
+                @include respond-to(md) {
+                    flex-direction: column;
+                }
+
                 .wrapper {
                     font-size: 14px;
-                    width: calc(100% / 3 - 7px); // Используем calc для гибкости
+                    width: calc(100% / 3 - 7px);
                     box-sizing: border-box;
+
+                    @include respond-to(md) {
+                        width: 100%;
+                    }
 
                     .info-title {
                         padding: 0;

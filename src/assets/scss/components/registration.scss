@@ -101,10 +101,10 @@
                     }
 
                     select {
-                        width: 100%; // Применяем 100% ширины для select на больших экранах
+                        width: 100%;
 
                         @include respond-to(sm) {
-                            width: auto; // Для маленьких экранов применяем auto
+                            width: auto;
                         }
                     }
                 }

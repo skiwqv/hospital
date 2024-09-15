@@ -21,7 +21,6 @@
 <script setup>
 import { ref, computed, defineProps, onMounted, onBeforeUnmount } from "vue";
 
-// Получаем массив карточек через props
 const props = defineProps({
   items: {
     type: Array,
@@ -29,14 +28,12 @@ const props = defineProps({
   },
 });
 
-// Реактивное количество видимых карточек (изначально 1)
 const visibleCount = ref(1);
 const startIndex = ref(0);
 let intervalId;
 
-// Рассчитываем видимые карточки
 const visibleItems = computed(() => {
-  if (props.items.length === 0) return []; // Если нет элементов, возвращаем пустой массив
+  if (props.items.length === 0) return [];
 
   let endIndex = startIndex.value + visibleCount.value;
   if (endIndex > props.items.length) {
@@ -48,47 +45,40 @@ const visibleItems = computed(() => {
   return props.items.slice(startIndex.value, endIndex);
 });
 
-// Индикаторы для карусели
 const indicators = computed(() => {
-  if (visibleCount.value <= 0 || props.items.length === 0) return []; // Проверка для исключения ошибки
+  if (visibleCount.value <= 0 || props.items.length === 0) return [];
   return new Array(Math.ceil(props.items.length / visibleCount.value));
 });
 
-// Проверка активного индикатора
 const isActiveIndicator = (index) => {
   return Math.floor(startIndex.value / visibleCount.value) === index;
 };
 
-// Переключение на конкретный слайд
 const goToSlide = (index) => {
   startIndex.value = index * visibleCount.value;
 };
 
-// Следующий слайд
 const next = () => {
   startIndex.value =
     (startIndex.value + visibleCount.value) % props.items.length;
 };
 
-// Функция для изменения количества видимых карточек
 const updateVisibleCount = () => {
   if (window.innerWidth <= 768) {
-    visibleCount.value = 1; // Для мобильных устройств
+    visibleCount.value = 1;
   } else if (window.innerWidth <= 1024) {
-    visibleCount.value = 2; // Для планшетов
+    visibleCount.value = 2;
   } else {
-    visibleCount.value = 3; // Для больших экранов
+    visibleCount.value = 3;
   }
 };
 
-// Инициализация карусели
 onMounted(() => {
-  updateVisibleCount(); // Изначально задаем количество карточек
-  window.addEventListener("resize", updateVisibleCount); // Обновляем при изменении экрана
-  intervalId = setInterval(next, 8000); // Автопереключение через 8 секунд
+  updateVisibleCount();
+  window.addEventListener("resize", updateVisibleCount);
+  intervalId = setInterval(next, 8000);
 });
 
-// Очищаем интервал и слушатель
 onBeforeUnmount(() => {
   clearInterval(intervalId);
   window.removeEventListener("resize", updateVisibleCount);
@@ -98,7 +88,7 @@ onBeforeUnmount(() => {
 <style>
 .slide-enter-active,
 .slide-leave-active {
-  transition: opacity 0.3s ease; /* Можешь изменить продолжительность */
+  transition: opacity 0.3s ease;
 }
 
 .slide-enter-from,

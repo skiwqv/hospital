@@ -10,7 +10,7 @@
             width: 100%;
             height: 100%;
             background: rgba(255, 255, 255, 0.5);
-            z-index: 5; // Убедитесь, что он ниже .banner-holder
+            z-index: 5;
         }
 
         .image {
@@ -26,9 +26,9 @@
             height: 100%;
             z-index: 10;
             display: flex;
-            justify-content: center; // Horizontal centering
-            align-items: center; // Vertical centering
-            text-align: center; // Ensure text is centered
+            justify-content: center;
+            align-items: center;
+            text-align: center;
 
             .banner-text {
                 width: 90%;
@@ -36,9 +36,9 @@
                 margin: 0 auto;
                 display: flex;
                 flex-direction: column;
-                justify-content: center; // Center text vertically
-                align-items: center; // Center text horizontally
-                text-align: center; // Ensure text alignment is centered
+                justify-content: center;
+                align-items: center;
+                text-align: center;
 
                 .title-base {
                     font-weight: 400;
