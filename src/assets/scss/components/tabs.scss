@@ -38,9 +38,8 @@
         height: 100%;
       }
 
-      // Стили для иконок
       .tab-icon path {
-        fill: $secondary; // Цвет по умолчанию
+        fill: $secondary;
       }
 
       &:hover {
@@ -48,7 +47,7 @@
         color: $accent;
 
         .tab-icon path {
-          fill: $accent; // Цвет иконки при наведении
+          fill: $accent;
         }
       }
 
@@ -57,7 +56,7 @@
         color: $accent;
 
         .tab-icon path {
-          fill: $accent; // Цвет иконки при активации
+          fill: $accent;
         }
       }
     }

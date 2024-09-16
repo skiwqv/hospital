@@ -38,12 +38,26 @@
       </button>
       <div v-else class="user-wrapper">
         <div class="dropdown" @click="dropdownVisible = !dropdownVisible">
-          <span class="link">{{ currentUser.first_name }}</span>
-          <span>
-            <ArrowIcon></ArrowIcon>
-          </span>
+          <ProfileIcon class="user-icon"></ProfileIcon>
           <div v-if="dropdownVisible" class="dropdown-menu">
-            <button @click="logOut" class="nav-button">Log Out</button>
+            <div class="items-wrapper">
+              <span class="menu-item" @click="toProfile">
+                <ProfileCardIcon class="menu-item-icon"></ProfileCardIcon>
+                Profile</span
+              >
+              <span
+                class="menu-item"
+                @click="toAdmin"
+                v-if="currentUser.role == 'admin'"
+              >
+                <AdminIcon class="menu-item-icon"></AdminIcon>
+                Admin</span
+              >
+              <span class="menu-item" @click="logOut">
+                <LogOutIcon class="logout-icon"></LogOutIcon>
+                Log Out</span
+              >
+            </div>
           </div>
         </div>
       </div>
@@ -59,6 +73,10 @@ import { ref, computed } from "vue";
 import BurgerMenuIcon from "../assets/icons/burger-menu.svg";
 import CloseIcon from "../assets/icons/close.svg";
 import ArrowIcon from "../assets/icons/arrow.svg";
+import ProfileIcon from "../assets/icons/profile.svg";
+import ProfileCardIcon from "../assets/icons/profileCard.svg";
+import LogOutIcon from "../assets/icons/logout.svg";
+import AdminIcon from "../assets/icons/admin.svg";
 import router from "../router";
 import { useRoute } from "vue-router";
 import { useAppStore } from "../store/app";
@@ -81,6 +99,15 @@ const logOut = () => {
   router.push("/");
 };
 
+const toProfile = () => {
+  isMenuOpen.value = !isMenuOpen.value;
+  router.push("/profile");
+};
+
+const toAdmin = () => {
+  isMenuOpen.value = !isMenuOpen.value;
+  router.push("/admin");
+};
 const isActive = (path) => {
   return route.path == path;
 };

@@ -1,7 +1,12 @@
 <template>
   <div class="admin-home">
+    <input
+      class="base-input"
+      v-model="email"
+      type="email"
+      placeholder="Doctor Email"
+    />
     <button class="nav-button" @click="createDoctor">Create Doctor</button>
-    <pre>{{ response }}</pre>
   </div>
 </template>
 
@@ -10,12 +15,10 @@ import { ref } from "vue";
 import { useAdminStore } from "../../store/admin";
 
 const adminStore = useAdminStore();
-
-const response = ref(null);
+let email = ref("");
 
 const createDoctor = () => {
-  const resp = adminStore.createDoctor();
-  response.value = resp;
+  adminStore.createDoctor(email.value);
 };
 </script>
 

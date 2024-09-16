@@ -1,65 +1,133 @@
 <template>
-  <form @submit.prevent class="form">
-    <input placeholder="Name" type="text" class="base-input" />
-    <div class="select-wrapper">
-      <select name="gender" id="gender-select" class="base-input select">
-        <option value="" disabled selected>Gender</option>
-        <option value="male">Male</option>
-        <option value="female">Female</option>
-        <option value="non-binary">Non-binary</option>
-        <option value="prefer-not-to-say">Prefer not to say</option>
-        <option value="other">Other</option>
-      </select>
-    </div>
-    <input placeholder="Email" type="email" class="base-input" />
-    <input placeholder="Phone" type="tel" class="base-input" />
-    <div class="select-wrapper">
-      <select name="date" id="date-select" class="base-input select">
-        <option value="" disabled selected>Date</option>
-        <option value="male">07.09</option>
-        <option value="female">08.09</option>
-        <option value="non-binary">10.09</option>
-        <option value="prefer-not-to-say">21.09</option>
-        <option value="other">27.09</option>
-      </select>
-    </div>
-    <div class="select-wrapper">
-      <select name="time" id="time-select" class="base-input select">
-        <option value="" disabled selected>Time</option>
-        <option value="male">12:00</option>
-        <option value="female">13:00</option>
-        <option value="non-binary">14:00</option>
-        <option value="prefer-not-to-say">18:00</option>
-      </select>
-    </div>
-    <div class="select-wrapper">
-      <select name="doctor" id="doctor-select" class="base-input select">
-        <option value="" disabled selected>Doctor</option>
-        <option value="male">Semahina</option>
-        <option value="female">Kyrila</option>
-      </select>
-    </div>
-    <div class="select-wrapper">
-      <select
-        name="departament"
-        id="departament-select"
-        class="base-input select"
-      >
-        <option value="" disabled selected>Departament</option>
-        <option value="male">MedBat</option>
-        <option value="female">Chuguev</option>
-      </select>
-    </div>
-    <textarea
-      class="base-textarea"
-      placeholder="Message"
-      cols="30"
-      rows="10"
-    ></textarea>
-    <button class="form-button">Subbmit</button>
-  </form>
+  <div class="form-wrapper">
+    <form class="form-holder">
+      <div class="input-group">
+        <select
+          v-model="specialties"
+          class="base-input"
+          :class="{ 'input-error': errors.specialties }"
+        >
+          <option :value="string" disabled selected>Specialties</option>
+          <option
+            v-for="text in subRoles"
+            :key="text.id"
+            :value="text.sub_role"
+          >
+            {{ text.sub_role }}
+          </option>
+        </select>
+        <span class="error" v-if="errors.specialties">{{
+          errors.specialties
+        }}</span>
+      </div>
+      <div class="input-group">
+        <select
+          v-model="doctor"
+          @focus="getDoctor(specialties)"
+          class="base-input"
+          :class="{ 'input-error': errors.doctor }"
+          :disabled="!specialties"
+        >
+          <option :value="string" disabled selected>Select Doctor</option>
+          <option v-for="doc in doctors" :key="doc.id" :value="doc.id">
+            {{ `${doc.first_name} ${doc.last_name}` }}
+          </option>
+        </select>
+        <span class="error" v-if="errors.doctor">{{ errors.doctor }}</span>
+      </div>
+      <input
+        v-model="date"
+        type="date"
+        class="base-input"
+        :disabled="!doctor"
+      />
+      <div class="input-group">
+        <select
+          v-model="time"
+          class="base-input"
+          :class="{ 'input-error': errors.time }"
+          :disabled="!date"
+          @focus="getTime(doctor, date)"
+        >
+          <option :value="string" disabled selected>Select Time</option>
+          <option
+            v-for="time in workingTime"
+            :key="time"
+            :disabled="is_available"
+            :value="time.value"
+          >
+            {{ time.time }}
+          </option>
+        </select>
+        <span class="error" v-if="errors.time">{{ errors.time }}</span>
+      </div>
+      <textarea
+        class="base-textarea"
+        placeholder="Your message"
+        cols="30"
+        rows="10"
+        v-model="message"
+        :disabled="!time"
+      ></textarea>
+      <button @click="submitForm" class="form-button">Book Appointment</button>
+    </form>
+  </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref, computed, onMounted } from "vue";
+import { useForm } from "vee-validate";
+import * as yup from "yup";
+import { useAppStore } from "../../store/app";
+import router from "../../router/index";
+import { useAppointmentStore } from "../../store/appointment";
+const appStore = useAppStore();
+const appointmentStore = useAppointmentStore();
+const subRoles = computed(() => appStore.subRoles);
+const doctors = computed(() => appointmentStore.doctors);
+const workingTime = computed(() => appointmentStore.time);
 
-<style></style>
+const schema = yup.object({
+  specialties: yup.string().required("Please select a specialty"),
+  doctor: yup.string().required("Please select a doctor"),
+  date: yup.string().required("Please select a date"),
+  time: yup.string().required("Please select a time"),
+  message: yup.string().optional(),
+});
+
+const { handleSubmit, defineField, errors } = useForm({
+  validationSchema: schema,
+  validateOnSubmit: true,
+});
+
+const [specialties] = defineField("specialties", {
+  validateOnModelUpdate: false,
+});
+const [doctor] = defineField("doctor", { validateOnModelUpdate: false });
+const [date] = defineField("date", { validateOnModelUpdate: false });
+const [time] = defineField("time", { validateOnModelUpdate: false });
+const [message] = defineField("message", { validateOnModelUpdate: false });
+
+const getDoctor = async (spec) => {
+  await appointmentStore.getDoctors(spec);
+};
+
+const getTime = async (id, date) => {
+  await appointmentStore.getTime(id, date);
+};
+
+const submitForm = handleSubmit((values) => {
+  const userData = {
+    doctor: values.doctor,
+    date: values.date,
+    time: values.time,
+    message: values.message,
+  };
+  appointmentStore.makeAppointment(userData);
+  // router.push("/profile");
+});
+
+onMounted(() => {
+  appStore.getSubRoles();
+});
+</script>

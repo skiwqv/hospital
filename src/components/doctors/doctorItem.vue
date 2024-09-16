@@ -2,26 +2,27 @@
   <div class="doctor-wrapper">
     <img class="doctor-avatar" :src="doctor.avatar" alt="" />
     <div class="info-wrapper">
-      <span class="doctor-name">{{ doctor.name }}</span>
-      <h5 class="doctor-speciality">{{ doctor.speciality }}</h5>
-      <div class="social-wrapper">
-        <linkedinIcon class="social-icon"></linkedinIcon>
-        <facebookIcon class="social-icon"></facebookIcon>
-        <instagramIcon class="social-icon"></instagramIcon>
-      </div>
-      <button class="doctor-button">View Profile</button>
+      <span class="doctor-name">{{
+        `${doctor.first_name} ${doctor.last_name}`
+      }}</span>
+      <h5 class="doctor-speciality">{{ doctor.sub_role }}</h5>
+      <button class="doctor-button" @click="toProfile(doctor.id)">
+        View Profile
+      </button>
     </div>
   </div>
 </template>
 
 <script setup>
-import linkedinIcon from "../../assets/icons/linkdeIn.svg";
-import facebookIcon from "../../assets/icons/facebook.svg";
-import instagramIcon from "../../assets/icons/instagram.svg";
+import router from "../../router";
+
 const props = defineProps({
   doctor: {
     type: Object,
     default: () => {},
   },
 });
+const toProfile = (id) => {
+  router.push(`/profile-publick/${id}`);
+};
 </script>

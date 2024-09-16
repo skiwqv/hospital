@@ -1,7 +1,11 @@
 <template>
-  <div>Appointment</div>
+  <div class="container">
+    <base-form />
+  </div>
 </template>
 
-<script></script>
+<script setup>
+import BaseForm from "../components/forms/baseForm.vue";
+</script>
 
 <style></style>

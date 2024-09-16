@@ -1,11 +1,10 @@
 import { createRouter, createWebHistory } from "vue-router";
-import DefaultLayout from "../layouts/DafaultLayout.vue";
 import { getTokenFromCookies } from "../helpers/Cookies";
 import { useAppStore } from "../store/app";
 const routes = [
   {
     path: "/",
-    component: DefaultLayout,
+    component: () => import("../layouts/DafaultLayout.vue"),
     children: [
       {
         path: "",
@@ -59,6 +58,18 @@ const routes = [
         component: () => import("../views/Appointment.vue"),
         meta: { requiresAuth: true },
       },
+      {
+        path: "/profile",
+        name: "Profile",
+        component: () => import("../views/Profile.vue"),
+        meta: { requiresAuth: true },
+      },
+      {
+        path: "/profile-publick/:id",
+        name: "publick profile",
+        component: () => import("../views/PublickProfile.vue"),
+        meta: { requiresAuth: true },
+      },
     ],
   },
   {
@@ -78,6 +89,18 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition;
+    } else {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          resolve();
+        }, 300);
+      });
+    }
+  },
 });
 
 router.beforeEach(async (to, from, next) => {

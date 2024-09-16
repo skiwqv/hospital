@@ -188,39 +188,81 @@
                 display: none;
             }
 
-            .link {
-                font-weight: 400;
-                font-size: 18px;
-                color: $white;
-                text-decoration: none;
-                transition: font-weight .3s, font-size .3s, color .3s;
-                margin-right: 10px;
-
-                &:hover {
-                    font-weight: 600;
-                    font-size: 18px;
-                    color: $accent;
-                }
-            }
-
             .dropdown {
                 position: relative;
+                padding: 20px;
+                transition: background-color .3s;
+
+                &:hover {
+                    background-color: $white;
+
+                    .user-icon {
+                        fill: $primary;
+                    }
+                }
+
+                .user-icon {
+                    cursor: pointer;
+                    fill: $white;
+                    width: 24px;
+                    height: 24px;
+                    transition: fill .3s;
+                }
 
                 .dropdown-menu {
                     position: absolute;
                     display: flex;
-                    top: 110%;
+                    max-width: 200px;
+                    max-height: 250px;
                     left: 50%;
                     transform: translateX(-50%);
-                    min-width: 200px;
-                    max-width: 100%;
-                    background-color: $primary;
-                    padding: 20px;
-                    border-radius: 4px;
-                    z-index: 1000;
-                    justify-content: center;
+                    padding: 30px;
+                    top: calc(100% + 5px);
+                    background-color: $white;
+                    border-bottom: 3px solid #159EEC;
+                    gap: 40px;
+                    opacity: 1;
+                    z-index: 100;
+
+                    .items-wrapper {
+                        min-width: 150px;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+
+                        .menu-item {
+                            color: $primary;
+                            font-size: 18px;
+                            min-width: 150px;
+                            display: flex;
+                            font-weight: 500;
+                            padding: 15px;
+                            text-transform: capitalize;
+                            letter-spacing: 1px;
+                            justify-content: center;
+                            border-bottom: 1px solid #e2e2e2;
+                            gap: 10px;
+                            align-items: center;
+                            transition: background-color .3s;
+
+                            .menu-item-icon {
+                                width: 28px;
+                                height: 26px;
+                                fill: $secondary;
+                            }
+
+                            .logout-icon {
+                                stroke: red;
+                            }
+
+                            &:hover {
+                                background-color: #e2e2e2;
+                            }
+                        }
+                    }
                 }
             }
+
         }
 
         .nav-menu.open {

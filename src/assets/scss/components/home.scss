@@ -22,9 +22,9 @@
                 height: 100%;
                 z-index: 10;
                 display: flex;
-                justify-content: center; // Horizontal centering
-                align-items: center; // Vertical centering
-                text-align: center; // Ensure text is centered
+                justify-content: center;
+                align-items: center;
+                text-align: center;
 
                 .banner-text {
                     width: 90%;
@@ -32,9 +32,9 @@
                     margin: 0 auto;
                     display: flex;
                     flex-direction: column;
-                    justify-content: center; // Center text vertically
-                    align-items: center; // Center text horizontally
-                    text-align: center; // Ensure text alignment is centered
+                    justify-content: center;
+                    align-items: center;
+                    text-align: center;
                 }
             }
         }
@@ -185,15 +185,15 @@
         @include respond-to(md) {
             max-height: 600px;
             height: 100%;
-            padding-bottom: 40px; // Добавляем отступ снизу
-            margin-bottom: 20px; // Корректируем отступы
+            padding-bottom: 40px;
+            margin-bottom: 20px;
         }
 
         .tab-section {
             margin-top: 74px;
 
             @include respond-to(md) {
-                margin-top: 40px; // Уменьшаем отступ сверху для мобильных
+                margin-top: 40px;
             }
         }
     }
