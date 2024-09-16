@@ -6,6 +6,7 @@ export const useAppStore = defineStore("app", {
   state: () => ({
     currentUser: null,
     subRoles: null,
+    allDoctors: null,
   }),
 
   getters: {},
@@ -85,6 +86,14 @@ export const useAppStore = defineStore("app", {
             "Content-Type": "multipart/form-data",
           },
         });
+      } catch (error) {
+        console.error("doctor failed:", error);
+      }
+    },
+    async getAllDoctors() {
+      try {
+        const { data } = await authorizedApiClient.get("/doctor/all/");
+        this.allDoctors = data;
       } catch (error) {
         console.error("doctor failed:", error);
       }
