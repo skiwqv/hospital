@@ -104,7 +104,7 @@
 
 <script setup>
 import { useForm } from "vee-validate";
-import { useAppStore } from "../../store/app";
+import { useAppStore } from "@/store/app";
 import * as yup from "yup";
 const appStore = useAppStore();
 const schema = yup.object({

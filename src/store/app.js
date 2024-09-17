@@ -1,12 +1,13 @@
 import { defineStore } from "pinia";
-import { apiClient, authorizedApiClient } from "../services/api";
-import { getTokenFromCookies, deleteCookie } from "../helpers/Cookies";
+import { apiClient, authorizedApiClient } from "@/services/api";
+import { getTokenFromCookies, deleteCookie } from "@/helpers/Cookies";
 
 export const useAppStore = defineStore("app", {
   state: () => ({
     currentUser: null,
     subRoles: null,
     allDoctors: null,
+    userById: null,
   }),
 
   getters: {},
@@ -94,6 +95,19 @@ export const useAppStore = defineStore("app", {
       try {
         const { data } = await authorizedApiClient.get("/doctor/all/");
         this.allDoctors = data;
+      } catch (error) {
+        console.error("doctor failed:", error);
+      }
+    },
+    async getUserById(id) {
+      try {
+        const { data } = await authorizedApiClient.get("/users/specific/", {
+          params: {
+            user_id: id,
+          },
+        });
+        this.userById = data;
+        console.log("userData", this.userById);
       } catch (error) {
         console.error("doctor failed:", error);
       }

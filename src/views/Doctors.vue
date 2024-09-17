@@ -1,7 +1,7 @@
 <template>
   <div class="doctors-wrapper">
     <section class="banner">
-      <img class="image" src="../assets/images/welcome_image.png" alt="" />
+      <img class="image" src="@/assets/images/welcome_image.png" alt="" />
       <div class="banner-holder">
         <div class="banner-text">
           <h1 class="title-base">Our Doctors</h1>
@@ -21,12 +21,12 @@
 
 <script setup>
 import { onMounted, computed } from "vue";
-import { useAppStore } from "../store/app";
+import { useAppStore } from "@/store/app";
 const appStore = useAppStore();
 const allDoctors = computed(() => appStore.allDoctors);
 
-import DoctorItem from "../components/doctors/doctorItem.vue";
-import Contacts from "../components/home/contacts.vue";
+import DoctorItem from "@/components/doctors/doctorItem.vue";
+import Contacts from "@/components/home/contacts.vue";
 
 onMounted(async () => {
   await appStore.getAllDoctors();

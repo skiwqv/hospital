@@ -1,7 +1,7 @@
 <template>
   <div class="about-wrapper">
     <section class="banner">
-      <img class="image" src="../assets/images/welcome_image.png" alt="" />
+      <img class="image" src="@/assets/images/welcome_image.png" alt="" />
       <div class="banner-holder">
         <div class="banner-text">
           <h1 class="title-base">About Us</h1>
@@ -12,7 +12,7 @@
       <div>
         <img
           class="info-image"
-          src="../assets/images/about-image.png"
+          src="@/assets/images/about-image.png"
           alt="about-image"
         />
       </div>
@@ -57,10 +57,10 @@
 
 <script setup>
 import { ref, onMounted, computed } from "vue";
-import { useAppStore } from "../store/app";
-import Carousel from "../components/carousels/Carousel.vue";
-import DoctorItem from "../components/doctors/doctorItem.vue";
-import Contacts from "../components/home/contacts.vue";
+import { useAppStore } from "@/store/app";
+import Carousel from "@/components/carousels/Carousel.vue";
+import DoctorItem from "@/components/doctors/doctorItem.vue";
+import Contacts from "@/components/home/contacts.vue";
 
 const appStore = useAppStore();
 

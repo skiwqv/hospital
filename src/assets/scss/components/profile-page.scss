@@ -64,6 +64,11 @@
                 box-sizing: border-box;
             }
 
+            .info-text {
+                font-size: 18px;
+                margin-left: 5px;
+            }
+
             .info {
                 padding: 20px;
                 display: flex;
@@ -167,6 +172,12 @@
                     padding: 15px;
                     max-width: 400px;
                     font-family: $font-family-table;
+                }
+
+                .link {
+                    text-decoration: underline;
+                    color: $secondary;
+                    cursor: pointer;
                 }
             }
 

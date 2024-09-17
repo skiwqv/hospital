@@ -32,8 +32,8 @@
 </template>
 
 <script setup>
-import callIcon from "../../assets/icons/phone.svg";
-import clockIcon from "../../assets/icons/clock.svg";
-import locationIcon from "../../assets/icons/location.svg";
-import emailIcon from "../../assets/icons/email.svg";
+import callIcon from "@/assets/icons/phone.svg";
+import clockIcon from "@/assets/icons/clock.svg";
+import locationIcon from "@/assets/icons/location.svg";
+import emailIcon from "@/assets/icons/email.svg";
 </script>

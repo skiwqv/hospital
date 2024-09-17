@@ -12,7 +12,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { useAdminStore } from "../../store/admin";
+import { useAdminStore } from "@/store/admin";
 
 const adminStore = useAdminStore();
 let email = ref("");

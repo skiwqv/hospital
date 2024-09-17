@@ -43,10 +43,10 @@
 <script setup>
 import { useForm } from "vee-validate";
 import * as yup from "yup";
-import { useAppStore } from "../store/app";
-import router from "../router";
+import { useAppStore } from "@/store/app";
+import router from "@/router";
 const appStore = useAppStore();
-import { getTokenFromCookies } from "../helpers/Cookies";
+import { getTokenFromCookies } from "@/helpers/Cookies";
 
 const schema = yup.object({
   email: yup.string().email("Invalid email").required("Email is required"),

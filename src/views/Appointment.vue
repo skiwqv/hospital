@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import BaseForm from "../components/forms/baseForm.vue";
+import BaseForm from "@/components/forms/baseForm.vue";
 </script>
 
 <style></style>

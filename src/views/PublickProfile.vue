@@ -1,21 +1,33 @@
 <template>
-  <div class="profile-wrapper">
-    <h2 class="profile-text">Profile</h2>
+  <div v-if="userById" class="profile-wrapper">
+    <h2 class="profile-text">{{ `${userById.first_name} profile` }}</h2>
     <div class="profiles-holder">
-      <DoctorProfile v-if="currentUser.role == 'doctor'"></DoctorProfile>
-      <UserProfile v-else></UserProfile>
+      <DoctorProfile
+        v-if="userById.role == 'doctor'"
+        :doctor="userById"
+      ></DoctorProfile>
+      <UserProfile v-else :user="userById"></UserProfile>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
-import DoctorProfile from "../components/profile/DoctorProfile.vue";
-import UserProfile from "../components/profile/UserProfile.vue";
-import { useAppStore } from "../store/app";
-const appStore = useAppStore();
+import { computed, onMounted } from "vue";
+import DoctorProfile from "@/components/profile/publick/DoctorPublickProfile.vue";
+import UserProfile from "@/components/profile/publick/UserProfilePublick.vue";
+import { useAppStore } from "@/store/app";
+import { useRoute } from "vue-router";
 
-const currentUser = computed(() => appStore.currentUser);
+const route = useRoute();
+
+const appStore = useAppStore();
+const userById = computed(() => appStore.userById);
+
+onMounted(async () => {
+  const userId = route.params.id;
+  await appStore.getUserById(userId);
+  console.log("view publick profile", userById.value);
+});
 </script>
 
 <style></style>

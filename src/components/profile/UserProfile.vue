@@ -89,7 +89,12 @@
           </thead>
           <tbody>
             <tr v-for="(appointment, index) in appointments" :key="index">
-              <td class="table-content">{{ appointment.doctor_name }}</td>
+              <td
+                class="table-content link"
+                @click="toDoctorProfile(appointment.doctor_id)"
+              >
+                {{ appointment.doctor_name }}
+              </td>
               <td class="table-content">{{ appointment.date }}</td>
               <td class="table-content">{{ appointment.time }}</td>
               <td class="table-content">{{ appointment.message }}</td>
@@ -109,11 +114,12 @@
 
 <script setup>
 import { ref, computed, onMounted } from "vue";
-import { useAppStore } from "../../store/app";
-import { useAppointmentStore } from "../../store/appointment";
-import UploadIcon from "../../assets/icons/upload.svg";
-import DeleteIcon from "../../assets/icons/delete.svg";
-import brendaPlaceholder from "../../assets/images/brenda.jpg";
+import { useAppStore } from "@/store/app";
+import { useAppointmentStore } from "@/store/appointment";
+import UploadIcon from "@/assets/icons/upload.svg";
+import DeleteIcon from "@/assets/icons/delete.svg";
+import brendaPlaceholder from "@/assets/images/brenda.jpg";
+import router from "@/router";
 
 const appStore = useAppStore();
 const appointmentStore = useAppointmentStore();
@@ -143,6 +149,10 @@ const updateProfile = () => {
     phone: currentUser.value.phone,
   };
   appStore.updateProfile(user);
+};
+
+const toDoctorProfile = (id) => {
+  router.push(`/profile-publick/${id}`);
 };
 
 const deleteAppointment = (index) => {
