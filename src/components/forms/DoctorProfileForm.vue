@@ -119,9 +119,9 @@
 <script setup>
 import { onMounted, computed } from "vue";
 import { useForm } from "vee-validate";
-import { useAppStore } from "../../store/app";
+import { useAppStore } from "@/store/app";
 import * as yup from "yup";
-import router from "../../router";
+import router from "@/router";
 const appStore = useAppStore();
 const subRoles = computed(() => appStore.subRoles);
 

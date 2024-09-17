@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { apiClient, authorizedApiClient } from "../services/api";
+import { apiClient, authorizedApiClient } from "@/services/api";
 
 export const useAdminStore = defineStore("admin", {
   state: () => ({

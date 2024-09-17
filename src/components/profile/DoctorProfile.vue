@@ -109,11 +109,11 @@
 
 <script setup>
 import { ref, computed, onMounted } from "vue";
-import { useAppStore } from "../../store/app";
-import { useAppointmentStore } from "../../store/appointment";
-import UploadIcon from "../../assets/icons/upload.svg";
-import DeleteIcon from "../../assets/icons/delete.svg";
-import brendaPlaceholder from "../../assets/images/brenda.jpg";
+import { useAppStore } from "@/store/app";
+import { useAppointmentStore } from "@/store/appointment";
+import UploadIcon from "@/assets/icons/upload.svg";
+import DeleteIcon from "@/assets/icons/delete.svg";
+import brendaPlaceholder from "@/assets/images/brenda.jpg";
 
 const appStore = useAppStore();
 const appointmentStore = useAppointmentStore();

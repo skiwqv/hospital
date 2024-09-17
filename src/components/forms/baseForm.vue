@@ -53,7 +53,7 @@
           <option
             v-for="time in workingTime"
             :key="time"
-            :disabled="is_available"
+            :disabled="!time.is_available"
             :value="time.value"
           >
             {{ time.time }}
@@ -78,9 +78,13 @@
 import { ref, computed, onMounted } from "vue";
 import { useForm } from "vee-validate";
 import * as yup from "yup";
-import { useAppStore } from "../../store/app";
-import router from "../../router/index";
-import { useAppointmentStore } from "../../store/appointment";
+import { useAppStore } from "@/store/app";
+import { useAppointmentStore } from "@/store/appointment";
+import router from "@/router/index";
+import { useRoute } from "vue-router";
+
+const route = useRoute();
+
 const appStore = useAppStore();
 const appointmentStore = useAppointmentStore();
 const subRoles = computed(() => appStore.subRoles);
@@ -124,10 +128,21 @@ const submitForm = handleSubmit((values) => {
     message: values.message,
   };
   appointmentStore.makeAppointment(userData);
-  // router.push("/profile");
+  router.push("/profile");
 });
+
+// Используем route для получения данных из query
 
 onMounted(() => {
   appStore.getSubRoles();
+
+  // Если данные переданы через query, заполняем поля
+  if (route.query.doctor && route.query.specialty) {
+    specialties.value = route.query.specialty;
+    doctor.value = route.query.doctor;
+
+    // Загружаем список докторов для выбранной специализации
+    getDoctor(route.query.specialty);
+  }
 });
 </script>

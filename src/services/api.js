@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getTokenFromCookies } from "../helpers/Cookies";
+import { getTokenFromCookies } from "@/helpers/Cookies";
 const token = getTokenFromCookies("access");
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_APP_SERVICE_URL,

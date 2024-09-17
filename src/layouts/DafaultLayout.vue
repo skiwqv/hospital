@@ -151,21 +151,21 @@
 
 <script setup>
 import { ref, computed } from "vue";
-import callIcon from "../assets/icons/phone.svg";
-import clockIcon from "../assets/icons/clock.svg";
-import locationIcon from "../assets/icons/location.svg";
-import linkedinIcon from "../assets/icons/linkdeIn.svg";
-import facebookIcon from "../assets/icons/facebook.svg";
-import instagramIcon from "../assets/icons/instagram.svg";
-import BurgerMenuIcon from "../assets/icons/burger-menu.svg";
-import CloseIcon from "../assets/icons/close.svg";
-import ProfileIcon from "../assets/icons/profile.svg";
-import ProfileCardIcon from "../assets/icons/profileCard.svg";
-import LogOutIcon from "../assets/icons/logout.svg";
-import AdminIcon from "../assets/icons/admin.svg";
-import router from "../router";
+import callIcon from "@/assets/icons/phone.svg";
+import clockIcon from "@/assets/icons/clock.svg";
+import locationIcon from "@/assets/icons/location.svg";
+import linkedinIcon from "@/assets/icons/linkdeIn.svg";
+import facebookIcon from "@/assets/icons/facebook.svg";
+import instagramIcon from "@/assets/icons/instagram.svg";
+import BurgerMenuIcon from "@/assets/icons/burger-menu.svg";
+import CloseIcon from "@/assets/icons/close.svg";
+import ProfileIcon from "@/assets/icons/profile.svg";
+import ProfileCardIcon from "@/assets/icons/profileCard.svg";
+import LogOutIcon from "@/assets/icons/logout.svg";
+import AdminIcon from "@/assets/icons/admin.svg";
+import router from "@/router";
 import { useRoute } from "vue-router";
-import { useAppStore } from "../store/app";
+import { useAppStore } from "@/store/app";
 const appStore = useAppStore();
 
 const currentUser = computed(() => appStore.currentUser);

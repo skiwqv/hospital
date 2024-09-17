@@ -10,9 +10,9 @@
 
 <script setup>
 import { ref, computed } from "vue";
-import DoctorProfile from "../components/profile/DoctorProfile.vue";
-import UserProfile from "../components/profile/UserProfile.vue";
-import { useAppStore } from "../store/app";
+import DoctorProfile from "@/components/profile/DoctorProfile.vue";
+import UserProfile from "@/components/profile/UserProfile.vue";
+import { useAppStore } from "@/store/app";
 const appStore = useAppStore();
 
 const currentUser = computed(() => appStore.currentUser);
