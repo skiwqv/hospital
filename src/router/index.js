@@ -103,7 +103,7 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  const token = getTokenFromCookies("access");
+  const token = window.localStorage.getItem("access");
   const appStore = useAppStore();
   let currentUser = appStore.currentUser;
 

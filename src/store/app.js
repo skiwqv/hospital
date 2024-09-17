@@ -15,7 +15,7 @@ export const useAppStore = defineStore("app", {
   actions: {
     async registerUser(user) {
       try {
-        await apiClient.post("/users/patient-registration/", user);
+        await apiClient.post("/patient/registration/", user);
       } catch (error) {
         console.error("Failed to register user:", error);
       }
@@ -24,6 +24,7 @@ export const useAppStore = defineStore("app", {
     async logInUser(user) {
       try {
         const { data } = await apiClient.post("/users/login/", user);
+        window.localStorage.setItem("access", data.accessToken);
         this.setAuthTokens(data.accessToken, data.refreshToken);
         this.setAuthorizationHeader(data.accessToken);
       } catch (error) {
@@ -55,7 +56,7 @@ export const useAppStore = defineStore("app", {
     },
     async checkTocken(key) {
       try {
-        const resp = await apiClient.post("/users/doctor/key-validate/", {
+        const resp = await apiClient.post("/doctor/key-validate/", {
           access_key: key,
         });
         localStorage.setItem("doctor_id", resp.data.id);
@@ -66,7 +67,7 @@ export const useAppStore = defineStore("app", {
     },
     async getSubRoles() {
       try {
-        const resp = await apiClient.get("/users/users/subroles/");
+        const resp = await apiClient.get("/users/subroles/");
         this.subRoles = resp.data.sub_roles;
         console.log(this.subRoles);
       } catch (error) {
@@ -75,7 +76,7 @@ export const useAppStore = defineStore("app", {
     },
     async finishDoctorRegister(user) {
       try {
-        await apiClient.patch("/users/doctor/update/", user);
+        await apiClient.patch("/doctor/update/", user);
       } catch (error) {
         console.error("doctor failed:", error);
       }
@@ -112,8 +113,7 @@ export const useAppStore = defineStore("app", {
         console.error("doctor failed:", error);
       }
     },
-    setAuthTokens(accessToken, refreshToken) {
-      document.cookie = `access=${accessToken};Secure;max-age=86400;`;
+    setAuthTokens(refreshToken) {
       document.cookie = `refresh=${refreshToken};Secure;max-age=86400;`;
     },
 
@@ -124,7 +124,7 @@ export const useAppStore = defineStore("app", {
     },
 
     clearAuthTokens() {
-      deleteCookie("access");
+      window.localStorage.removeItem("access");
       deleteCookie("refresh");
     },
   },

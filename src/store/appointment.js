@@ -35,14 +35,12 @@ export const useAppointmentStore = defineStore("appointment", {
     },
     async makeAppointment(data) {
       try {
-        await authorizedApiClient.post("/patient/create-appointment/", data);
+        await authorizedApiClient.post("/appointment/create/", data);
       } catch (error) {}
     },
     async getAppointments() {
       try {
-        const { data } = await authorizedApiClient.get(
-          "/patient/get-appointments/"
-        );
+        const { data } = await authorizedApiClient.get("/appointment/get/");
         this.appointments = data;
       } catch (error) {}
     },

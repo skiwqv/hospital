@@ -11,7 +11,7 @@ export const useAdminStore = defineStore("admin", {
   actions: {
     async createDoctor(email) {
       try {
-        const resp = await authorizedApiClient.post("/users/doctor/create/", {
+        const resp = await authorizedApiClient.post("/doctor/registration/", {
           email: email,
         });
         console.log(resp.data);
