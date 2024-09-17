@@ -1,7 +1,9 @@
 import axios from "axios";
 import { getTokenFromCookies, deleteCookie } from "@/helpers/Cookies";
+
 const token = window.localStorage.getItem("access");
-const refresh = getTokenFromCookies("refresh");
+const refreshToken = getTokenFromCookies("refresh");
+
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_APP_SERVICE_URL,
 });
@@ -13,18 +15,14 @@ const authorizedApiClient = axios.create({
   },
 });
 
-if (token) {
-  authorizedApiClient.defaults.headers.common[
-    "Authorization"
-  ] = `Bearer ${token}`;
-}
+const isCorrectRefreshError = (status) => status === 401;
 
 const refreshTokenRequest = async () => {
   try {
     const response = await authorizedApiClient.post("/api/token/refresh/", {
       refresh: refreshToken,
     });
-    const newAccessToken = response.data.access_token;
+    const newAccessToken = response.data.access;
     window.localStorage.setItem("access", newAccessToken);
     return newAccessToken;
   } catch (error) {
@@ -32,33 +30,41 @@ const refreshTokenRequest = async () => {
   }
 };
 
-// authorizedApiClient.interceptors.response.use(
-//   (response) => response,
-//   async (error) => {
-//     const originalRequest = error.config;
-//     if (
-//       error.response &&
-//       error.response.status === 401 &&
-//       !originalRequest._retry
-//     ) {
-//       originalRequest._retry = true;
-//       try {
-//         const newAccessToken = await refreshTokenRequest();
+const errorInterceptor = async (error) => {
+  console.log("Interceptor triggered");
+  const originalRequest = error.config;
+  const { status } = error.response;
 
-//         authorizedApiClient.defaults.headers.common[
-//           "Authorization"
-//         ] = `Bearer ${newAccessToken}`;
-//         originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
+  if (isCorrectRefreshError(status)) {
+    try {
+      const newToken = await refreshTokenRequest();
 
-//         return authorizedApiClient(originalRequest);
-//       } catch (refreshError) {
-//         window.localStorage.removeItem("access");
-//         deleteCookie("refresh");
-//         return Promise.reject(refreshError);
-//       }
-//     }
-//     return Promise.reject(error);
-//   }
-// );
+      authorizedApiClient.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${newToken}`;
+
+      originalRequest.headers["Authorization"] = `Bearer ${newToken}`;
+
+      return authorizedApiClient(originalRequest);
+    } catch (tokenRefreshError) {
+      window.localStorage.removeItem("access");
+      deleteCookie("refresh");
+      return Promise.reject(tokenRefreshError);
+    }
+  }
+
+  return Promise.reject(error);
+};
+
+if (token) {
+  authorizedApiClient.defaults.headers.common[
+    "Authorization"
+  ] = `Bearer ${token}`;
+
+  authorizedApiClient.interceptors.response.use(
+    (response) => response,
+    (error) => errorInterceptor(error)
+  );
+}
 
 export { apiClient, authorizedApiClient };

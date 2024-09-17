@@ -25,7 +25,7 @@ export const useAppStore = defineStore("app", {
       try {
         const { data } = await apiClient.post("/users/login/", user);
         window.localStorage.setItem("access", data.accessToken);
-        this.setAuthTokens(data.accessToken, data.refreshToken);
+        this.setAuthTokens(data.refreshToken);
         this.setAuthorizationHeader(data.accessToken);
       } catch (error) {
         console.error("Login failed:", error);
@@ -114,7 +114,7 @@ export const useAppStore = defineStore("app", {
       }
     },
     setAuthTokens(refreshToken) {
-      document.cookie = `refresh=${refreshToken};Secure;max-age=86400;`;
+      document.cookie = `refresh=${refreshToken};Secure;max-age=604800;`;
     },
 
     setAuthorizationHeader(token) {
