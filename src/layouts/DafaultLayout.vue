@@ -1,11 +1,11 @@
 <template>
   <header class="header">
     <div class="upper-header-wrapper">
-      <div class="logo-wrapper">
+      <router-link to="/" class="logo-wrapper">
         <span class="logo-text"
           >Med<span class="logo-text-secondary">dical</span></span
         >
-      </div>
+      </router-link>
       <div class="info-wrapper">
         <div class="info">
           <callIcon class="info-icon" />
@@ -138,7 +138,7 @@
     </div>
     <div class="creditionals-wrapper">
       <span class="footer-title"
-        >© 2021 Hospital’s name All Rights Reserved by PNTEC-LTD</span
+        >© 2024 Meddical All Rights Reserved by PNTEC-LTD</span
       >
       <div class="social-wrapper">
         <linkedinIcon class="footer-icon"></linkedinIcon>
@@ -166,7 +166,10 @@ import AdminIcon from "@/assets/icons/admin.svg";
 import router from "@/router";
 import { useRoute } from "vue-router";
 import { useAppStore } from "@/store/app";
+import { useToast } from "vue-toast-notification"; // Импортируем useToast
+
 const appStore = useAppStore();
+const $toast = useToast(); // Инициализация тостов
 
 const currentUser = computed(() => appStore.currentUser);
 
@@ -179,10 +182,15 @@ const toSignIn = () => {
   isMenuOpen.value = !isMenuOpen.value;
 };
 
-const logOut = () => {
-  appStore.logOut();
-  isMenuOpen.value = !isMenuOpen.value;
-  router.push("/");
+const logOut = async () => {
+  try {
+    await appStore.logOut();
+    isMenuOpen.value = !isMenuOpen.value;
+    $toast.success("You have successfully logged out.", { position: "bottom" });
+    router.push("/");
+  } catch (err) {
+    $toast.error("Something went wrong.", { position: "bottom" });
+  }
 };
 
 const toProfile = () => {

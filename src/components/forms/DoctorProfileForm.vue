@@ -122,7 +122,11 @@ import { useForm } from "vee-validate";
 import { useAppStore } from "@/store/app";
 import * as yup from "yup";
 import router from "@/router";
+import { useToast } from "vue-toast-notification"; // Импортируем useToast
+
 const appStore = useAppStore();
+const $toast = useToast(); // Инициализация тостов
+
 const subRoles = computed(() => appStore.subRoles);
 
 const schema = yup.object({
@@ -164,20 +168,29 @@ const [confirmPassword] = defineField("confirmPassword", {
   validateOnModelUpdate: false,
 });
 
-const signIn = handleSubmit((values) => {
-  const userData = {
-    first_name: values.name,
-    last_name: values.surname,
-    email: values.email,
-    phone: values.phone,
-    gender: values.gender,
-    date_birth: values.bdate,
-    password: values.password,
-    sub_role: values.specialties,
-    id: localStorage.getItem("doctor_id"),
-  };
-  appStore.finishDoctorRegister(userData);
-  router.push("/signIn");
+const signIn = handleSubmit(async (values) => {
+  try {
+    const userData = {
+      first_name: values.name,
+      last_name: values.surname,
+      email: values.email,
+      phone: values.phone,
+      gender: values.gender,
+      date_birth: values.bdate,
+      password: values.password,
+      sub_role: values.specialties,
+      id: localStorage.getItem("doctor_id"),
+    };
+    await appStore.finishDoctorRegister(userData);
+    $toast.success("Registration successful!", {
+      position: "bottom",
+    });
+    router.push("/signIn");
+  } catch (error) {
+    $toast.error("Registration failed. Please try again.", {
+      position: "bottom",
+    });
+  }
 });
 
 onMounted(() => {

@@ -26,7 +26,6 @@ const userById = computed(() => appStore.userById);
 onMounted(async () => {
   const userId = route.params.id;
   await appStore.getUserById(userId);
-  console.log("view publick profile", userById.value);
 });
 </script>
 

@@ -69,7 +69,6 @@ export const useAppStore = defineStore("app", {
       try {
         const resp = await apiClient.get("/users/subroles/");
         this.subRoles = resp.data.sub_roles;
-        console.log(this.subRoles);
       } catch (error) {
         console.error("Check token failed:", error);
       }
@@ -108,7 +107,6 @@ export const useAppStore = defineStore("app", {
           },
         });
         this.userById = data;
-        console.log("userData", this.userById);
       } catch (error) {
         console.error("doctor failed:", error);
       }

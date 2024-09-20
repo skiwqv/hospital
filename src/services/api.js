@@ -31,7 +31,6 @@ const refreshTokenRequest = async () => {
 };
 
 const errorInterceptor = async (error) => {
-  console.log("Interceptor triggered");
   const originalRequest = error.config;
   const { status } = error.response;
 

@@ -69,6 +69,12 @@ const routes = [
         component: () => import("@/views/PublickProfile.vue"),
         meta: { requiresAuth: true },
       },
+      {
+        path: "/medical-book",
+        name: "Medical Book",
+        component: () => import("@/views/MedicalBook.vue"),
+        meta: { requiresAuth: true },
+      },
     ],
   },
   {

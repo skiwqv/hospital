@@ -116,7 +116,6 @@ const specialties = ref([
 
 onMounted(async () => {
   await appStore.getAllDoctors();
-  console.log(allDoctors.value);
 });
 </script>
 
