@@ -14,7 +14,6 @@ export const useAdminStore = defineStore("admin", {
         const resp = await authorizedApiClient.post("/doctor/registration/", {
           email: email,
         });
-        console.log(resp.data);
 
         return resp.data;
       } catch (error) {

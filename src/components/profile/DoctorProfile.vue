@@ -12,12 +12,18 @@
             alt=""
           />
           <input type="file" required hidden id="imge" @change="onFileChange" />
-          <label for="imge">
+          <label for="imge" title="Upload your photo">
             <UploadIcon class="upload-icon"></UploadIcon>
           </label>
         </div>
         <h3 class="profile-name">{{ fullName }}</h3>
-        <button class="update-button" @click="updateProfile">Update</button>
+        <button
+          class="update-button"
+          title="Update your profile"
+          @click="updateProfile"
+        >
+          Update
+        </button>
       </div>
       <div class="info-box">
         <h4 class="info-title">General Information</h4>
@@ -89,11 +95,17 @@
           </thead>
           <tbody>
             <tr v-for="(appointment, index) in appointments" :key="index">
-              <td class="table-content">{{ appointment.patient }}</td>
+              <td
+                class="table-content link"
+                title="Open patient profile"
+                @click="toProfile(appointment.patient_id)"
+              >
+                {{ appointment.patient_name }}
+              </td>
               <td class="table-content">{{ appointment.date }}</td>
               <td class="table-content">{{ appointment.time }}</td>
               <td class="table-content">{{ appointment.message }}</td>
-              <td class="icon-wrapper">
+              <td class="icon-wrapper" title="Delete Appointment">
                 <DeleteIcon
                   class="delete-icon"
                   @click="cancelAppointment(index)"
@@ -111,13 +123,15 @@
 import { ref, computed, onMounted } from "vue";
 import { useAppStore } from "@/store/app";
 import { useAppointmentStore } from "@/store/appointment";
+import { useToast } from "vue-toast-notification";
 import UploadIcon from "@/assets/icons/upload.svg";
 import DeleteIcon from "@/assets/icons/delete.svg";
 import brendaPlaceholder from "@/assets/images/brenda.jpg";
+import router from "@/router";
 
 const appStore = useAppStore();
 const appointmentStore = useAppointmentStore();
-
+const $toast = useToast();
 const currentUser = computed(() => appStore.currentUser);
 const appointments = computed(() => appointmentStore.appointments);
 const fullName = computed(() => {
@@ -134,23 +148,38 @@ const onFileChange = (event) => {
 };
 
 const updateProfile = () => {
-  const user = {
-    first_name: currentUser.value.first_name,
-    last_name: currentUser.value.last_name,
-    email: currentUser.value.email,
-    avatar: imageSrc.value,
-    phone: currentUser.value.phone,
-  };
-  appStore.updateProfile(user);
+  try {
+    const user = {
+      first_name: currentUser.value.first_name,
+      last_name: currentUser.value.last_name,
+      email: currentUser.value.email,
+      avatar: imageSrc.value,
+      phone: currentUser.value.phone,
+    };
+    appStore.updateProfile(user);
+    $toast.success("Profile updated successfully", {
+      position: "bottom",
+    });
+  } catch (error) {
+    $toast.error("An error occurred while updating profile", {
+      position: "bottom",
+    });
+  }
 };
 
 const cancelAppointment = (index) => {
   appointments.value.splice(index, 1);
+  $toast.info("Appointment cancelled", {
+    position: "bottom",
+  });
+};
+
+const toProfile = (id) => {
+  router.push(`/profile-publick/${id}`);
 };
 
 onMounted(async () => {
   appointmentStore.getAppointments();
-  console.log(appointments.value);
 });
 </script>
 

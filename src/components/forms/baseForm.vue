@@ -28,7 +28,7 @@
           :class="{ 'input-error': errors.doctor }"
           :disabled="!specialties"
         >
-          <option :value="string" disabled selected>Select Doctor</option>
+          <option :value="doctor" disabled selected>Select Doctor</option>
           <option v-for="doc in doctors" :key="doc.id" :value="doc.id">
             {{ `${doc.first_name} ${doc.last_name}` }}
           </option>
@@ -49,7 +49,7 @@
           :disabled="!date"
           @focus="getTime(doctor, date)"
         >
-          <option :value="string" disabled selected>Select Time</option>
+          <option :value="time" disabled selected>Select Time</option>
           <option
             v-for="time in workingTime"
             :key="time"
@@ -82,8 +82,10 @@ import { useAppStore } from "@/store/app";
 import { useAppointmentStore } from "@/store/appointment";
 import router from "@/router/index";
 import { useRoute } from "vue-router";
+import { useToast } from "vue-toast-notification"; // Добавляем импорт тостов
 
 const route = useRoute();
+const $toast = useToast(); // Инициализируем тосты
 
 const appStore = useAppStore();
 const appointmentStore = useAppointmentStore();
@@ -127,8 +129,17 @@ const submitForm = handleSubmit((values) => {
     time: values.time,
     message: values.message,
   };
-  appointmentStore.makeAppointment(userData);
-  router.push("/profile");
+  try {
+    appointmentStore.makeAppointment(userData);
+    $toast.success("Appointment booked successfully", {
+      position: "bottom",
+    });
+    router.push("/profile");
+  } catch (error) {
+    $toast.error("Failed to book appointment", {
+      position: "bottom",
+    });
+  }
 });
 
 // Используем route для получения данных из query
@@ -146,3 +157,5 @@ onMounted(() => {
   }
 });
 </script>
+
+<style></style>

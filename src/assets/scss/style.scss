@@ -87,3 +87,132 @@ body {
         pointer-events: none;
     }
 }
+
+.form-wrapper {
+    background-color: #fff;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 900px;
+    padding: 20px;
+    box-sizing: border-box;
+
+    .title-base {
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .doctor {
+        grid-column: 1 / -1;
+    }
+
+    .form-holder {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        justify-content: center;
+
+        @include respond-to(sm) {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            gap: 0;
+            align-items: stretch;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .base-input,
+        .select-wrapper {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 10px;
+
+            &:disabled {
+                opacity: 0.7;
+                cursor: not-allowed;
+            }
+
+            @include respond-to(sm) {
+                width: auto;
+            }
+
+            select {
+                width: 100%;
+
+                @include respond-to(sm) {
+                    width: auto;
+                }
+            }
+        }
+
+        .input-error {
+            border: 1px solid red;
+        }
+
+        .error {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+    }
+
+    .form-button {
+        grid-column: 1 / -1;
+        background-color: $accent;
+        border: none;
+        font-weight: 500;
+        font-size: 16px;
+        height: 50px;
+        line-height: 140%;
+        text-transform: uppercase;
+        text-align: center;
+        color: $primary;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+        width: 100%;
+        max-width: 268px;
+        margin: 20px auto 0;
+        cursor: pointer;
+
+        &:hover {
+            background-color: $accent-hover;
+        }
+    }
+
+    .base-subtitle {
+        text-align: center;
+        margin-top: 20px;
+
+        .form-link {
+            color: $secondary;
+        }
+    }
+
+    .base-textarea {
+        background-color: $primary;
+        grid-column: span 2;
+        height: 190px;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 140%;
+        color: $white;
+        padding: 22px 0 0 22px;
+        resize: none;
+        outline: none;
+
+        &::placeholder {
+            color: $white;
+        }
+
+        &:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+    }
+}

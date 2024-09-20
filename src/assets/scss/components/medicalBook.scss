@@ -1,14 +1,22 @@
-.profile-page {
-    .general {
+.medical-wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 0 80px;
+    background-color: #f1f5f9;
+
+    .medical-text {
+        font-size: 32px;
+        margin: 0.67em 0;
+        border-bottom: 3px solid #333;
+        width: 20%;
+    }
+
+    .medical-general {
         display: flex;
         background-color: $white;
         border-radius: 10px;
         align-items: center;
         margin-bottom: 20px;
-
-        @include respond-to(md) {
-            flex-direction: column;
-        }
 
         .avatar-box {
             text-align: center;
@@ -20,7 +28,6 @@
                 position: relative;
 
                 .avatar {
-                    border-radius: 50%;
                     margin-bottom: 10px;
                     width: 120px;
                     height: 120px;
@@ -111,16 +118,15 @@
                 }
             }
         }
-
     }
 
-    .appointments {
+    .records {
         padding: 20px;
         background-color: white;
         border-radius: 10px;
         margin-bottom: 30px;
 
-        .appointments-table {
+        .records-table {
             overflow-y: scroll;
             max-height: 350px;
 
@@ -152,19 +158,40 @@
                     }
                 }
 
-                .table-content {
-                    border-bottom: 1px solid #eee;
-                    border-left: 1px solid #eee;
-                    transition: 0.3s;
-                    padding: 15px;
-                    max-width: 400px;
-                    font-family: $font-family-table;
-                }
-
-                .link {
-                    text-decoration: underline;
-                    color: $secondary;
+                .table-wrapper {
+                    transition: background-color .3s;
                     cursor: pointer;
+
+                    &:hover {
+                        background-color: #e2e2e2;
+                    }
+
+                    .table-content {
+                        border-bottom: 1px solid #eee;
+                        border-left: 1px solid #eee;
+                        transition: 0.3s;
+                        padding: 15px;
+                        max-width: 400px;
+                        font-family: $font-family-table;
+                    }
+
+                    .link {
+                        text-decoration: underline;
+                        color: $secondary;
+                        cursor: pointer;
+                    }
+
+                    .icon-wrapper {
+                        text-align: center;
+                        border-left: 1px solid #eee;
+                        border-bottom: 1px solid #eee;
+
+                        .icon {
+                            width: 30px;
+                            height: 30px;
+                            text-align: center;
+                        }
+                    }
                 }
             }
 
@@ -183,16 +210,5 @@
             }
         }
 
-    }
-
-    .record-form-wrapper {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 30px;
-
-        .form-holder {
-            display: flex;
-            flex-direction: column;
-        }
     }
 }
