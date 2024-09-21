@@ -49,11 +49,11 @@
           :disabled="!date"
           @focus="getTime(doctor, date)"
         >
-          <option :value="string" disabled selected>Select Time</option>
+          <option :value="time" disabled selected>Select Time</option>
           <option
             v-for="time in workingTime"
             :key="time"
-            :disabled="is_available"
+            :disabled="!time.is_available"
             :value="time.value"
           >
             {{ time.time }}
@@ -78,9 +78,13 @@
 import { ref, computed, onMounted } from "vue";
 import { useForm } from "vee-validate";
 import * as yup from "yup";
-import { useAppStore } from "../../store/app";
-import router from "../../router/index";
-import { useAppointmentStore } from "../../store/appointment";
+import { useAppStore } from "@/store/app";
+import { useAppointmentStore } from "@/store/appointment";
+import router from "@/router";
+import { useRoute } from "vue-router";
+
+const route = useRoute();
+
 const appStore = useAppStore();
 const appointmentStore = useAppointmentStore();
 const subRoles = computed(() => appStore.subRoles);
@@ -116,18 +120,30 @@ const getTime = async (id, date) => {
   await appointmentStore.getTime(id, date);
 };
 
-const submitForm = handleSubmit((values) => {
+const submitForm = handleSubmit(async (values) => {
   const userData = {
     doctor: values.doctor,
     date: values.date,
     time: values.time,
     message: values.message,
   };
-  appointmentStore.makeAppointment(userData);
-  // router.push("/profile");
+  try {
+    await appointmentStore.makeAppointment(userData);
+    router.push("/profile");
+  } catch (error) {}
 });
 
 onMounted(() => {
   appStore.getSubRoles();
+
+  if (route.query.doctor && route.query.specialty) {
+    specialties.value = route.query.specialty;
+    doctor.value = route.query.doctor;
+
+    // Загружаем список докторов для выбранной специализации
+    getDoctor(route.query.specialty);
+  }
 });
 </script>
+
+<style></style>

@@ -34,12 +34,12 @@
     <div class="tabs-images">
       <img
         class="tab-image"
-        src="../../assets/images/service2.png"
+        src="@/assets/images/service2.png"
         alt="service image"
       />
       <img
         class="tab-image"
-        src="../../assets/images/service1.png"
+        src="@/assets/images/service1.png"
         alt="service image"
       />
     </div>
@@ -48,10 +48,10 @@
 
 <script setup>
 import { ref, markRaw } from "vue";
-import tab1 from "../../assets/icons/tab1.svg";
-import tab2 from "../../assets/icons/tab2.svg";
-import tab3 from "../../assets/icons/tab3.svg";
-import tab4 from "../../assets/icons/tab4.svg";
+import tab1 from "@/assets/icons/tab1.svg";
+import tab2 from "@/assets/icons/tab2.svg";
+import tab3 from "@/assets/icons/tab3.svg";
+import tab4 from "@/assets/icons/tab4.svg";
 
 const tabIcons = {
   tab1: markRaw(tab1),

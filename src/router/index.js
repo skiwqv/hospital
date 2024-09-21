@@ -1,86 +1,97 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { getTokenFromCookies } from "../helpers/Cookies";
-import { useAppStore } from "../store/app";
+import { getTokenFromCookies } from "@/helpers/Cookies";
+import { useAppStore } from "@/store/app";
 const routes = [
   {
     path: "/",
-    component: () => import("../layouts/DafaultLayout.vue"),
+    component: () => import("@/layouts/DafaultLayout.vue"),
     children: [
       {
         path: "",
         name: "Home",
-        component: () => import("../views/Home.vue"),
+        component: () => import("@/views/Home.vue"),
       },
       {
         path: "/signUp",
         name: "Sign Up",
-        component: () => import("../views/Registration.vue"),
+        component: () => import("@/views/Registration.vue"),
         redirect: "/signUp/user",
         meta: { requiresGuest: true },
         children: [
           {
             path: "/signUp/user",
             name: "User Form",
-            component: () => import("../components/forms/UserForm.vue"),
+            component: () => import("@/components/forms/UserForm.vue"),
           },
           {
             path: "/signUp/doctor",
             name: "Doctor Form",
-            component: () => import("../components/forms/DoctorForm.vue"),
+            component: () => import("@/components/forms/DoctorForm.vue"),
           },
           {
             path: "/signUp/doctorProfile",
             name: "Doctor Profile",
-            component: () =>
-              import("../components/forms/DoctorProfileForm.vue"),
+            component: () => import("@/components/forms/DoctorProfileForm.vue"),
           },
         ],
       },
       {
         path: "/signIn",
         name: "SignIn",
-        component: () => import("../views/LogIn.vue"),
+        component: () => import("@/views/LogIn.vue"),
         meta: { requiresGuest: true },
       },
       {
         path: "/about",
         name: "About",
-        component: () => import("../views/About.vue"),
+        component: () => import("@/views/About.vue"),
       },
       {
         path: "/doctors",
         name: "Doctors",
-        component: () => import("../views/Doctors.vue"),
+        component: () => import("@/views/Doctors.vue"),
       },
       {
         path: "/appointment",
         name: "Appointment",
-        component: () => import("../views/Appointment.vue"),
+        component: () => import("@/views/Appointment.vue"),
         meta: { requiresAuth: true },
       },
       {
         path: "/profile",
         name: "Profile",
-        component: () => import("../views/Profile.vue"),
+        component: () => import("@/views/Profile.vue"),
         meta: { requiresAuth: true },
       },
       {
         path: "/profile-publick/:id",
         name: "publick profile",
-        component: () => import("../views/PublickProfile.vue"),
+        component: () => import("@/views/PublickProfile.vue"),
+        meta: { requiresAuth: true },
+      },
+      {
+        path: "/medical-book",
+        name: "Medical Book",
+        component: () => import("@/views/MedicalBook.vue"),
+        meta: { requiresAuth: true },
+      },
+      {
+        path: "/record/:id",
+        name: "Record",
+        component: () => import("@/views/Record.vue"),
         meta: { requiresAuth: true },
       },
     ],
   },
   {
     path: "/admin",
-    component: () => import("../layouts/AdminLayout.vue"),
+    component: () => import("@/layouts/AdminLayout.vue"),
     meta: { requiresAuth: true, requiresAdmin: true },
     children: [
       {
         path: "",
         name: "HomeAdmin",
-        component: () => import("../views/admin/HomeAdmin.vue"),
+        component: () => import("@/views/admin/HomeAdmin.vue"),
       },
     ],
   },
@@ -104,7 +115,7 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  const token = getTokenFromCookies("access");
+  const token = window.localStorage.getItem("access");
   const appStore = useAppStore();
   let currentUser = appStore.currentUser;
 

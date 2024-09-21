@@ -1,11 +1,11 @@
 <template>
   <header class="header">
     <div class="upper-header-wrapper">
-      <div class="logo-wrapper">
+      <router-link to="/" class="logo-wrapper">
         <span class="logo-text"
           >Med<span class="logo-text-secondary">dical</span></span
         >
-      </div>
+      </router-link>
       <div class="info-wrapper">
         <div class="info">
           <callIcon class="info-icon" />
@@ -138,7 +138,7 @@
     </div>
     <div class="creditionals-wrapper">
       <span class="footer-title"
-        >© 2021 Hospital’s name All Rights Reserved by PNTEC-LTD</span
+        >© 2024 Meddical All Rights Reserved by PNTEC-LTD</span
       >
       <div class="social-wrapper">
         <linkedinIcon class="footer-icon"></linkedinIcon>
@@ -151,21 +151,22 @@
 
 <script setup>
 import { ref, computed } from "vue";
-import callIcon from "../assets/icons/phone.svg";
-import clockIcon from "../assets/icons/clock.svg";
-import locationIcon from "../assets/icons/location.svg";
-import linkedinIcon from "../assets/icons/linkdeIn.svg";
-import facebookIcon from "../assets/icons/facebook.svg";
-import instagramIcon from "../assets/icons/instagram.svg";
-import BurgerMenuIcon from "../assets/icons/burger-menu.svg";
-import CloseIcon from "../assets/icons/close.svg";
-import ProfileIcon from "../assets/icons/profile.svg";
-import ProfileCardIcon from "../assets/icons/profileCard.svg";
-import LogOutIcon from "../assets/icons/logout.svg";
-import AdminIcon from "../assets/icons/admin.svg";
-import router from "../router";
+import callIcon from "@/assets/icons/phone.svg";
+import clockIcon from "@/assets/icons/clock.svg";
+import locationIcon from "@/assets/icons/location.svg";
+import linkedinIcon from "@/assets/icons/linkdeIn.svg";
+import facebookIcon from "@/assets/icons/facebook.svg";
+import instagramIcon from "@/assets/icons/instagram.svg";
+import BurgerMenuIcon from "@/assets/icons/burger-menu.svg";
+import CloseIcon from "@/assets/icons/close.svg";
+import ProfileIcon from "@/assets/icons/profile.svg";
+import ProfileCardIcon from "@/assets/icons/profileCard.svg";
+import LogOutIcon from "@/assets/icons/logout.svg";
+import AdminIcon from "@/assets/icons/admin.svg";
+import router from "@/router";
 import { useRoute } from "vue-router";
-import { useAppStore } from "../store/app";
+import { useAppStore } from "@/store/app";
+
 const appStore = useAppStore();
 
 const currentUser = computed(() => appStore.currentUser);
@@ -179,10 +180,12 @@ const toSignIn = () => {
   isMenuOpen.value = !isMenuOpen.value;
 };
 
-const logOut = () => {
-  appStore.logOut();
-  isMenuOpen.value = !isMenuOpen.value;
-  router.push("/");
+const logOut = async () => {
+  try {
+    await appStore.logOut();
+    isMenuOpen.value = !isMenuOpen.value;
+    router.push("/");
+  } catch (err) {}
 };
 
 const toProfile = () => {

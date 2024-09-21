@@ -119,10 +119,12 @@
 <script setup>
 import { onMounted, computed } from "vue";
 import { useForm } from "vee-validate";
-import { useAppStore } from "../../store/app";
+import { useAppStore } from "@/store/app";
 import * as yup from "yup";
-import router from "../../router";
+import router from "@/router";
+
 const appStore = useAppStore();
+
 const subRoles = computed(() => appStore.subRoles);
 
 const schema = yup.object({
@@ -164,20 +166,22 @@ const [confirmPassword] = defineField("confirmPassword", {
   validateOnModelUpdate: false,
 });
 
-const signIn = handleSubmit((values) => {
-  const userData = {
-    first_name: values.name,
-    last_name: values.surname,
-    email: values.email,
-    phone: values.phone,
-    gender: values.gender,
-    date_birth: values.bdate,
-    password: values.password,
-    sub_role: values.specialties,
-    id: localStorage.getItem("doctor_id"),
-  };
-  appStore.finishDoctorRegister(userData);
-  router.push("/signIn");
+const signIn = handleSubmit(async (values) => {
+  try {
+    const userData = {
+      first_name: values.name,
+      last_name: values.surname,
+      email: values.email,
+      phone: values.phone,
+      gender: values.gender,
+      date_birth: values.bdate,
+      password: values.password,
+      sub_role: values.specialties,
+      id: localStorage.getItem("doctor_id"),
+    };
+    await appStore.finishDoctorRegister(userData);
+    router.push("/signIn");
+  } catch (error) {}
 });
 
 onMounted(() => {

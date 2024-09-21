@@ -1,35 +1,50 @@
 import { defineStore } from "pinia";
-import { apiClient, authorizedApiClient } from "../services/api";
-import { getTokenFromCookies, deleteCookie } from "../helpers/Cookies";
+import { apiClient, authorizedApiClient } from "@/services/api";
+import { getTokenFromCookies, deleteCookie } from "@/helpers/Cookies";
+import { useToast } from "vue-toast-notification";
 
 export const useAppStore = defineStore("app", {
   state: () => ({
     currentUser: null,
     subRoles: null,
     allDoctors: null,
+    userById: null,
   }),
 
   getters: {},
 
   actions: {
     async registerUser(user) {
+      const $toast = useToast();
       try {
-        await apiClient.post("/users/patient-registration/", user);
+        await apiClient.post("/patient/registration/", user);
+        $toast.success("User registered successfully", {
+          position: "bottom",
+        });
       } catch (error) {
+        $toast.error("Failed to register user", {
+          position: "bottom",
+        });
         console.error("Failed to register user:", error);
       }
     },
-
     async logInUser(user) {
+      const $toast = useToast();
       try {
         const { data } = await apiClient.post("/users/login/", user);
-        this.setAuthTokens(data.accessToken, data.refreshToken);
+        window.localStorage.setItem("access", data.accessToken);
+        this.setAuthTokens(data.refreshToken);
         this.setAuthorizationHeader(data.accessToken);
+        $toast.success("Logged in successfully", {
+          position: "bottom",
+        });
       } catch (error) {
+        $toast.error("Login failed", {
+          position: "bottom",
+        });
         console.error("Login failed:", error);
       }
     },
-
     async getUserData() {
       try {
         const { data } = await authorizedApiClient.get("/users/detail/");
@@ -41,6 +56,7 @@ export const useAppStore = defineStore("app", {
     },
 
     async logOut() {
+      const $toast = useToast();
       try {
         const refreshToken = getTokenFromCookies("refresh");
         await authorizedApiClient.post("/users/logout/", {
@@ -48,13 +64,19 @@ export const useAppStore = defineStore("app", {
         });
         this.clearAuthTokens();
         this.currentUser = null;
+        $toast.success("Logged out successfully", {
+          position: "bottom",
+        });
       } catch (error) {
+        $toast.error("Logout failed", {
+          position: "bottom",
+        });
         console.error("Logout failed:", error);
       }
     },
     async checkTocken(key) {
       try {
-        const resp = await apiClient.post("/users/doctor/key-validate/", {
+        const resp = await apiClient.post("/doctor/key-validate/", {
           access_key: key,
         });
         localStorage.setItem("doctor_id", resp.data.id);
@@ -65,29 +87,42 @@ export const useAppStore = defineStore("app", {
     },
     async getSubRoles() {
       try {
-        const resp = await apiClient.get("/users/users/subroles/");
+        const resp = await apiClient.get("/users/subroles/");
         this.subRoles = resp.data.sub_roles;
-        console.log(this.subRoles);
       } catch (error) {
         console.error("Check token failed:", error);
       }
     },
     async finishDoctorRegister(user) {
+      const $toast = useToast();
       try {
-        await apiClient.patch("/users/doctor/update/", user);
+        await apiClient.patch("/doctor/update/", user);
+        $toast.success("Doctor registration completed successfully", {
+          position: "bottom",
+        });
       } catch (error) {
-        console.error("doctor failed:", error);
+        $toast.error("Doctor registration failed", {
+          position: "bottom",
+        });
+        console.error("Doctor registration failed:", error);
       }
     },
     async updateProfile(user) {
+      const $toast = useToast();
       try {
         await authorizedApiClient.patch("/users/update/", user, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         });
+        $toast.success("Profile updated successfully", {
+          position: "bottom",
+        });
       } catch (error) {
-        console.error("doctor failed:", error);
+        $toast.error("Profile update failed", {
+          position: "bottom",
+        });
+        console.error("Profile update failed:", error);
       }
     },
     async getAllDoctors() {
@@ -98,9 +133,20 @@ export const useAppStore = defineStore("app", {
         console.error("doctor failed:", error);
       }
     },
-    setAuthTokens(accessToken, refreshToken) {
-      document.cookie = `access=${accessToken};Secure;max-age=86400;`;
-      document.cookie = `refresh=${refreshToken};Secure;max-age=86400;`;
+    async getUserById(id) {
+      try {
+        const { data } = await authorizedApiClient.get("/users/specific/", {
+          params: {
+            user_id: id,
+          },
+        });
+        this.userById = data;
+      } catch (error) {
+        console.error("doctor failed:", error);
+      }
+    },
+    setAuthTokens(refreshToken) {
+      document.cookie = `refresh=${refreshToken};Secure;max-age=604800;`;
     },
 
     setAuthorizationHeader(token) {
@@ -110,7 +156,7 @@ export const useAppStore = defineStore("app", {
     },
 
     clearAuthTokens() {
-      deleteCookie("access");
+      window.localStorage.removeItem("access");
       deleteCookie("refresh");
     },
   },

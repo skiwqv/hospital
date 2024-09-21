@@ -1,6 +1,6 @@
 <template>
   <div class="profile-page">
-    <div class="general">
+    <section class="general">
       <div class="avatar-box">
         <div class="dropzone">
           <img
@@ -9,15 +9,21 @@
               imagePreview ||
               (currentUser.avatar ? currentUser.avatar : brendaPlaceholder)
             "
-            alt=""
+            alt="User avatar"
           />
           <input type="file" required hidden id="imge" @change="onFileChange" />
-          <label for="imge">
+          <label for="imge" title="Upload your photo">
             <UploadIcon class="upload-icon"></UploadIcon>
           </label>
         </div>
         <h3 class="profile-name">{{ fullName }}</h3>
-        <button class="update-button" @click="updateProfile">Update</button>
+        <button
+          class="update-button"
+          title="Update your profile"
+          @click="updateProfile"
+        >
+          Update
+        </button>
       </div>
       <div class="info-box">
         <h4 class="info-title">General Information</h4>
@@ -72,11 +78,13 @@
           </div>
         </div>
       </div>
-    </div>
-
-    <div class="appointments">
+    </section>
+    <section class="appointments">
       <h2>Booked appointments</h2>
-      <div class="appointments-table">
+      <div
+        v-if="appointments && appointments.length"
+        class="appointments-table"
+      >
         <table class="table">
           <thead class="table-head">
             <tr>
@@ -89,11 +97,17 @@
           </thead>
           <tbody>
             <tr v-for="(appointment, index) in appointments" :key="index">
-              <td class="table-content">{{ appointment.doctor_name }}</td>
-              <td class="table-content">{{ appointment.date }}</td>
-              <td class="table-content">{{ appointment.time }}</td>
+              <td
+                title="Open doctor profile"
+                class="table-content link"
+                @click="toDoctorProfile(appointment.doctor_id)"
+              >
+                {{ appointment.doctor_name }}
+              </td>
+              <td class="table-content">{{ formatDate(appointment.date) }}</td>
+              <td class="table-content">{{ formatTime(appointment.time) }}</td>
               <td class="table-content">{{ appointment.message }}</td>
-              <td class="icon-wrapper">
+              <td class="icon-wrapper" title="Delete Appointment">
                 <DeleteIcon
                   class="delete-icon"
                   @click="deleteAppointment(index)"
@@ -103,17 +117,32 @@
           </tbody>
         </table>
       </div>
-    </div>
+      <h4 v-else>There are no doctor's appointments yet</h4>
+    </section>
+
+    <section class="appointments">
+      <h2>Medical Book</h2>
+      <button
+        class="update-button"
+        title="Open your Medical Book"
+        @click="toMedBook"
+      >
+        Open Medical Book
+      </button>
+    </section>
   </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from "vue";
-import { useAppStore } from "../../store/app";
-import { useAppointmentStore } from "../../store/appointment";
-import UploadIcon from "../../assets/icons/upload.svg";
-import DeleteIcon from "../../assets/icons/delete.svg";
-import brendaPlaceholder from "../../assets/images/brenda.jpg";
+import { useAppStore } from "@/store/app";
+import { useAppointmentStore } from "@/store/appointment";
+import { formatDate, formatTime } from "@/helpers/Formater";
+
+import UploadIcon from "@/assets/icons/upload.svg";
+import DeleteIcon from "@/assets/icons/delete.svg";
+import brendaPlaceholder from "@/assets/images/brenda.jpg";
+import router from "@/router";
 
 const appStore = useAppStore();
 const appointmentStore = useAppointmentStore();
@@ -135,14 +164,24 @@ const onFileChange = (event) => {
 };
 
 const updateProfile = () => {
-  const user = {
-    first_name: currentUser.value.first_name,
-    last_name: currentUser.value.last_name,
-    email: currentUser.value.email,
-    avatar: imageSrc.value,
-    phone: currentUser.value.phone,
-  };
-  appStore.updateProfile(user);
+  try {
+    const user = {
+      first_name: currentUser.value.first_name,
+      last_name: currentUser.value.last_name,
+      email: currentUser.value.email,
+      avatar: imageSrc.value,
+      phone: currentUser.value.phone,
+    };
+    appStore.updateProfile(user);
+  } catch (error) {}
+};
+
+const toDoctorProfile = (id) => {
+  router.push(`/profile-publick/${id}`);
+};
+
+const toMedBook = () => {
+  router.push("/medical-book");
 };
 
 const deleteAppointment = (index) => {
@@ -150,8 +189,7 @@ const deleteAppointment = (index) => {
 };
 
 onMounted(async () => {
-  appointmentStore.getAppointments();
-  console.log(appointments.value);
+  await appointmentStore.getAppointments();
 });
 </script>
 

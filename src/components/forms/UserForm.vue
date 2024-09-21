@@ -104,9 +104,11 @@
 
 <script setup>
 import { useForm } from "vee-validate";
-import { useAppStore } from "../../store/app";
+import { useAppStore } from "@/store/app";
 import * as yup from "yup";
+
 const appStore = useAppStore();
+
 const schema = yup.object({
   name: yup.string().required("Name is required"),
   surname: yup.string().required("Surname is required"),
@@ -142,17 +144,20 @@ const [confirmPassword] = defineField("confirmPassword", {
   validateOnModelUpdate: false,
 });
 
-const signIn = handleSubmit((values) => {
-  const userData = {
-    first_name: values.name,
-    last_name: values.surname,
-    email: values.email,
-    phone: values.phone,
-    gender: values.gender,
-    date_birth: values.bdate,
-    password: values.password,
-  };
-  appStore.registerUser(userData);
+const signIn = handleSubmit(async (values) => {
+  try {
+    const userData = {
+      first_name: values.name,
+      last_name: values.surname,
+      email: values.email,
+      phone: values.phone,
+      gender: values.gender,
+      date_birth: values.bdate,
+      password: values.password,
+    };
+    await appStore.registerUser(userData);
+  } catch (error) {}
 });
 </script>
+
 <style></style>

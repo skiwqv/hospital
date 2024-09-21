@@ -1,0 +1,68 @@
+.record {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+
+    .record-block {
+        width: 100%;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #ccc;
+
+        .record-title {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: $secondary;
+        }
+
+        .record-text {
+            font-size: 1.2rem;
+            line-height: 1.4;
+            margin-bottom: 15px;
+            text-align: left;
+            max-width: 100%;
+            word-wrap: break-word;
+        }
+
+        .record-test {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            margin-top: 20px;
+            align-self: center;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+    }
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    cursor: zoom-out; // Cursor to indicate image can be closed
+}
+
+.fullscreen-image {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease;
+
+    &.zoomed {
+        transform: scale(2); // Zoom effect
+        cursor: zoom-in; // Cursor indicating zoom can be toggled
+    }
+}

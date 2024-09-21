@@ -4,9 +4,8 @@
 <script setup>
 import { onMounted, watch } from "vue";
 import { useAppStore } from "./store/app";
-import { getTokenFromCookies } from "./helpers/Cookies";
 const appStore = useAppStore();
-const token = getTokenFromCookies("access");
+const token = window.localStorage.getItem("access");
 onMounted(() => {
   if (token) {
     appStore.getUserData();

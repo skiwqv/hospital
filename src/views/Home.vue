@@ -2,7 +2,7 @@
   <div class="home-wrapper">
     <section class="images-wrapper">
       <div class="banner">
-        <img class="image" src="../assets/images/home.png" alt="" />
+        <img class="image" src="@/assets/images/home.png" alt="" />
         <div class="banner-holder">
           <div class="banner-text">
             <span class="subtitle-base">Caring for Life</span>
@@ -43,11 +43,11 @@
       </p>
       <div class="link-button-wrapper">
         <span class="link-button-text">Learn More</span>
-        <img src="../assets/images/Vector.png" alt="" />
+        <img src="@/assets/images/Vector.png" alt="" />
       </div>
       <img
         class="welcome-image"
-        src="../assets/images/welcome_image.png"
+        src="@/assets/images/welcome_image.png"
         alt=""
       />
     </section>
@@ -85,15 +85,15 @@
 
 <script setup>
 import { ref, onMounted, computed } from "vue";
-import { useAppStore } from "../store/app";
-import Callendar from "../assets/icons/Calendar.svg";
-import Users from "../assets/icons/Team.svg";
-import Cash from "../assets/icons/Cash.svg";
-import Tabs from "../components/tabs/tabs.vue";
-import Heart from "../assets/icons/heart.svg";
-import DoctorItem from "../components/doctors/doctorItem.vue";
-import Carousel from "../components/carousels/Carousel.vue";
-import Contacts from "../components/home/contacts.vue";
+import { useAppStore } from "@/store/app";
+import Callendar from "@/assets/icons/Calendar.svg";
+import Users from "@/assets/icons/Team.svg";
+import Cash from "@/assets/icons/Cash.svg";
+import Tabs from "@/components/tabs/tabs.vue";
+import Heart from "@/assets/icons/heart.svg";
+import DoctorItem from "@/components/doctors/doctorItem.vue";
+import Carousel from "@/components/carousels/Carousel.vue";
+import Contacts from "@/components/home/contacts.vue";
 
 const appStore = useAppStore();
 
@@ -116,7 +116,6 @@ const specialties = ref([
 
 onMounted(async () => {
   await appStore.getAllDoctors();
-  console.log(allDoctors.value);
 });
 </script>
 

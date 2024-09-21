@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
-import { apiClient, authorizedApiClient } from "../services/api";
+import { apiClient, authorizedApiClient } from "@/services/api";
+import { useToast } from "vue-toast-notification";
 
 export const useAdminStore = defineStore("admin", {
   state: () => ({
@@ -10,15 +11,20 @@ export const useAdminStore = defineStore("admin", {
 
   actions: {
     async createDoctor(email) {
+      const $toast = useToast();
       try {
-        const resp = await authorizedApiClient.post("/users/doctor/create/", {
+        const resp = await authorizedApiClient.post("/doctor/registration/", {
           email: email,
         });
-        console.log(resp.data);
-
+        $toast.success("Doctor registered successfully", {
+          position: "bottom",
+        });
         return resp.data;
       } catch (error) {
-        console.error("Failed to register user:", error);
+        $toast.error("Failed to register doctor", {
+          position: "bottom",
+        });
+        console.error("Failed to register doctor:", error);
       }
     },
   },

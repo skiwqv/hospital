@@ -43,10 +43,11 @@
 <script setup>
 import { useForm } from "vee-validate";
 import * as yup from "yup";
-import { useAppStore } from "../store/app";
-import router from "../router";
+import { useAppStore } from "@/store/app";
+import router from "@/router";
+import { getTokenFromCookies } from "@/helpers/Cookies";
+
 const appStore = useAppStore();
-import { getTokenFromCookies } from "../helpers/Cookies";
 
 const schema = yup.object({
   email: yup.string().email("Invalid email").required("Email is required"),
@@ -69,16 +70,18 @@ const [password] = defineField("password", {
 });
 
 const signUp = handleSubmit(async () => {
-  const userData = {
-    email: values.email,
-    password: values.password,
-  };
-  await appStore.logInUser(userData);
-  const token = getTokenFromCookies("access");
-  if (token) {
-    await appStore.getUserData();
-  }
-  router.push("/");
+  try {
+    const userData = {
+      email: values.email,
+      password: values.password,
+    };
+    await appStore.logInUser(userData);
+    const token = window.localStorage.getItem("access");
+    if (token) {
+      await appStore.getUserData();
+      router.push("/");
+    }
+  } catch (error) {}
 });
 </script>
 
