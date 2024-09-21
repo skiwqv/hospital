@@ -7,6 +7,7 @@ export const useAppointmentStore = defineStore("appointment", {
     time: null,
     appointments: null,
     records: null,
+    record: null,
   }),
 
   getters: {},
@@ -34,9 +35,17 @@ export const useAppointmentStore = defineStore("appointment", {
       } catch (error) {}
     },
     async makeAppointment(data) {
+      const $toast = useToast();
       try {
         await authorizedApiClient.post("/appointment/create/", data);
-      } catch (error) {}
+        $toast.success("Appointment booked successfully", {
+          position: "bottom",
+        });
+      } catch (error) {
+        $toast.error("Failed to book appointment", {
+          position: "bottom",
+        });
+      }
     },
     async getAppointments() {
       try {
@@ -74,8 +83,18 @@ export const useAppointmentStore = defineStore("appointment", {
     },
     async getRecords() {
       try {
-        const { data } = await authorizedApiClient.get("/book/get/");
+        const { data } = await authorizedApiClient.get("/book/get-all/");
         this.records = data;
+      } catch (error) {}
+    },
+    async getRecordById(id) {
+      try {
+        const { data } = await authorizedApiClient.get("/book/get/", {
+          params: {
+            id: id,
+          },
+        });
+        this.record = data;
       } catch (error) {}
     },
   },

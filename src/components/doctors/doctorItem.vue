@@ -14,7 +14,7 @@
 </template>
 
 <script setup>
-import router from "../../router";
+import router from "@/router";
 
 const props = defineProps({
   doctor: {

@@ -75,6 +75,12 @@ const routes = [
         component: () => import("@/views/MedicalBook.vue"),
         meta: { requiresAuth: true },
       },
+      {
+        path: "/record/:id",
+        name: "Record",
+        component: () => import("@/views/Record.vue"),
+        meta: { requiresAuth: true },
+      },
     ],
   },
   {

@@ -166,10 +166,8 @@ import AdminIcon from "@/assets/icons/admin.svg";
 import router from "@/router";
 import { useRoute } from "vue-router";
 import { useAppStore } from "@/store/app";
-import { useToast } from "vue-toast-notification"; // Импортируем useToast
 
 const appStore = useAppStore();
-const $toast = useToast(); // Инициализация тостов
 
 const currentUser = computed(() => appStore.currentUser);
 
@@ -186,11 +184,8 @@ const logOut = async () => {
   try {
     await appStore.logOut();
     isMenuOpen.value = !isMenuOpen.value;
-    $toast.success("You have successfully logged out.", { position: "bottom" });
     router.push("/");
-  } catch (err) {
-    $toast.error("Something went wrong.", { position: "bottom" });
-  }
+  } catch (err) {}
 };
 
 const toProfile = () => {

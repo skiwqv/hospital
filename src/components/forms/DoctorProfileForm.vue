@@ -122,10 +122,8 @@ import { useForm } from "vee-validate";
 import { useAppStore } from "@/store/app";
 import * as yup from "yup";
 import router from "@/router";
-import { useToast } from "vue-toast-notification"; // Импортируем useToast
 
 const appStore = useAppStore();
-const $toast = useToast(); // Инициализация тостов
 
 const subRoles = computed(() => appStore.subRoles);
 
@@ -182,15 +180,8 @@ const signIn = handleSubmit(async (values) => {
       id: localStorage.getItem("doctor_id"),
     };
     await appStore.finishDoctorRegister(userData);
-    $toast.success("Registration successful!", {
-      position: "bottom",
-    });
     router.push("/signIn");
-  } catch (error) {
-    $toast.error("Registration failed. Please try again.", {
-      position: "bottom",
-    });
-  }
+  } catch (error) {}
 });
 
 onMounted(() => {

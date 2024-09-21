@@ -46,10 +46,8 @@ import * as yup from "yup";
 import { useAppStore } from "@/store/app";
 import router from "@/router";
 import { getTokenFromCookies } from "@/helpers/Cookies";
-import { useToast } from "vue-toast-notification"; // Импортируем useToast
 
 const appStore = useAppStore();
-const $toast = useToast(); // Инициализация тостов
 
 const schema = yup.object({
   email: yup.string().email("Invalid email").required("Email is required"),
@@ -81,20 +79,9 @@ const signUp = handleSubmit(async () => {
     const token = window.localStorage.getItem("access");
     if (token) {
       await appStore.getUserData();
-      $toast.success("Login successful!", {
-        position: "bottom",
-      });
       router.push("/");
-    } else {
-      $toast.error("Login failed. No token received.", {
-        position: "bottom",
-      });
     }
-  } catch (error) {
-    $toast.error("Login failed. Please check your credentials.", {
-      position: "bottom",
-    });
-  }
+  } catch (error) {}
 });
 </script>
 

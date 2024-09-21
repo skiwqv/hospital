@@ -27,10 +27,8 @@ import { useForm } from "vee-validate";
 import { useAppStore } from "@/store/app";
 import * as yup from "yup";
 import router from "@/router";
-import { useToast } from "vue-toast-notification"; // Импортируем тосты
 
 const appStore = useAppStore();
-const $toast = useToast(); // Инициализация тостов
 
 const schema = yup.object({
   key: yup.string().required("Key is required"),
@@ -47,16 +45,9 @@ const signIn = handleSubmit(async () => {
   try {
     const response = await appStore.checkTocken(values.key);
     if (response.statusText == "OK") {
-      $toast.success("Successfully signed in!", {
-        position: "bottom",
-      });
       router.push("/signUp/doctorProfile");
     }
-  } catch (error) {
-    $toast.error("Failed to sign in. Please check your ID key.", {
-      position: "bottom",
-    });
-  }
+  } catch (error) {}
 });
 </script>
 
