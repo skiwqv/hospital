@@ -1,28 +1,38 @@
 <template>
-  <div v-if="records" class="record">
+  <div
+    v-if="record"
+    v-for="recordItem in record"
+    :key="recordItem.id"
+    class="record"
+  >
     <div class="record-block">
+      <button class="update-button" @click="router.go(-1)">Back</button>
       <h2 class="record-title">Diagnosis</h2>
-      <p class="record-text">{{ record.diagnosis }}</p>
+      <p class="record-text">{{ recordItem.diagnosis }}</p>
     </div>
 
     <div class="record-block">
       <h2 class="record-title">Description</h2>
-      <p class="record-text">{{ record.description }}</p>
+      <p class="record-text">{{ recordItem.description }}</p>
     </div>
 
     <div class="record-block">
       <h2 class="record-title">Treatment</h2>
-      <p class="record-text">{{ record.treatment }}</p>
+      <p class="record-text">{{ recordItem.treatment }}</p>
     </div>
 
-    <div class="record-block">
+    <div class="record-block" v-if="recordItem.tests">
       <h2 class="record-title">Medical Tests</h2>
-      <img :src="record.tests" class="record-test" @click="openImage" />
+      <img :src="recordItem.tests" class="record-test" @click="openImage" />
     </div>
 
-    <div v-if="isImageOpen" class="overlay" @click="closeImage">
+    <div
+      v-if="isImageOpen && recordItem.tests"
+      class="overlay"
+      @click="closeImage"
+    >
       <img
-        :src="record.tests"
+        :src="recordItem.tests"
         :class="['fullscreen-image', { zoomed: isImageZoomed }]"
         @click.stop="toggleZoom"
       />
@@ -33,12 +43,13 @@
 <script setup>
 import { ref, computed, onMounted } from "vue";
 import { useAppointmentStore } from "@/store/appointment";
+import { useRoute } from "vue-router";
+import router from "@/router";
 
+const route = useRoute();
 const appointmentStore = useAppointmentStore();
-const records = computed(() => appointmentStore.records);
-const record = computed(() => records.value[0]);
+const record = computed(() => appointmentStore.record);
 
-// States for tracking open and zoomed image
 const isImageOpen = ref(false);
 const isImageZoomed = ref(false);
 
@@ -48,7 +59,7 @@ const openImage = () => {
 
 const closeImage = () => {
   isImageOpen.value = false;
-  isImageZoomed.value = false; // Reset zoom on close
+  isImageZoomed.value = false;
 };
 
 const toggleZoom = () => {
@@ -56,6 +67,8 @@ const toggleZoom = () => {
 };
 
 onMounted(async () => {
-  await appointmentStore.getRecords();
+  let id = route.params.id;
+  await appointmentStore.getRecordById(id);
+  console.log(record.value);
 });
 </script>

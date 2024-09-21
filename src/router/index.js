@@ -76,7 +76,7 @@ const routes = [
         meta: { requiresAuth: true },
       },
       {
-        path: "/record",
+        path: "/record/:id",
         name: "Record",
         component: () => import("@/views/Record.vue"),
         meta: { requiresAuth: true },

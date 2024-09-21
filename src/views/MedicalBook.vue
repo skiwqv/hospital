@@ -56,6 +56,7 @@
               <th class="head-title">Diagnosis</th>
               <th class="head-title">Description</th>
               <th class="head-title">Treatment</th>
+              <th class="head-title">Date</th>
               <th class="head-title">Tests</th>
             </tr>
           </thead>
@@ -64,17 +65,17 @@
               v-for="(records, index) in records"
               class="table-wrapper"
               :key="index"
-              @click="toRecord"
+              @click="toRecord(records.id)"
             >
-              <td
-                class="table-content"
-                @click="toDoctorProfile(records.doctor_id)"
-              >
+              <td class="table-content">
                 {{ records.doctor_name }}
               </td>
               <td class="table-content">{{ records.diagnosis }}</td>
               <td class="table-content">{{ records.description }}</td>
               <td class="table-content">{{ records.treatment }}</td>
+              <td class="table-content">
+                {{ formatDate(records.created_at) }}
+              </td>
               <td class="icon-wrapper">
                 <TickIcon class="icon" v-if="records.tests"></TickIcon>
                 <CrossIcon class="icon" v-else></CrossIcon>
@@ -91,6 +92,7 @@
 import { computed, onMounted } from "vue";
 import { useAppStore } from "@/store/app";
 import { useAppointmentStore } from "@/store/appointment";
+import { formatDate } from "@/helpers/Formater";
 import TickIcon from "@/assets/icons/tick.svg";
 import CrossIcon from "@/assets/icons/cross.svg";
 import router from "@/router";
@@ -100,8 +102,8 @@ const appointmentStore = useAppointmentStore();
 const currentUser = computed(() => appStore.currentUser);
 const records = computed(() => appointmentStore.records);
 
-const toRecord = () => {
-  router.push("/record");
+const toRecord = (id) => {
+  router.push(`/record/${id}`);
 };
 
 onMounted(async () => {

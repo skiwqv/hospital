@@ -104,8 +104,8 @@
               >
                 {{ appointment.doctor_name }}
               </td>
-              <td class="table-content">{{ appointment.date }}</td>
-              <td class="table-content">{{ appointment.time }}</td>
+              <td class="table-content">{{ formatDate(appointment.date) }}</td>
+              <td class="table-content">{{ formatTime(appointment.time) }}</td>
               <td class="table-content">{{ appointment.message }}</td>
               <td class="icon-wrapper" title="Delete Appointment">
                 <DeleteIcon
@@ -137,6 +137,8 @@
 import { ref, computed, onMounted } from "vue";
 import { useAppStore } from "@/store/app";
 import { useAppointmentStore } from "@/store/appointment";
+import { formatDate, formatTime } from "@/helpers/Formater";
+
 import UploadIcon from "@/assets/icons/upload.svg";
 import DeleteIcon from "@/assets/icons/delete.svg";
 import brendaPlaceholder from "@/assets/images/brenda.jpg";

@@ -33,9 +33,14 @@
 
                 .avatar {
                     margin-bottom: 10px;
-                    width: 120px;
-                    height: 120px;
+                    width: 250px;
+                    height: 250px;
                     object-fit: cover;
+
+                    @include respond-to(md) {
+                        width: 150px;
+                        height: 150px;
+                    }
                 }
 
                 .upload-icon {

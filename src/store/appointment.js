@@ -7,6 +7,7 @@ export const useAppointmentStore = defineStore("appointment", {
     time: null,
     appointments: null,
     records: null,
+    record: null,
   }),
 
   getters: {},
@@ -82,8 +83,18 @@ export const useAppointmentStore = defineStore("appointment", {
     },
     async getRecords() {
       try {
-        const { data } = await authorizedApiClient.get("/book/get/");
+        const { data } = await authorizedApiClient.get("/book/get-all/");
         this.records = data;
+      } catch (error) {}
+    },
+    async getRecordById(id) {
+      try {
+        const { data } = await authorizedApiClient.get("/book/get/", {
+          params: {
+            id: id,
+          },
+        });
+        this.record = data;
       } catch (error) {}
     },
   },
