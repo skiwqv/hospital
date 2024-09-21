@@ -28,7 +28,7 @@
           :class="{ 'input-error': errors.doctor }"
           :disabled="!specialties"
         >
-          <option :value="doctor" disabled selected>Select Doctor</option>
+          <option :value="string" disabled selected>Select Doctor</option>
           <option v-for="doc in doctors" :key="doc.id" :value="doc.id">
             {{ `${doc.first_name} ${doc.last_name}` }}
           </option>
@@ -80,12 +80,10 @@ import { useForm } from "vee-validate";
 import * as yup from "yup";
 import { useAppStore } from "@/store/app";
 import { useAppointmentStore } from "@/store/appointment";
-import router from "@/router/index";
+import router from "@/router";
 import { useRoute } from "vue-router";
-import { useToast } from "vue-toast-notification"; // Добавляем импорт тостов
 
 const route = useRoute();
-const $toast = useToast(); // Инициализируем тосты
 
 const appStore = useAppStore();
 const appointmentStore = useAppointmentStore();
@@ -122,7 +120,7 @@ const getTime = async (id, date) => {
   await appointmentStore.getTime(id, date);
 };
 
-const submitForm = handleSubmit((values) => {
+const submitForm = handleSubmit(async (values) => {
   const userData = {
     doctor: values.doctor,
     date: values.date,
@@ -130,24 +128,14 @@ const submitForm = handleSubmit((values) => {
     message: values.message,
   };
   try {
-    appointmentStore.makeAppointment(userData);
-    $toast.success("Appointment booked successfully", {
-      position: "bottom",
-    });
+    await appointmentStore.makeAppointment(userData);
     router.push("/profile");
-  } catch (error) {
-    $toast.error("Failed to book appointment", {
-      position: "bottom",
-    });
-  }
+  } catch (error) {}
 });
-
-// Используем route для получения данных из query
 
 onMounted(() => {
   appStore.getSubRoles();
 
-  // Если данные переданы через query, заполняем поля
   if (route.query.doctor && route.query.specialty) {
     specialties.value = route.query.specialty;
     doctor.value = route.query.doctor;

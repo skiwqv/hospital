@@ -34,9 +34,17 @@ export const useAppointmentStore = defineStore("appointment", {
       } catch (error) {}
     },
     async makeAppointment(data) {
+      const $toast = useToast();
       try {
         await authorizedApiClient.post("/appointment/create/", data);
-      } catch (error) {}
+        $toast.success("Appointment booked successfully", {
+          position: "bottom",
+        });
+      } catch (error) {
+        $toast.error("Failed to book appointment", {
+          position: "bottom",
+        });
+      }
     },
     async getAppointments() {
       try {

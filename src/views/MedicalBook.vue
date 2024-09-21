@@ -64,6 +64,7 @@
               v-for="(records, index) in records"
               class="table-wrapper"
               :key="index"
+              @click="toRecord"
             >
               <td
                 class="table-content"
@@ -89,14 +90,19 @@
 <script setup>
 import { computed, onMounted } from "vue";
 import { useAppStore } from "@/store/app";
-import { useAppointmentStore } from "../store/appointment";
+import { useAppointmentStore } from "@/store/appointment";
 import TickIcon from "@/assets/icons/tick.svg";
 import CrossIcon from "@/assets/icons/cross.svg";
+import router from "@/router";
 const appStore = useAppStore();
 const appointmentStore = useAppointmentStore();
 
 const currentUser = computed(() => appStore.currentUser);
 const records = computed(() => appointmentStore.records);
+
+const toRecord = () => {
+  router.push("/record");
+};
 
 onMounted(async () => {
   await appointmentStore.getRecords();

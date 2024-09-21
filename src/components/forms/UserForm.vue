@@ -106,10 +106,8 @@
 import { useForm } from "vee-validate";
 import { useAppStore } from "@/store/app";
 import * as yup from "yup";
-import { useToast } from "vue-toast-notification"; // Импортируем useToast
 
 const appStore = useAppStore();
-const $toast = useToast(); // Инициализация тостов
 
 const schema = yup.object({
   name: yup.string().required("Name is required"),
@@ -158,14 +156,7 @@ const signIn = handleSubmit(async (values) => {
       password: values.password,
     };
     await appStore.registerUser(userData);
-    $toast.success("Registration successful!", {
-      position: "bottom",
-    });
-  } catch (error) {
-    $toast.error("Registration failed. Please try again.", {
-      position: "bottom",
-    });
-  }
+  } catch (error) {}
 });
 </script>
 

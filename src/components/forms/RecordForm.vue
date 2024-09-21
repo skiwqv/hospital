@@ -53,7 +53,6 @@ import { ref } from "vue";
 import { useForm } from "vee-validate";
 import * as yup from "yup";
 import { useAppointmentStore } from "@/store/appointment";
-import { useToast } from "vue-toast-notification";
 
 const props = defineProps({
   user: {
@@ -63,7 +62,6 @@ const props = defineProps({
 });
 
 const appointmentStore = useAppointmentStore();
-const $toast = useToast();
 
 const schema = yup.object({
   diagnosis: yup.string().required("Diagnosis is required"),

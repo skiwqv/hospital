@@ -81,7 +81,10 @@
     </section>
     <section class="appointments">
       <h2>Booked appointments</h2>
-      <div class="appointments-table">
+      <div
+        v-if="appointments && appointments.length"
+        class="appointments-table"
+      >
         <table class="table">
           <thead class="table-head">
             <tr>
@@ -114,7 +117,9 @@
           </tbody>
         </table>
       </div>
+      <h4 v-else>There are no doctor's appointments yet</h4>
     </section>
+
     <section class="appointments">
       <h2>Medical Book</h2>
       <button
@@ -132,7 +137,6 @@
 import { ref, computed, onMounted } from "vue";
 import { useAppStore } from "@/store/app";
 import { useAppointmentStore } from "@/store/appointment";
-import { useToast } from "vue-toast-notification";
 import UploadIcon from "@/assets/icons/upload.svg";
 import DeleteIcon from "@/assets/icons/delete.svg";
 import brendaPlaceholder from "@/assets/images/brenda.jpg";
@@ -140,7 +144,6 @@ import router from "@/router";
 
 const appStore = useAppStore();
 const appointmentStore = useAppointmentStore();
-const $toast = useToast();
 
 const currentUser = computed(() => appStore.currentUser);
 const appointments = computed(() => appointmentStore.appointments);
@@ -168,14 +171,7 @@ const updateProfile = () => {
       phone: currentUser.value.phone,
     };
     appStore.updateProfile(user);
-    $toast.success("Profile updated successfully", {
-      position: "bottom",
-    });
-  } catch (error) {
-    $toast.error("Failed to update profile", {
-      position: "bottom",
-    });
-  }
+  } catch (error) {}
 };
 
 const toDoctorProfile = (id) => {
@@ -188,13 +184,10 @@ const toMedBook = () => {
 
 const deleteAppointment = (index) => {
   appointments.value.splice(index, 1);
-  $toast.info("Appointment deleted", {
-    position: "bottom",
-  });
 };
 
 onMounted(async () => {
-  appointmentStore.getAppointments();
+  await appointmentStore.getAppointments();
 });
 </script>
 

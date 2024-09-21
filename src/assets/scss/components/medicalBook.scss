@@ -18,6 +18,10 @@
         align-items: center;
         margin-bottom: 20px;
 
+        @include respond-to(md) {
+            flex-direction: column;
+        }
+
         .avatar-box {
             text-align: center;
             padding: 20px;

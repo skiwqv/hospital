@@ -123,7 +123,6 @@
 import { ref, computed, onMounted } from "vue";
 import { useAppStore } from "@/store/app";
 import { useAppointmentStore } from "@/store/appointment";
-import { useToast } from "vue-toast-notification";
 import UploadIcon from "@/assets/icons/upload.svg";
 import DeleteIcon from "@/assets/icons/delete.svg";
 import brendaPlaceholder from "@/assets/images/brenda.jpg";
@@ -131,7 +130,6 @@ import router from "@/router";
 
 const appStore = useAppStore();
 const appointmentStore = useAppointmentStore();
-const $toast = useToast();
 const currentUser = computed(() => appStore.currentUser);
 const appointments = computed(() => appointmentStore.appointments);
 const fullName = computed(() => {
@@ -157,21 +155,11 @@ const updateProfile = () => {
       phone: currentUser.value.phone,
     };
     appStore.updateProfile(user);
-    $toast.success("Profile updated successfully", {
-      position: "bottom",
-    });
-  } catch (error) {
-    $toast.error("An error occurred while updating profile", {
-      position: "bottom",
-    });
-  }
+  } catch (error) {}
 };
 
 const cancelAppointment = (index) => {
   appointments.value.splice(index, 1);
-  $toast.info("Appointment cancelled", {
-    position: "bottom",
-  });
 };
 
 const toProfile = (id) => {
