@@ -81,6 +81,22 @@ const routes = [
         component: () => import("@/views/Record.vue"),
         meta: { requiresAuth: true },
       },
+      {
+        path: "/record/:id",
+        name: "Record",
+        component: () => import("@/views/Record.vue"),
+        meta: { requiresAuth: true },
+      },
+      {
+        path: "/forgot-password",
+        name: "Forgot Password",
+        component: () => import("@/views/ForgotPassword.vue"),
+      },
+      {
+        path: "/change-password/:token",
+        name: "Change Password",
+        component: () => import("@/views/ChangePassword.vue"),
+      },
     ],
   },
   {

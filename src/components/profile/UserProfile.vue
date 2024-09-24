@@ -76,6 +76,11 @@
               class="info-input"
             />
           </div>
+          <button class="update-button">
+            <router-link class="link" to="/forgot-password"
+              >Change Password</router-link
+            >
+          </button>
         </div>
       </div>
     </section>

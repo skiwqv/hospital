@@ -145,6 +145,34 @@ export const useAppStore = defineStore("app", {
         console.error("doctor failed:", error);
       }
     },
+    async changePasswordRequest(userData) {
+      const $toast = useToast();
+      try {
+        await apiClient.post("/users/request-reset/", userData);
+        $toast.success("Profile updated successfully", {
+          position: "bottom",
+        });
+      } catch (error) {
+        $toast.error("Profile update failed", {
+          position: "bottom",
+        });
+        console.error("", error);
+      }
+    },
+    async updatePassword(userData, token) {
+      const $toast = useToast();
+      try {
+        await apiClient.post(`/users/reset-password/${token}/`, userData);
+        $toast.success("Profile updated successfully", {
+          position: "bottom",
+        });
+      } catch (error) {
+        $toast.error(`${error}`, {
+          position: "bottom",
+        });
+        console.error("", error);
+      }
+    },
     setAuthTokens(refreshToken) {
       document.cookie = `refresh=${refreshToken};Secure;max-age=604800;`;
     },
