@@ -1,0 +1,127 @@
+.notifications-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #f5f7fa;
+
+    .notifications-container {
+        width: 100%;
+        max-width: 600px;
+        padding: 20px;
+        border-radius: 12px;
+        background-color: #ffffff;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+
+        .notifications-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #eaeaea;
+            margin-bottom: 16px;
+
+            h2 {
+                font-size: 18px;
+                font-weight: bold;
+                color: #333;
+            }
+
+            .clear-all {
+                font-size: 14px;
+                color: #007bff;
+                cursor: pointer;
+                transition: color 0.3s;
+
+                &:hover {
+                    color: #0056b3;
+                }
+            }
+        }
+
+        .notifications-list {
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 8px;
+
+            .notification-item {
+                display: flex;
+                align-items: center;
+                padding: 12px;
+                margin-bottom: 12px;
+                border-radius: 8px;
+                background-color: #f0f2f5;
+                transition: background-color 0.3s ease;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: #e9ecef;
+                }
+
+                .notification-icon {
+                    width: 40px;
+                    height: 40px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    background-color: #007bff;
+                    border-radius: 50%;
+                    color: white;
+                    margin-right: 12px;
+                    font-size: 18px;
+                }
+
+                .notification-details {
+                    flex-grow: 1;
+
+                    .notification-title {
+                        font-size: 14px;
+                        font-weight: 500;
+                        color: #333;
+                    }
+
+                    .notification-time {
+                        font-size: 12px;
+                        color: #888;
+                        margin-top: 4px;
+                    }
+                }
+
+                .notification-status {
+                    font-size: 12px;
+                    color: green;
+                }
+            }
+
+            .unread {
+                background-color: #e3f2fd; // Светлый фон для непрочитанных уведомлений
+            }
+
+            .notification-empty {
+                text-align: center;
+                font-size: 14px;
+                color: #888;
+                padding: 20px;
+            }
+        }
+
+        .load-more {
+            text-align: center;
+            padding-top: 16px;
+
+            button {
+                padding: 8px 16px;
+                border-radius: 8px;
+                background-color: #007bff;
+                color: #fff;
+                font-size: 14px;
+                cursor: pointer;
+                border: none;
+
+                &:hover {
+                    background-color: #0056b3;
+                }
+            }
+        }
+    }
+}

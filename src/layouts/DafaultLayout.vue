@@ -72,6 +72,17 @@
         Sign In
       </button>
       <div v-else class="user-wrapper">
+        <router-link to="/notifications">
+          <div class="bell-icon-wrapper">
+            <BellIcon class="bell-icon"></BellIcon>
+            <span class="notification-counter">3</span>
+          </div>
+        </router-link>
+        <router-link to="/resent-chats">
+          <div class="bell-icon-wrapper">
+            <MessageIcon class="bell-icon"></MessageIcon>
+          </div>
+        </router-link>
         <div class="dropdown" @click="dropdownVisible = !dropdownVisible">
           <ProfileIcon class="user-icon"></ProfileIcon>
           <div v-if="dropdownVisible" class="dropdown-menu">
@@ -163,6 +174,8 @@ import ProfileIcon from "@/assets/icons/profile.svg";
 import ProfileCardIcon from "@/assets/icons/profileCard.svg";
 import LogOutIcon from "@/assets/icons/logout.svg";
 import AdminIcon from "@/assets/icons/admin.svg";
+import BellIcon from "@/assets/icons/bell.svg";
+import MessageIcon from "@/assets/icons/message.svg";
 import router from "@/router";
 import { useRoute } from "vue-router";
 import { useAppStore } from "@/store/app";

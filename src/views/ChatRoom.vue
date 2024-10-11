@@ -23,12 +23,19 @@
           <div class="message-replied" v-if="message.replied_to">
             {{ message.replied_to }}
           </div>
-          <div v-if="!message.is_deleted" class="message-text">
+          <div
+            v-if="!message.is_deleted && !isLink(message.content)"
+            class="message-text"
+          >
             {{ message.content }}
           </div>
-          <div v-else class="message-deleted">
-            This message has been deleted.
-          </div>
+          <a
+            v-if="isLink(message.content)"
+            :href="message.content"
+            target="_blank"
+          >
+            {{ message.content }}
+          </a>
           <img
             v-if="message.media"
             class="message-media"
@@ -47,7 +54,6 @@
             {{ formatDateTime(message.timestamp) }}
           </div>
           <div v-if="message.is_edited" class="message-edited">Edited</div>
-
           <div
             v-if="menuVisible && activeMessageId === message.id"
             class="context-menu"
@@ -291,6 +297,12 @@ const scrollToBottom = () => {
   });
 };
 
+const isLink = (text) => {
+  const urlPattern =
+    /^(https?:\/\/|www\.|ftp:\/\/)?([a-zA-Z0-9\-]+\.)+[a-zA-Z]{2,}(:[0-9]{1,5})?(\/\S*)?$/;
+  return urlPattern.test(text);
+};
+
 watch(
   messages,
   async () => {
@@ -308,6 +320,7 @@ onMounted(async () => {
 
 onBeforeUnmount(() => {
   document.removeEventListener("click", closeMenu);
+  chatStore.closeSocket();
 });
 </script>
 

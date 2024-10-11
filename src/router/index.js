@@ -103,6 +103,18 @@ const routes = [
         component: () => import("@/views/ChatRoom.vue"),
         meta: { requiresAuth: true },
       },
+      {
+        path: "/notifications",
+        name: "Notifications",
+        component: () => import("@/views/Notification.vue"),
+        meta: { requiresAuth: true },
+      },
+      {
+        path: "/resent-chats",
+        name: "ResentChats",
+        component: () => import("@/views/ResentChats.vue"),
+        meta: { requiresAuth: true },
+      },
     ],
   },
   {
