@@ -11,8 +11,17 @@
             class="update-button"
             title="Add recordf for patient"
             @click="isRecord = !isRecord"
+            v-if="isAppointment"
           >
             Add Record
+          </button>
+          <button
+            class="update-button"
+            @click="toChat(props.user.id)"
+            title="Send message to patient"
+            v-if="currentUser.role == 'doctor'"
+          >
+            Send message
           </button>
         </div>
         <div class="info-box">
@@ -57,16 +66,25 @@
 <script setup>
 import { ref, computed, onMounted } from "vue";
 import { useAppointmentStore } from "@/store/appointment";
+import { useAppStore } from "@/store/app";
+import { useChatStore } from "@/store/chat";
 import RecordForm from "@/components/forms/RecordForm.vue";
+import router from "@/router";
 
 const appointmentStore = useAppointmentStore();
+const chatStore = useChatStore();
+const appStore = useAppStore();
 
 const props = defineProps({
   user: {
     type: Object,
     default: () => {},
+    required: true,
   },
 });
+
+const currentUser = computed(() => appStore.currentUser);
+const roomName = computed(() => chatStore.roomName);
 
 const fullName = computed(() => {
   return `${props.user.first_name} ${props.user.last_name}`;
@@ -75,11 +93,30 @@ const fullName = computed(() => {
 const isRecord = ref(false);
 const isAppointment = ref(false);
 
+const toChat = async (userID) => {
+  await chatStore.checkRoom(userID);
+  router.push({
+    path: `/room/${roomName.value}`,
+    query: {
+      userId: userID,
+    },
+  });
+};
+
 onMounted(async () => {
-  const resp = await appointmentStore.isAppointment(props.user.id);
-  if (resp.status == "200") {
-    isAppointment.value = true;
-  } else {
+  try {
+    if (props.user && props.user.id) {
+      const resp = await appointmentStore.isAppointment(props.user.id);
+      if (resp && resp.status == 200) {
+        isAppointment.value = true;
+      } else {
+        isAppointment.value = false;
+      }
+    } else {
+      console.error("User or user ID is missing.");
+    }
+  } catch (error) {
+    console.error("Error checking appointment:", error);
     isAppointment.value = false;
   }
 });

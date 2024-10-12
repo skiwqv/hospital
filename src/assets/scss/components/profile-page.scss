@@ -72,6 +72,14 @@
                     flex-direction: column;
                 }
 
+                .update-button {
+                    margin-left: auto;
+
+                    .link {
+                        text-decoration: none;
+                    }
+                }
+
                 .wrapper {
                     font-size: 14px;
                     width: calc(100% / 3 - 7px);

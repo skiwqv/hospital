@@ -81,6 +81,40 @@ const routes = [
         component: () => import("@/views/Record.vue"),
         meta: { requiresAuth: true },
       },
+      {
+        path: "/record/:id",
+        name: "Record",
+        component: () => import("@/views/Record.vue"),
+        meta: { requiresAuth: true },
+      },
+      {
+        path: "/forgot-password",
+        name: "Forgot Password",
+        component: () => import("@/views/ForgotPassword.vue"),
+      },
+      {
+        path: "/change-password/:token",
+        name: "Change Password",
+        component: () => import("@/views/ChangePassword.vue"),
+      },
+      {
+        path: "/room/:id",
+        name: "Chat Room",
+        component: () => import("@/views/ChatRoom.vue"),
+        meta: { requiresAuth: true },
+      },
+      {
+        path: "/notifications",
+        name: "Notifications",
+        component: () => import("@/views/Notification.vue"),
+        meta: { requiresAuth: true },
+      },
+      {
+        path: "/resent-chats",
+        name: "ResentChats",
+        component: () => import("@/views/ResentChats.vue"),
+        meta: { requiresAuth: true },
+      },
     ],
   },
   {

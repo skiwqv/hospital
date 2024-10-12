@@ -1,0 +1,249 @@
+.chat-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #f5f7fa;
+
+    .chat-room {
+        width: 100%;
+        max-width: 600px;
+        padding: 20px;
+        border-radius: 12px;
+        background-color: #ffffff;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+
+        .chat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #eaeaea;
+            margin-bottom: 16px;
+
+            .user-wrapper {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+
+                .header-avatar {
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                    object-fit: cover;
+                    border: 2px solid #dfe3e8;
+                }
+
+                span {
+                    font-size: 16px;
+                    font-weight: 500;
+                    color: #333;
+                }
+            }
+        }
+
+        .chat-content {
+            max-height: 350px;
+            overflow-y: auto;
+            padding-right: 8px;
+            margin-bottom: 16px;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+
+            .message {
+                display: flex;
+                flex-direction: column;
+                align-self: flex-start;
+                margin-bottom: 12px;
+                padding: 12px;
+                border-radius: 8px;
+                background-color: #f0f2f5;
+                max-width: 80%;
+                position: relative;
+                font-family: $font-family-table;
+
+                &.from-user {
+                    align-self: flex-end;
+                    background-color: #e3f2fd;
+                }
+
+                .message-text {
+                    font-size: 14px;
+                    color: #333;
+                }
+
+                .message-time {
+                    font-size: 12px;
+                    color: #888;
+                    margin-top: 4px;
+                    align-self: flex-end;
+                }
+
+                .message-replied {
+                    font-size: 12px;
+                    color: #007bff;
+                    background-color: #eef4ff;
+                    padding: 6px 8px;
+                    border-radius: 6px;
+                    margin-bottom: 6px;
+                }
+
+                .message-edited {
+                    font-size: 12px;
+                    color: #888;
+                    margin-top: 4px;
+                    align-self: flex-end;
+                    font-style: italic;
+                }
+
+                .message-deleted {
+                    font-size: 14px;
+                    color: red;
+                    font-style: italic;
+                }
+
+                .message-media {
+                    cursor: pointer;
+                    transition: transform 0.3s ease;
+                }
+
+                .overlay {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100vw;
+                    height: 100vh;
+                    background: rgb(0 0 0 / 2%);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 1000;
+                    cursor: zoom-out;
+                }
+
+                .context-menu {
+                    position: absolute;
+                    top: 64px;
+                    left: 0;
+                    right: 0;
+                    background-color: #fff;
+                    border-radius: 8px;
+                    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+                    padding: 8px 0;
+                    min-width: 120px;
+                    z-index: 1000;
+
+                    .context-item {
+                        padding: 8px 16px;
+                        font-size: 14px;
+                        color: #333;
+                        cursor: pointer;
+                        transition: background-color 0.2s;
+
+                        &:hover {
+                            background-color: #f5f7fa;
+                        }
+                    }
+
+                    .context-delete {
+                        color: red;
+                    }
+                }
+            }
+        }
+
+        .preview-img {
+            max-width: 600px;
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+
+        .reply-wrapper {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 8px;
+            background-color: #eef4ff;
+            border-left: 4px solid #007bff;
+            border-radius: 8px;
+            position: relative;
+            font-family: Arial, sans-serif;
+
+            .replied-message-text {
+                font-size: 14px;
+                color: #333;
+                max-width: 90%;
+                word-break: break-word;
+                line-height: 1.4;
+            }
+
+            .close-reply {
+                font-size: 18px;
+                color: #888;
+                cursor: pointer;
+                position: absolute;
+                right: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+                transition: color 0.2s ease;
+
+                &:hover {
+                    color: #333;
+                }
+            }
+        }
+
+        .chat-input-wrapper {
+            display: flex;
+            gap: 10px;
+
+            .input-container {
+                flex-grow: 1;
+                display: flex;
+                align-items: center;
+                border-radius: 8px;
+                background-color: #f5f7fa;
+                padding: 10px 12px;
+
+                .img-icon {
+                    width: 20px;
+                    height: 20px;
+                    padding-right: 10px;
+                    cursor: pointer;
+                }
+
+                textarea {
+                    flex-grow: 1;
+                    border: none;
+                    background: transparent;
+                    font-size: 14px;
+                    color: #333;
+                    outline: none;
+                    resize: none;
+                    overflow-y: hidden;
+
+                    &::placeholder {
+                        color: #aaa;
+                    }
+                }
+
+                button {
+                    padding: 8px 12px;
+                    border-radius: 8px;
+                    background-color: #007bff;
+                    color: #fff;
+                    font-size: 14px;
+                    cursor: pointer;
+                    border: none;
+
+                    &:hover {
+                        background-color: #0056b3;
+                    }
+                }
+            }
+        }
+    }
+}

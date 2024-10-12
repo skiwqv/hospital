@@ -11,4 +11,19 @@ function formatTime(dateString) {
   return dateString.substring(0, 5);
 }
 
-export { formatDate, formatTime };
+function formatDateTime(dateString) {
+  const date = new Date(dateString);
+  const hours = date.getHours().toString().padStart(2, "0");
+  const minutes = date.getMinutes().toString().padStart(2, "0");
+  return `${hours}:${minutes}`;
+}
+
+function addPadding(base64String) {
+  const padding = base64String.length % 4;
+  if (padding) {
+    base64String += "=".repeat(4 - padding);
+  }
+  return base64String;
+}
+
+export { formatDate, formatTime, formatDateTime, addPadding };

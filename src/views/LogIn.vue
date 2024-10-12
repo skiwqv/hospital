@@ -29,6 +29,7 @@
         />
         <span class="error" v-if="errors.password">{{ errors.password }}</span>
       </div>
+      <router-link to="/forgot-password"> Forgot Password? </router-link>
       <button class="form-button" @click="signUp">Sign In</button>
       <span class="form-creditionals"
         >Don't have an account yet?
