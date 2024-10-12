@@ -97,6 +97,24 @@ const routes = [
         name: "Change Password",
         component: () => import("@/views/ChangePassword.vue"),
       },
+      {
+        path: "/room/:id",
+        name: "Chat Room",
+        component: () => import("@/views/ChatRoom.vue"),
+        meta: { requiresAuth: true },
+      },
+      {
+        path: "/notifications",
+        name: "Notifications",
+        component: () => import("@/views/Notification.vue"),
+        meta: { requiresAuth: true },
+      },
+      {
+        path: "/resent-chats",
+        name: "ResentChats",
+        component: () => import("@/views/ResentChats.vue"),
+        meta: { requiresAuth: true },
+      },
     ],
   },
   {
