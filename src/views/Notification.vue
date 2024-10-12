@@ -1,31 +1,29 @@
 <template>
   <div class="notifications-wrapper">
     <div class="notifications-container">
-      <!-- Заголовок уведомлений -->
       <div class="notifications-header">
         <h2>Notifications</h2>
         <span class="clear-all" @click="clearAllNotifications">Clear All</span>
       </div>
-
-      <!-- Список уведомлений -->
       <div class="notifications-list">
-        <!-- Проверка на наличие уведомлений -->
         <div v-if="notifications.length > 0">
           <div
             v-for="(notification, index) in notifications"
             :key="index"
             class="notification-item"
-            :class="{ unread: !notification.read }"
+            @click="toRoom(notification.room_name, notification.sender_id)"
           >
             <div class="notification-icon">
-              <i class="fas fa-bell"></i>
+              <img :src="notification.sender_avatar" />
             </div>
             <div class="notification-details">
-              <div class="notification-title">{{ notification.title }}</div>
-              <div class="notification-time">{{ notification.time }}</div>
-            </div>
-            <div v-if="!notification.read" class="notification-status">
-              Unread
+              <div class="notification-name">
+                {{ notification.sender_name }}
+              </div>
+              <div class="notification-title">{{ notification.content }}</div>
+              <div class="notification-time">
+                {{ formatDateTime(notification.timestamp) }}
+              </div>
             </div>
           </div>
         </div>
@@ -37,18 +35,13 @@
 
 <script setup>
 import { ref, computed } from "vue";
+import { useNotifStore } from "../store/notifications";
+import { formatDateTime } from "../helpers/Formater";
+import router from "@/router";
 
-const mockNotifications = [
-  { title: "New comment on your post", time: "2 mins ago", read: false },
-  { title: "You have a new friend request", time: "5 mins ago", read: true },
-  { title: "Someone liked your post", time: "10 mins ago", read: false },
-  { title: "Someone liked your post", time: "10 mins ago", read: false },
-  { title: "Someone liked your post", time: "10 mins ago", read: false },
-  { title: "Someone liked your post", time: "10 mins ago", read: false },
-  { title: "Someone liked your post", time: "10 mins ago", read: false },
-];
+const notificationStore = useNotifStore();
 
-const notifications = ref([...mockNotifications]);
+const notifications = computed(() => notificationStore.notifications);
 
 const clearAllNotifications = () => {
   notifications.value = [];
@@ -60,6 +53,15 @@ const loadMoreNotifications = () => {
     { title: "Your password was changed", time: "1 hour ago", read: false },
   ];
   notifications.value.push(...moreNotifications);
+};
+
+const toRoom = async (room_name, sender_id) => {
+  router.push({
+    path: `/room/${room_name}`,
+    query: {
+      userId: sender_id,
+    },
+  });
 };
 
 const unreadNotificationsCount = computed(() => {

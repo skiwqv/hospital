@@ -75,7 +75,11 @@
         <router-link to="/notifications">
           <div class="bell-icon-wrapper">
             <BellIcon class="bell-icon"></BellIcon>
-            <span class="notification-counter">3</span>
+            <span
+              class="notification-counter"
+              v-if="notifications.length != 0"
+              >{{ notifications.length }}</span
+            >
           </div>
         </router-link>
         <router-link to="/resent-chats">
@@ -179,9 +183,12 @@ import MessageIcon from "@/assets/icons/message.svg";
 import router from "@/router";
 import { useRoute } from "vue-router";
 import { useAppStore } from "@/store/app";
+import { useNotifStore } from "@/store/notifications";
 
 const appStore = useAppStore();
+const notificationStore = useNotifStore();
 
+const notifications = computed(() => notificationStore.notifications);
 const currentUser = computed(() => appStore.currentUser);
 
 const isMenuOpen = ref(false);
