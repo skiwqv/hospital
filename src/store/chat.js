@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { apiClient, authorizedApiClient } from "@/services/api";
 import { useToast } from "vue-toast-notification";
+import sendMessageAudio from "@/assets/audio/send_message.wav";
 
 export const useChatStore = defineStore("chat", {
   state: () => ({
@@ -8,6 +9,7 @@ export const useChatStore = defineStore("chat", {
     isConnected: false,
     roomName: "",
     messages: [],
+    resentChats: [],
   }),
 
   actions: {
@@ -25,32 +27,40 @@ export const useChatStore = defineStore("chat", {
       this.socket.onmessage = (event) => {
         const data = JSON.parse(event.data);
         console.log(data);
-        if (data.type === "delete_message") {
-          const message = this.messages.find(
-            (msg) => msg.id === data.messages.id
-          );
-          if (message) {
-            message.is_deleted = true;
+
+        switch (data.type) {
+          case "delete_message": {
+            const message = this.messages.find(
+              (msg) => msg.id === data.messages.id
+            );
+            if (message) {
+              message.is_deleted = true;
+            }
+            break;
           }
-          return;
-        }
-        if (data.type === "edit_message") {
-          const message = this.messages.find(
-            (msg) => msg.id === data.messages.id
-          );
-          if (message) {
-            message.is_edited = true;
-            message.content = data.messages.content;
+
+          case "edit_message": {
+            const message = this.messages.find(
+              (msg) => msg.id === data.messages.id
+            );
+            if (message) {
+              message.is_edited = true;
+              message.content = data.messages.content;
+            }
+            break;
           }
-          return;
-        }
-        if (
-          typeof data.messages === "object" &&
-          !Array.isArray(data.messages)
-        ) {
-          this.messages.push(data.messages);
-        } else if (Array.isArray(data.messages)) {
-          this.messages = data.messages;
+
+          default: {
+            if (
+              typeof data.messages === "object" &&
+              !Array.isArray(data.messages)
+            ) {
+              this.messages.push(data.messages);
+            } else if (Array.isArray(data.messages)) {
+              this.messages = data.messages;
+            }
+            break;
+          }
         }
       };
 
@@ -69,6 +79,8 @@ export const useChatStore = defineStore("chat", {
       if (this.socket && this.socket.readyState === WebSocket.OPEN) {
         const formattedMessage = JSON.stringify(message);
         this.socket.send(formattedMessage);
+        const audio = new Audio(sendMessageAudio);
+        audio.play();
       } else {
         console.error("WebSocket is not open. Cannot send message.");
       }
@@ -137,6 +149,11 @@ export const useChatStore = defineStore("chat", {
       } catch (error) {
         console.error("doctor failed:", error);
       }
+    },
+    async getResentChats() {
+      const { data } = await authorizedApiClient.get("/chat/get_chat/");
+      console.log(data);
+      this.resentChats = data;
     },
   },
 });

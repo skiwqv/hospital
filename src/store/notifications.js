@@ -35,5 +35,14 @@ export const useNotifStore = defineStore("notification", {
         this.socket = null;
       };
     },
+    clearAllNotifications() {
+      this.notifications = [];
+    },
+
+    clearRoomNotifications(roomName) {
+      this.notifications = this.notifications.filter(
+        (notification) => notification.room_name !== roomName
+      );
+    },
   },
 });

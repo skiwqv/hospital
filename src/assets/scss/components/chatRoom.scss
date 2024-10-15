@@ -73,11 +73,37 @@
                     color: #333;
                 }
 
-                .message-time {
-                    font-size: 12px;
-                    color: #888;
-                    margin-top: 4px;
-                    align-self: flex-end;
+                .message-status {
+                    display: flex;
+                    justify-content: space-between;
+                    gap: 4px;
+
+                    .message-time {
+                        font-size: 12px;
+                        color: #888;
+                        margin-top: 4px;
+                        align-self: flex-end;
+                    }
+
+                    .message-read {
+                        display: flex;
+                        align-items: center;
+                        margin-top: 3px;
+
+                        .tick-icon {
+                            stroke: #888;
+                            width: 12px;
+                            height: 12px;
+                        }
+                    }
+
+                    .message-edited {
+                        font-size: 12px;
+                        color: #888;
+                        margin-top: 4px;
+                        align-self: flex-end;
+                        font-style: italic;
+                    }
                 }
 
                 .message-replied {
@@ -87,14 +113,6 @@
                     padding: 6px 8px;
                     border-radius: 6px;
                     margin-bottom: 6px;
-                }
-
-                .message-edited {
-                    font-size: 12px;
-                    color: #888;
-                    margin-top: 4px;
-                    align-self: flex-end;
-                    font-style: italic;
                 }
 
                 .message-deleted {

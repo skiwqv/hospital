@@ -5,10 +5,15 @@
         <h2>Chats</h2>
       </div>
       <div class="chat-list">
-        <div v-for="chat in unreadChats" :key="chat.id" class="chat-item">
+        <div
+          v-for="chat in resentChats"
+          :key="chat.id"
+          class="chat-item"
+          @click="toRoom(chat.room_name, chat.user_id)"
+        >
           <img :src="chat.avatar" alt="avatar" class="chat-avatar" />
           <div class="chat-details">
-            <div class="chat-name">{{ chat.name }}</div>
+            <div class="chat-name">{{ chat.user_name }}</div>
           </div>
         </div>
       </div>
@@ -17,38 +22,25 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed, onMounted } from "vue";
+import { useChatStore } from "@/store/chat";
+import router from "@/router";
 
-const chats = [
-  {
-    id: 1,
-    name: "Alice Johnson",
-    avatar:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMb2zIffkyVl_2JJJeu6es0Mzo3ug_Lw647Q&s",
-    unread: true,
-  },
-  {
-    id: 2,
-    name: "Bob Smith",
-    avatar:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMb2zIffkyVl_2JJJeu6es0Mzo3ug_Lw647Q&s",
-    unread: true,
-  },
-  {
-    id: 3,
-    name: "Charlie Brown",
-    avatar:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMb2zIffkyVl_2JJJeu6es0Mzo3ug_Lw647Q&s",
-    unread: true,
-  },
-  {
-    id: 4,
-    name: "David Clark",
-    avatar:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMb2zIffkyVl_2JJJeu6es0Mzo3ug_Lw647Q&s",
-    unread: true,
-  },
-];
+const chatStore = useChatStore();
 
-const unreadChats = computed(() => chats.filter((chat) => chat.unread));
+const resentChats = computed(() => chatStore.resentChats);
+
+const toRoom = async (room_name, sender_id) => {
+  router.replace({
+    path: `/room/${room_name}`,
+    query: {
+      userId: sender_id,
+    },
+  });
+};
+
+onMounted(async () => {
+  await chatStore.getResentChats();
+  console.log(resentChats.value);
+});
 </script>

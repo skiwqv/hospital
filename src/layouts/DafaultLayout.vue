@@ -48,8 +48,25 @@
           {{ link.label }}
         </router-link>
       </div>
-      <div class="menu-icon" @click="isMenuOpen = !isMenuOpen">
-        <component :is="isMenuOpen ? CloseIcon : BurgerMenuIcon" />
+      <div class="mobile-nav-wrapper">
+        <router-link to="/notifications" v-if="currentUser">
+          <div class="bell-icon-wrapper">
+            <BellIcon class="bell-icon"></BellIcon>
+            <span
+              class="notification-counter"
+              v-if="notifications.length != 0"
+              >{{ notifications.length }}</span
+            >
+          </div>
+        </router-link>
+        <div class="menu-icon" @click="isMenuOpen = !isMenuOpen">
+          <component :is="isMenuOpen ? CloseIcon : BurgerMenuIcon" />
+        </div>
+        <router-link to="/resent-chats">
+          <div class="bell-icon-wrapper">
+            <MessageIcon class="bell-icon"></MessageIcon>
+          </div>
+        </router-link>
       </div>
       <div class="nav-menu" :class="{ open: isMenuOpen }">
         <router-link
@@ -71,8 +88,8 @@
       <button v-if="!currentUser" class="nav-button" @click="toSignIn">
         Sign In
       </button>
-      <div v-else class="user-wrapper">
-        <router-link to="/notifications">
+      <div class="user-wrapper">
+        <router-link to="/notifications" v-if="currentUser">
           <div class="bell-icon-wrapper">
             <BellIcon class="bell-icon"></BellIcon>
             <span

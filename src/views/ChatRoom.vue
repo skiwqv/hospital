@@ -50,10 +50,16 @@
               @click.stop="toggleZoom"
             />
           </div>
-          <div class="message-time">
-            {{ formatDateTime(message.timestamp) }}
+          <div class="message-status">
+            <div v-if="message.is_edited" class="message-edited">Edited</div>
+            <div class="message-time">
+              {{ formatDateTime(message.timestamp) }}
+            </div>
+            <div class="message-read" v-if="message.sender == currentUser.id">
+              <TickIcon class="tick-icon" v-if="!message.is_read"></TickIcon>
+              <TickDoubleIcon class="tick-icon" v-else></TickDoubleIcon>
+            </div>
           </div>
-          <div v-if="message.is_edited" class="message-edited">Edited</div>
           <div
             v-if="menuVisible && activeMessageId === message.id"
             class="context-menu"
@@ -89,6 +95,7 @@
             placeholder="Type your message..."
             rows="1"
             @input="autoResize"
+            @keydown.enter.prevent="isEditing ? updateMessage() : sendMessage()"
           />
           <button
             v-if="!imagePreview"
@@ -121,7 +128,9 @@ import {
 import { useAppStore } from "@/store/app";
 import { useChatStore } from "@/store/chat";
 import { useRoute } from "vue-router";
-import { addPadding, formatDateTime } from "../helpers/Formater";
+import { addPadding, formatDateTime } from "@/helpers/Formater";
+import TickIcon from "@/assets/icons/tick.svg";
+import TickDoubleIcon from "@/assets/icons/tick_double.svg";
 import ImgBox from "@/assets/icons/img-box.svg";
 
 const appStore = useAppStore();

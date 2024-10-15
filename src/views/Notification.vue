@@ -35,8 +35,8 @@
 
 <script setup>
 import { ref, computed } from "vue";
-import { useNotifStore } from "../store/notifications";
-import { formatDateTime } from "../helpers/Formater";
+import { useNotifStore } from "@/store/notifications";
+import { formatDateTime } from "@/helpers/Formater";
 import router from "@/router";
 
 const notificationStore = useNotifStore();
@@ -44,28 +44,20 @@ const notificationStore = useNotifStore();
 const notifications = computed(() => notificationStore.notifications);
 
 const clearAllNotifications = () => {
-  notifications.value = [];
+  notificationStore.clearAllNotifications();
 };
 
-const loadMoreNotifications = () => {
-  const moreNotifications = [
-    { title: "New message from John", time: "20 mins ago", read: true },
-    { title: "Your password was changed", time: "1 hour ago", read: false },
-  ];
-  notifications.value.push(...moreNotifications);
+const removeNotificationsByRoom = (roomName) => {
+  notificationStore.clearRoomNotifications(roomName);
 };
 
 const toRoom = async (room_name, sender_id) => {
-  router.push({
+  removeNotificationsByRoom(room_name);
+  router.replace({
     path: `/room/${room_name}`,
     query: {
       userId: sender_id,
     },
   });
 };
-
-const unreadNotificationsCount = computed(() => {
-  return notifications.value.filter((notification) => !notification.read)
-    .length;
-});
 </script>
