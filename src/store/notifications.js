@@ -4,6 +4,8 @@ import { useToast } from "vue-toast-notification";
 
 export const useNotifStore = defineStore("notification", {
   state: () => ({
+    socket: null,
+    isConnected: false,
     notifications: [],
   }),
 
@@ -43,6 +45,15 @@ export const useNotifStore = defineStore("notification", {
       this.notifications = this.notifications.filter(
         (notification) => notification.room_name !== roomName
       );
+    },
+    async closeSocket() {
+      if (this.socket) {
+        this.socket.close();
+        this.socket = null;
+        this.isConnected = false;
+      } else {
+        console.warn("WebSocket is already closed.");
+      }
     },
   },
 });

@@ -280,17 +280,18 @@ const cancelEditOrReplyOrImage = () => {
 
 const onFileChange = (event) => {
   const file = event.target.files[0];
+  if (!file) return;
+
   const reader = new FileReader();
+
   reader.onloadend = () => {
-    imageSrc.value = reader.result.split(",")[1];
+    const base64String = reader.result.split(",")[1];
+    const mimeType = file.type;
+    imageSrc.value = base64String;
     imagePreview.value = URL.createObjectURL(file);
   };
-  if (file) {
-    reader.readAsDataURL(file);
-  } else {
-    imageSrc.value = null;
-    imagePreview.value = null;
-  }
+
+  reader.readAsDataURL(file);
 };
 
 const autoResize = (event) => {

@@ -62,7 +62,7 @@
         <div class="menu-icon" @click="isMenuOpen = !isMenuOpen">
           <component :is="isMenuOpen ? CloseIcon : BurgerMenuIcon" />
         </div>
-        <router-link to="/resent-chats">
+        <router-link to="/resent-chats" v-if="currentUser">
           <div class="bell-icon-wrapper">
             <MessageIcon class="bell-icon"></MessageIcon>
           </div>
@@ -88,8 +88,8 @@
       <button v-if="!currentUser" class="nav-button" @click="toSignIn">
         Sign In
       </button>
-      <div class="user-wrapper">
-        <router-link to="/notifications" v-if="currentUser">
+      <div class="user-wrapper" v-if="currentUser">
+        <router-link to="/notifications">
           <div class="bell-icon-wrapper">
             <BellIcon class="bell-icon"></BellIcon>
             <span
@@ -182,7 +182,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import callIcon from "@/assets/icons/phone.svg";
 import clockIcon from "@/assets/icons/clock.svg";
 import locationIcon from "@/assets/icons/location.svg";
@@ -220,6 +220,7 @@ const toSignIn = () => {
 const logOut = async () => {
   try {
     await appStore.logOut();
+    await notificationStore.closeSocket();
     isMenuOpen.value = !isMenuOpen.value;
     router.push("/");
   } catch (err) {}

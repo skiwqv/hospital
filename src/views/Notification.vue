@@ -13,14 +13,23 @@
             class="notification-item"
             @click="toRoom(notification.room_name, notification.sender_id)"
           >
-            <div class="notification-icon">
-              <img :src="notification.sender_avatar" />
+            <div>
+              <img
+                :src="notification.sender_avatar"
+                class="notification-icon"
+              />
             </div>
             <div class="notification-details">
               <div class="notification-name">
                 {{ notification.sender_name }}
               </div>
-              <div class="notification-title">{{ notification.content }}</div>
+              <div
+                class="notification-title"
+                v-if="notification.content != null"
+              >
+                {{ notification.content }}
+              </div>
+              <div class="notification-title" v-else>Photo</div>
               <div class="notification-time">
                 {{ formatDateTime(notification.timestamp) }}
               </div>
