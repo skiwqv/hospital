@@ -63,6 +63,7 @@
                 position: relative;
                 font-family: $font-family-table;
 
+
                 &.from-user {
                     align-self: flex-end;
                     background-color: #e3f2fd;
@@ -125,6 +126,68 @@
                     cursor: pointer;
                     transition: transform 0.3s ease;
                 }
+
+                .message-file {
+                    cursor: pointer;
+                    position: relative;
+                    display: inline-block;
+
+                    .file-wrapper {
+                        display: flex;
+                        align-items: center;
+
+                        .pdf-icon {
+                            width: 28px;
+                            height: 28px;
+                        }
+
+                        .file-name {
+                            margin-left: 8px;
+                        }
+                    }
+
+                    .download-overlay {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        width: 100%;
+                        height: 100%;
+                        background-color: rgba(0, 0, 0, 0.6);
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        opacity: 0;
+                        padding: 5px 0;
+                        border-radius: 10px;
+                        transition: opacity 0.3s ease;
+
+                        .download-btn {
+                            background: none;
+                            border: none;
+                            cursor: pointer;
+
+                            .download-icon {
+                                width: 32px;
+                                height: 32px;
+                            }
+
+                            .download-icon path {
+                                stroke: $secondary;
+
+                                &:hover {
+                                    stroke: $white;
+                                }
+                            }
+                        }
+                    }
+
+                    &:hover .download-overlay {
+                        opacity: 1;
+                    }
+                }
+
 
                 .overlay {
                     position: fixed;

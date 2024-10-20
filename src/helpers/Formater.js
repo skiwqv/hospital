@@ -26,4 +26,9 @@ function addPadding(base64String) {
   return base64String;
 }
 
-export { formatDate, formatTime, formatDateTime, addPadding };
+function sliceFileName(file) {
+  const encodedFileName = file.substring(file.lastIndexOf("/") + 1);
+  return decodeURIComponent(encodedFileName);
+}
+
+export { formatDate, formatTime, formatDateTime, addPadding, sliceFileName };
