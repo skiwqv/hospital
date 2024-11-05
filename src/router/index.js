@@ -115,6 +115,12 @@ const routes = [
         component: () => import("@/views/ResentChats.vue"),
         meta: { requiresAuth: true },
       },
+      {
+        path: "/conference/:room",
+        name: "Conference",
+        component: () => import("@/views/Confrence.vue"),
+        meta: { requiresAuth: true },
+      },
     ],
   },
   {

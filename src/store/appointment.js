@@ -74,7 +74,6 @@ export const useAppointmentStore = defineStore("appointment", {
         $toast.success("Record added successfully", {
           position: "bottom",
         });
-        console.log(resp);
       } catch (error) {
         $toast.error("Failed to add record", {
           position: "bottom",

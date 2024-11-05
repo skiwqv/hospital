@@ -4,6 +4,8 @@ import { useToast } from "vue-toast-notification";
 
 export const useNotifStore = defineStore("notification", {
   state: () => ({
+    socket: null,
+    isConnected: false,
     notifications: [],
   }),
 
@@ -15,13 +17,8 @@ export const useNotifStore = defineStore("notification", {
         `${import.meta.env.VITE_APP_SOCKET_URL}notification/?token=${token}`
       );
 
-      this.socket.onopen = (event) => {
-        console.log(event);
-        console.log("WebSocket connection established");
-      };
       this.socket.onmessage = (event) => {
         const data = JSON.parse(event.data);
-        console.log(data);
         this.notifications.push(data.notification);
       };
 
@@ -30,10 +27,27 @@ export const useNotifStore = defineStore("notification", {
       };
 
       this.socket.onclose = () => {
-        console.log("WebSocket connection closed");
         this.isConnected = false;
         this.socket = null;
       };
+    },
+    clearAllNotifications() {
+      this.notifications = [];
+    },
+
+    clearRoomNotifications(roomName) {
+      this.notifications = this.notifications.filter(
+        (notification) => notification.room_name !== roomName
+      );
+    },
+    async closeSocket() {
+      if (this.socket) {
+        this.socket.close();
+        this.socket = null;
+        this.isConnected = false;
+      } else {
+        console.warn("WebSocket is already closed.");
+      }
     },
   },
 });
