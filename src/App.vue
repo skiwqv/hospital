@@ -22,10 +22,8 @@ watch(
   () => appStore.currentUser,
   (newUser) => {
     if (newUser && !notificationStore.socket) {
-      console.log("User detected, connecting socket...");
       notificationStore.connectSocket();
     } else if (!newUser && notificationStore.socket) {
-      console.log("No user, socket not connected.");
       notificationStore.closeSocket();
     }
   }

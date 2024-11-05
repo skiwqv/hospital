@@ -6,6 +6,7 @@
           <span>{{ userByIdName }}</span>
           <img :src="userByIdAvatar" alt="User Avatar" class="header-avatar" />
         </div>
+        <VideoIcon class="video" @click="sendVideoLink"></VideoIcon>
       </div>
 
       <div class="chat-content" ref="chatContent">
@@ -157,11 +158,13 @@ import { useAppStore } from "@/store/app";
 import { useChatStore } from "@/store/chat";
 import { useRoute } from "vue-router";
 import { addPadding, formatDateTime, sliceFileName } from "@/helpers/Formater";
+import router from "@/router";
 import TickIcon from "@/assets/icons/tick.svg";
 import TickDoubleIcon from "@/assets/icons/tick_double.svg";
 import PDFIcon from "@/assets/icons/pdf.svg";
 import DownloadIcon from "@/assets/icons/download.svg";
 import ImgBox from "@/assets/icons/img-box.svg";
+import VideoIcon from "@/assets/icons/video.svg";
 
 const appStore = useAppStore();
 const chatStore = useChatStore();
@@ -225,7 +228,6 @@ const sendMedia = () => {
     media: addPadding(imageSrc.value),
     replied_to: repliedMessage.value?.id || null,
   };
-  console.log(mimeType.value);
 
   chatStore.sendMessage(messageBody);
   resetMessage();
@@ -312,6 +314,24 @@ const cancelReply = () => {
   repliedMessage.value = null;
 };
 
+const sendVideoLink = () => {
+  const roomName = route.params.id;
+  const videoRoomLink = `http://localhost:5173/conference/${roomName}`;
+  const messageBody = {
+    type: "text",
+    message: videoRoomLink,
+    replied_to: repliedMessage.value?.id || null,
+  };
+
+  chatStore.sendMessage(messageBody);
+  router.push({
+    path: `/conference/${roomName}`,
+    query: {
+      innitiator: true,
+    },
+  });
+};
+
 const cancelEditOrReplyOrImage = () => {
   isEditing.value = false;
   editingMessageId.value = null;
@@ -325,11 +345,8 @@ const onFileChange = (event) => {
   const file = event.target.files[0];
 
   if (!file) {
-    console.log("Файл не выбран.");
     return;
   }
-
-  console.log("Файл выбран:", file);
 
   fileName.value = file.name;
 
@@ -340,13 +357,6 @@ const onFileChange = (event) => {
     mimeType.value = file.type;
     imageSrc.value = base64String;
     imagePreview.value = URL.createObjectURL(file);
-
-    console.log("Тип файла:", mimeType.value);
-    console.log("Превью:", imagePreview.value);
-  };
-
-  reader.onerror = () => {
-    console.error("Ошибка чтения файла.");
   };
 
   reader.readAsDataURL(file);
@@ -367,7 +377,7 @@ const scrollToBottom = () => {
 
 const isLink = (text) => {
   const urlPattern =
-    /^(https?:\/\/|www\.|ftp:\/\/)?([a-zA-Z0-9\-]+\.)+[a-zA-Z]{2,}(:[0-9]{1,5})?(\/\S*)?$/;
+    /^(https?:\/\/)?([a-zA-Z0-9.-]+\.[a-zA-Z]{2,}|localhost)(:[0-9]{1,5})?(\/\S*)?$/;
   return urlPattern.test(text);
 };
 

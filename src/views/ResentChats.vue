@@ -41,6 +41,5 @@ const toRoom = async (room_name, sender_id) => {
 
 onMounted(async () => {
   await chatStore.getResentChats();
-  console.log(resentChats.value);
 });
 </script>

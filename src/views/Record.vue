@@ -69,6 +69,5 @@ const toggleZoom = () => {
 onMounted(async () => {
   let id = route.params.id;
   await appointmentStore.getRecordById(id);
-  console.log(record.value);
 });
 </script>

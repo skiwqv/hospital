@@ -21,12 +21,10 @@ export const useChatStore = defineStore("chat", {
       );
 
       this.socket.onopen = (event) => {
-        console.log("WebSocket connection established");
         this.isConnected = true;
       };
       this.socket.onmessage = (event) => {
         const data = JSON.parse(event.data);
-        console.log(data);
 
         switch (data.type) {
           case "delete_message": {
@@ -69,7 +67,6 @@ export const useChatStore = defineStore("chat", {
       };
 
       this.socket.onclose = () => {
-        console.log("WebSocket connection closed");
         this.isConnected = false;
         this.socket = null;
       };
@@ -152,7 +149,6 @@ export const useChatStore = defineStore("chat", {
     },
     async getResentChats() {
       const { data } = await authorizedApiClient.get("/chat/get_chat/");
-      console.log(data);
       this.resentChats = data;
     },
   },
