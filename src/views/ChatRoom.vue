@@ -6,6 +6,7 @@
           <span>{{ userByIdName }}</span>
           <img :src="userByIdAvatar" alt="User Avatar" class="header-avatar" />
         </div>
+        <VideoIcon class="video" @click="sendVideoLink"></VideoIcon>
       </div>
 
       <div class="chat-content" ref="chatContent">
@@ -36,12 +37,29 @@
           >
             {{ message.content }}
           </a>
+          <!-- Если файл - изображение -->
           <img
-            v-if="message.media"
+            v-if="message.media && !isPdf(message.file_type)"
             class="message-media"
             :src="message.media"
             @click="openImage(message.media)"
           />
+          <div
+            v-if="message.media && isPdf(message.file_type)"
+            class="message-file"
+            @click="downloadFile(message.media)"
+          >
+            <div class="file-wrapper" :href="message.media" target="_blank">
+              <PDFIcon class="pdf-icon"></PDFIcon>
+              <div class="file-name">{{ sliceFileName(message.media) }}</div>
+            </div>
+            <div class="download-overlay">
+              <button class="download-btn">
+                <DownloadIcon class="download-icon" />
+              </button>
+            </div>
+          </div>
+
           <div v-if="isImageOpen" class="overlay" @click="closeImage">
             <img
               :src="selectedImage"
@@ -50,10 +68,16 @@
               @click.stop="toggleZoom"
             />
           </div>
-          <div class="message-time">
-            {{ formatDateTime(message.timestamp) }}
+          <div class="message-status">
+            <div v-if="message.is_edited" class="message-edited">Edited</div>
+            <div class="message-time">
+              {{ formatDateTime(message.timestamp) }}
+            </div>
+            <div class="message-read" v-if="message.sender == currentUser.id">
+              <TickIcon class="tick-icon" v-if="!message.is_read"></TickIcon>
+              <TickDoubleIcon class="tick-icon" v-else></TickDoubleIcon>
+            </div>
           </div>
-          <div v-if="message.is_edited" class="message-edited">Edited</div>
           <div
             v-if="menuVisible && activeMessageId === message.id"
             class="context-menu"
@@ -78,17 +102,29 @@
         <div class="replied-message-text">{{ repliedMessage.content }}</div>
       </div>
 
-      <img v-if="imagePreview" :src="imagePreview" class="preview-img" />
+      <div v-if="imagePreview && imageSrc && !isPdf(imagePreview)">
+        <img :src="imagePreview" class="preview-img" />
+      </div>
+      <div v-else>
+        <div class="file-name">{{ fileName }}</div>
+      </div>
 
       <div class="chat-input-wrapper">
         <div class="input-container">
-          <input type="file" id="image" hidden @change="onFileChange" />
+          <input
+            type="file"
+            id="image"
+            hidden
+            @change="onFileChange"
+            accept="image/*,application/pdf"
+          />
           <label for="image"><ImgBox class="img-icon" /></label>
           <textarea
             v-model="message"
             placeholder="Type your message..."
             rows="1"
             @input="autoResize"
+            @keydown.enter.prevent="isEditing ? updateMessage() : sendMessage()"
           />
           <button
             v-if="!imagePreview"
@@ -121,8 +157,14 @@ import {
 import { useAppStore } from "@/store/app";
 import { useChatStore } from "@/store/chat";
 import { useRoute } from "vue-router";
-import { addPadding, formatDateTime } from "../helpers/Formater";
+import { addPadding, formatDateTime, sliceFileName } from "@/helpers/Formater";
+import router from "@/router";
+import TickIcon from "@/assets/icons/tick.svg";
+import TickDoubleIcon from "@/assets/icons/tick_double.svg";
+import PDFIcon from "@/assets/icons/pdf.svg";
+import DownloadIcon from "@/assets/icons/download.svg";
 import ImgBox from "@/assets/icons/img-box.svg";
+import VideoIcon from "@/assets/icons/video.svg";
 
 const appStore = useAppStore();
 const chatStore = useChatStore();
@@ -151,8 +193,9 @@ const selectedImage = ref(null);
 const isEditing = ref(false);
 const editingMessageId = ref(null);
 let touchTimeout = null;
-
+const mimeType = ref(null);
 const chatContent = ref(null);
+const fileName = ref(null);
 
 const sendMessage = () => {
   const trimmedMessage = message.value.trim();
@@ -168,15 +211,24 @@ const sendMessage = () => {
   resetMessage();
 };
 
+const isPdf = (src) => src == "application/pdf";
+
+const downloadFile = (link) => {
+  window.open(link, "_blank");
+};
+
 const sendMedia = () => {
   if (!imageSrc.value) {
     return;
   }
   const messageBody = {
     type: "media",
+    file_type: mimeType.value,
+    file_name: fileName.value,
     media: addPadding(imageSrc.value),
     replied_to: repliedMessage.value?.id || null,
   };
+
   chatStore.sendMessage(messageBody);
   resetMessage();
   imagePreview.value = null;
@@ -189,6 +241,8 @@ const resetMessage = () => {
   editingMessageId.value = null;
   imagePreview.value = null;
   imageSrc.value = null;
+  fileName.value = null;
+  mimeType.value = null;
 };
 
 const openMenu = (event, messageId) => {
@@ -260,6 +314,24 @@ const cancelReply = () => {
   repliedMessage.value = null;
 };
 
+const sendVideoLink = () => {
+  const roomName = route.params.id;
+  const videoRoomLink = `http://localhost:5173/conference/${roomName}`;
+  const messageBody = {
+    type: "text",
+    message: videoRoomLink,
+    replied_to: repliedMessage.value?.id || null,
+  };
+
+  chatStore.sendMessage(messageBody);
+  router.push({
+    path: `/conference/${roomName}`,
+    query: {
+      innitiator: true,
+    },
+  });
+};
+
 const cancelEditOrReplyOrImage = () => {
   isEditing.value = false;
   editingMessageId.value = null;
@@ -271,17 +343,23 @@ const cancelEditOrReplyOrImage = () => {
 
 const onFileChange = (event) => {
   const file = event.target.files[0];
+
+  if (!file) {
+    return;
+  }
+
+  fileName.value = file.name;
+
   const reader = new FileReader();
+
   reader.onloadend = () => {
-    imageSrc.value = reader.result.split(",")[1];
+    const base64String = reader.result.split(",")[1];
+    mimeType.value = file.type;
+    imageSrc.value = base64String;
     imagePreview.value = URL.createObjectURL(file);
   };
-  if (file) {
-    reader.readAsDataURL(file);
-  } else {
-    imageSrc.value = null;
-    imagePreview.value = null;
-  }
+
+  reader.readAsDataURL(file);
 };
 
 const autoResize = (event) => {
@@ -299,7 +377,7 @@ const scrollToBottom = () => {
 
 const isLink = (text) => {
   const urlPattern =
-    /^(https?:\/\/|www\.|ftp:\/\/)?([a-zA-Z0-9\-]+\.)+[a-zA-Z]{2,}(:[0-9]{1,5})?(\/\S*)?$/;
+    /^(https?:\/\/)?([a-zA-Z0-9.-]+\.[a-zA-Z]{2,}|localhost)(:[0-9]{1,5})?(\/\S*)?$/;
   return urlPattern.test(text);
 };
 

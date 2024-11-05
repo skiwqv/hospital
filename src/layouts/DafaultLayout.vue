@@ -48,8 +48,25 @@
           {{ link.label }}
         </router-link>
       </div>
-      <div class="menu-icon" @click="isMenuOpen = !isMenuOpen">
-        <component :is="isMenuOpen ? CloseIcon : BurgerMenuIcon" />
+      <div class="mobile-nav-wrapper">
+        <router-link to="/notifications" v-if="currentUser">
+          <div class="bell-icon-wrapper">
+            <BellIcon class="bell-icon"></BellIcon>
+            <span
+              class="notification-counter"
+              v-if="notifications.length != 0"
+              >{{ notifications.length }}</span
+            >
+          </div>
+        </router-link>
+        <div class="menu-icon" @click="isMenuOpen = !isMenuOpen">
+          <component :is="isMenuOpen ? CloseIcon : BurgerMenuIcon" />
+        </div>
+        <router-link to="/resent-chats" v-if="currentUser">
+          <div class="bell-icon-wrapper">
+            <MessageIcon class="bell-icon"></MessageIcon>
+          </div>
+        </router-link>
       </div>
       <div class="nav-menu" :class="{ open: isMenuOpen }">
         <router-link
@@ -71,7 +88,7 @@
       <button v-if="!currentUser" class="nav-button" @click="toSignIn">
         Sign In
       </button>
-      <div v-else class="user-wrapper">
+      <div class="user-wrapper" v-if="currentUser">
         <router-link to="/notifications">
           <div class="bell-icon-wrapper">
             <BellIcon class="bell-icon"></BellIcon>
@@ -165,7 +182,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import callIcon from "@/assets/icons/phone.svg";
 import clockIcon from "@/assets/icons/clock.svg";
 import locationIcon from "@/assets/icons/location.svg";
@@ -203,6 +220,7 @@ const toSignIn = () => {
 const logOut = async () => {
   try {
     await appStore.logOut();
+    await notificationStore.closeSocket();
     isMenuOpen.value = !isMenuOpen.value;
     router.push("/");
   } catch (err) {}

@@ -13,14 +13,23 @@
             class="notification-item"
             @click="toRoom(notification.room_name, notification.sender_id)"
           >
-            <div class="notification-icon">
-              <img :src="notification.sender_avatar" />
+            <div>
+              <img
+                :src="notification.sender_avatar"
+                class="notification-icon"
+              />
             </div>
             <div class="notification-details">
               <div class="notification-name">
                 {{ notification.sender_name }}
               </div>
-              <div class="notification-title">{{ notification.content }}</div>
+              <div
+                class="notification-title"
+                v-if="notification.content != null"
+              >
+                {{ notification.content }}
+              </div>
+              <div class="notification-title" v-else>Photo</div>
               <div class="notification-time">
                 {{ formatDateTime(notification.timestamp) }}
               </div>
@@ -35,8 +44,8 @@
 
 <script setup>
 import { ref, computed } from "vue";
-import { useNotifStore } from "../store/notifications";
-import { formatDateTime } from "../helpers/Formater";
+import { useNotifStore } from "@/store/notifications";
+import { formatDateTime } from "@/helpers/Formater";
 import router from "@/router";
 
 const notificationStore = useNotifStore();
@@ -44,28 +53,20 @@ const notificationStore = useNotifStore();
 const notifications = computed(() => notificationStore.notifications);
 
 const clearAllNotifications = () => {
-  notifications.value = [];
+  notificationStore.clearAllNotifications();
 };
 
-const loadMoreNotifications = () => {
-  const moreNotifications = [
-    { title: "New message from John", time: "20 mins ago", read: true },
-    { title: "Your password was changed", time: "1 hour ago", read: false },
-  ];
-  notifications.value.push(...moreNotifications);
+const removeNotificationsByRoom = (roomName) => {
+  notificationStore.clearRoomNotifications(roomName);
 };
 
 const toRoom = async (room_name, sender_id) => {
-  router.push({
+  removeNotificationsByRoom(room_name);
+  router.replace({
     path: `/room/${room_name}`,
     query: {
       userId: sender_id,
     },
   });
 };
-
-const unreadNotificationsCount = computed(() => {
-  return notifications.value.filter((notification) => !notification.read)
-    .length;
-});
 </script>

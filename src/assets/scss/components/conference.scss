@@ -1,0 +1,113 @@
+.conference-room {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #3e3d3d;
+    padding: 20px;
+    box-sizing: border-box;
+
+    .conference-header {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        max-width: 1000px;
+        padding: 15px;
+        background-color: #333;
+        border-radius: 12px;
+        color: #f0f0f0;
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            .user-avatar {
+                width: 48px;
+                height: 48px;
+                border-radius: 50%;
+                border: 2px solid #4a4a4a;
+            }
+
+            .user-name {
+                font-size: 18px;
+                font-weight: 500;
+                color: #fff;
+            }
+        }
+    }
+
+    .conference-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        width: 100%;
+        max-width: 1000px;
+        border-radius: 12px;
+        background-color: #2e2e2e;
+        padding: 20px;
+        margin-top: 20px;
+        color: #ccc;
+        position: relative;
+
+        .video-remote {
+            width: 100%;
+            height: 100%;
+            max-height: 600px;
+            background-color: #444;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #888;
+        }
+
+        .user-video {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+
+            .mini-video {
+                width: 150px;
+                height: 100px;
+                background-color: #333;
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 16px;
+                color: #ccc;
+            }
+        }
+    }
+
+    .conference-footer {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        width: 100%;
+        max-width: 1000px;
+        padding: 15px;
+        background-color: #333;
+        border-radius: 12px;
+        margin-top: 20px;
+
+        .icon {
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            fill: #888;
+            transition: fill 0.2s;
+
+            &:hover {
+                fill: #ddd;
+            }
+        }
+    }
+}

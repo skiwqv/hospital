@@ -1,6 +1,7 @@
 <template>
   <router-view></router-view>
 </template>
+
 <script setup>
 import { onMounted, watch } from "vue";
 import { useAppStore } from "@/store/app";
@@ -9,13 +10,24 @@ import { useNotifStore } from "@/store/notifications";
 const appStore = useAppStore();
 const notificationStore = useNotifStore();
 
-const token = window.localStorage.getItem("access");
 onMounted(() => {
+  const token = window.localStorage.getItem("access");
+
   if (token) {
     appStore.getUserData();
-    notificationStore.connectSocket();
   }
 });
+
+watch(
+  () => appStore.currentUser,
+  (newUser) => {
+    if (newUser && !notificationStore.socket) {
+      notificationStore.connectSocket();
+    } else if (!newUser && notificationStore.socket) {
+      notificationStore.closeSocket();
+    }
+  }
+);
 </script>
 
 <style scoped lang="scss"></style>
