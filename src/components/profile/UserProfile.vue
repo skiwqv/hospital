@@ -146,7 +146,7 @@ import { formatDate, formatTime } from "@/helpers/Formater";
 
 import UploadIcon from "@/assets/icons/upload.svg";
 import DeleteIcon from "@/assets/icons/delete.svg";
-import brendaPlaceholder from "@/assets/images/brenda.jpg";
+import brendaPlaceholder from "@/assets/images/placeholder.png";
 import router from "@/router";
 
 const appStore = useAppStore();

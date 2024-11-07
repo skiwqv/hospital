@@ -44,6 +44,7 @@
           :exact="link.exact"
           :to="link.to"
           :class="{ 'link-active': isActive(link.to) }"
+          v-show="link.requiresPatient != 'doctor'"
         >
           {{ link.label }}
         </router-link>
@@ -77,6 +78,7 @@
           :to="link.to"
           :class="{ 'link-active': isActive(link.to) }"
           @click="isMenuOpen = !isMenuOpen"
+          v-show="link.requiresPatient != 'doctor'"
         >
           {{ link.label }}
         </router-link>
@@ -150,6 +152,7 @@
             :key="index"
             class="footer-text"
             :to="link.to"
+            v-show="link.requiresPatient != 'doctor'"
           >
             {{ link.label }}
           </router-link>
@@ -244,18 +247,30 @@ const headerLinks = ref([
   { label: "Home", to: "/", exact: true },
   { label: "About us", to: "/about" },
   { label: "Doctors", to: "/doctors" },
-  { label: "Appointment", to: "/appointment" },
+  {
+    label: "Appointment",
+    to: "/appointment",
+    requiresPatient: currentUser.value?.role,
+  },
 ]);
 const navMenuLinks = ref([
   { label: "Home", to: "/", exact: true },
   { label: "About us", to: "/about" },
   { label: "Profile", to: "/profile" },
   { label: "Doctors", to: "/doctors" },
-  { label: "Appointment", to: "/appointment" },
+  {
+    label: "Appointment",
+    to: "/appointment",
+    requiresPatient: currentUser.value?.role,
+  },
 ]);
 const footerLinks = ref([
   { label: "Home", to: "/", exact: true },
-  { label: "Appointment", to: "/appointment" },
+  {
+    label: "Appointment",
+    to: "/appointment",
+    requiresPatient: currentUser.value?.role,
+  },
   { label: "Doctors", to: "/doctors" },
   { label: "About us", to: "/about" },
 ]);

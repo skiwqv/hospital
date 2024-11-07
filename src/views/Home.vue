@@ -10,7 +10,9 @@
               Leading the Way <br />
               in Medical Excellence
             </h1>
-            <button class="nav-button">Our Services</button>
+            <router-link to="/appointment">
+              <button class="nav-button">Appointment</button>
+            </router-link>
           </div>
         </div>
       </div>
@@ -94,7 +96,6 @@ import Heart from "@/assets/icons/heart.svg";
 import DoctorItem from "@/components/doctors/doctorItem.vue";
 import Carousel from "@/components/carousels/Carousel.vue";
 import Contacts from "@/components/home/contacts.vue";
-
 const appStore = useAppStore();
 
 const allDoctors = computed(() => appStore.allDoctors);

@@ -103,7 +103,7 @@
                 {{ appointment.patient_name }}
               </td>
               <td class="table-content">{{ appointment.date }}</td>
-              <td class="table-content">{{ appointment.time }}</td>
+              <td class="table-content">{{ formatTime(appointment.time) }}</td>
               <td class="table-content">{{ appointment.message }}</td>
               <td class="icon-wrapper" title="Delete Appointment">
                 <DeleteIcon
@@ -125,8 +125,9 @@ import { useAppStore } from "@/store/app";
 import { useAppointmentStore } from "@/store/appointment";
 import UploadIcon from "@/assets/icons/upload.svg";
 import DeleteIcon from "@/assets/icons/delete.svg";
-import brendaPlaceholder from "@/assets/images/brenda.jpg";
+import brendaPlaceholder from "@/assets/images/placeholder.png";
 import router from "@/router";
+import { formatTime } from "@/helpers/Formater";
 
 const appStore = useAppStore();
 const appointmentStore = useAppointmentStore();
