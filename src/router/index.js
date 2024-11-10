@@ -133,6 +133,11 @@ const routes = [
         name: "HomeAdmin",
         component: () => import("@/views/admin/HomeAdmin.vue"),
       },
+      {
+        path: "/all-users",
+        name: "allUsers",
+        component: () => import("@/views/admin/AllUsers.vue"),
+      },
     ],
   },
 ];
