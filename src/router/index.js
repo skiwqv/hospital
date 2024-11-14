@@ -180,7 +180,7 @@ router.beforeEach(async (to, from, next) => {
     }
   }
 
-  if (to.meta.requiresAdmin && currentUser.role !== "admin") {
+  if (to.meta.requiresAdmin && currentUser.roles !== "admin") {
     return next({ name: "Home" });
   }
 

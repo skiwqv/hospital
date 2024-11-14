@@ -169,8 +169,9 @@ const toMedBook = () => {
   router.push("/medical-book");
 };
 
-const deleteAppointment = (index) => {
-  appointments.value.splice(index, 1);
+const deleteAppointment = async (row) => {
+  await appointmentStore.deleteAppointment(row.id);
+  await appointmentStore.getAppointments();
 };
 
 watch(appointments, (newAppointments) => {
@@ -186,6 +187,7 @@ onMounted(async () => {
   loading.value = true;
   await appointmentStore.getAppointments();
   loading.value = false;
+  await appointmentStore.getAllAppointments();
 });
 </script>
 

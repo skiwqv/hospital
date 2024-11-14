@@ -64,7 +64,7 @@
               <span
                 class="menu-item"
                 @click="toAdmin"
-                v-if="currentUser.role == 'admin'"
+                v-if="currentUser.roles == 'admin'"
               >
                 <AdminIcon class="menu-item-icon"></AdminIcon>
                 Admin</span

@@ -27,11 +27,11 @@
             >
               {{ formatCellData(row, column.key) }}
             </td>
-            <td class="icon-wrapper" title="Delete Appointment">
+            <td class="icon-wrapper">
               <component
-                :is="actionIcon || DeleteIcon"
+                :is="actionIcon(row) || DeleteIcon"
                 class="delete-icon"
-                @click="handleDelete(index)"
+                @click="handleDelete(row)"
               />
             </td>
           </tr>
@@ -68,7 +68,7 @@ const handleClick = (row) => {
   emit("viewProfile", row);
 };
 
-const handleDelete = (index) => {
-  props.deleteHandler(index);
+const handleDelete = (row) => {
+  props.deleteHandler(row);
 };
 </script>

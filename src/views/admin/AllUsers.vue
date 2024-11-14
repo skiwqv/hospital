@@ -5,31 +5,35 @@
         title="Users"
         :data="users"
         :columns="[
-          { label: 'User', key: 'username', clickable: true },
+          {
+            label: 'User',
+            key: 'first_name',
+            clickable: true,
+          },
           { label: 'Email', key: 'email' },
+          { label: 'Role', key: 'roles' },
         ]"
-        :deleteHandler="deleteUser"
+        :deleteHandler="blockUser"
         :loading="loading"
         emptyMessage="There are no users yet"
         @viewProfile="toProfile"
-        :actionIcon="BanIcon"
+        :actionIcon="getActionIcon"
       />
     </div>
   </section>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed, onMounted } from "vue";
+import { useAdminStore } from "@/store/admin";
 import Table from "@/components/tables/Table.vue";
 import BanIcon from "@/assets/icons/BanIcon.svg";
+import UnbanIcon from "@/assets/icons/unban.svg";
+
+const adminStore = useAdminStore();
 const loading = ref(false);
 
-const users = ref([
-  { id: 1, username: "johndoe", email: "johndoe@example.com" },
-  { id: 2, username: "janedoe", email: "janedoe@example.com" },
-  { id: 3, username: "alicew", email: "alicew@example.com" },
-  { id: 4, username: "bobj", email: "bobj@example.com" },
-]);
+const users = computed(() => adminStore.allUsers);
 
 const deleteUser = (id) => {
   users.value = users.value.filter((user) => user.id !== id);
@@ -38,4 +42,16 @@ const deleteUser = (id) => {
 const toProfile = (id) => {
   console.log("View profile for user ID:", id);
 };
+
+const getActionIcon = (user) => {
+  return user.is_blocked ? UnbanIcon : BanIcon;
+};
+
+const blockUser = (user) => {
+  adminStore.blockUser(user.id);
+};
+
+onMounted(async () => {
+  await adminStore.getAllUsers();
+});
 </script>

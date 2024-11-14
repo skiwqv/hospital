@@ -5,6 +5,7 @@ import { useToast } from "vue-toast-notification";
 export const useAdminStore = defineStore("admin", {
   state: () => ({
     currentUser: null,
+    allUsers: null,
   }),
 
   getters: {},
@@ -25,6 +26,29 @@ export const useAdminStore = defineStore("admin", {
           position: "bottom",
         });
         console.error("Failed to register doctor:", error);
+      }
+    },
+    async getAllUsers() {
+      try {
+        const { data } = await authorizedApiClient.get("/users/admin/users/");
+        this.allUsers = data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async blockUser(id) {
+      const $toast = useToast();
+      try {
+        await authorizedApiClient.patch(`/users/admin/block/`, {
+          user_id: id,
+        });
+        $toast.success("User blocked successfully", {
+          position: "bottom",
+        });
+      } catch (err) {
+        $toast.error("Failed to block user", {
+          position: "bottom",
+        });
       }
     },
   },

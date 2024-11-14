@@ -19,7 +19,7 @@
             class="update-button"
             @click="toChat(props.user.id)"
             title="Send message to patient"
-            v-if="currentUser.role == 'doctor'"
+            v-if="currentUser.roles == 'doctor'"
           >
             Send message
           </button>
