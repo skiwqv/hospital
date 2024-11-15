@@ -93,6 +93,7 @@
       :loading="loading"
       emptyMessage="There are no doctor's appointments yet"
       @viewProfile="toProfile"
+      :actionIcon="getActionIcon"
     />
   </div>
 </template>
@@ -140,14 +141,15 @@ const updateProfile = () => {
   } catch (error) {}
 };
 
-const cancelAppointment = (index) => {
-  appointments.value.splice(index, 1);
-};
-
 const toProfile = (data) => {
   let id = data.patient_id;
 
   router.push(`/profile-publick/${id}`);
+};
+
+const deleteAppointment = async (row) => {
+  await appointmentStore.deleteAppointment(row.id);
+  await appointmentStore.getAppointments();
 };
 
 watch(appointments, (newAppointments) => {

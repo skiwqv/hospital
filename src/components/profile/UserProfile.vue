@@ -97,7 +97,18 @@
       :loading="loading"
       emptyMessage="There are no doctor's appointments yet"
       @viewProfile="toDoctorProfile"
+      :actionIcon="getActionIcon"
     />
+    <section class="appointments">
+      <h2>Appointments History</h2>
+      <button
+        class="update-button"
+        title="Open your Appointments History"
+        @click="toAppointmentsHistory"
+      >
+        Open Appointments History
+      </button>
+    </section>
     <section class="appointments">
       <h2>Medical Book</h2>
       <button
@@ -115,17 +126,12 @@
 import { ref, computed, onMounted, watch } from "vue";
 import { useAppStore } from "@/store/app";
 import { useAppointmentStore } from "@/store/appointment";
-import {
-  formatDate,
-  formatTime,
-  sortDatesDescending,
-} from "@/helpers/Formater";
+import { sortDatesDescending } from "@/helpers/Formater";
 import Table from "@/components/tables/Table.vue";
 import UploadIcon from "@/assets/icons/upload.svg";
 import DeleteIcon from "@/assets/icons/delete.svg";
-
-import brendaPlaceholder from "@/assets/images/placeholder.png";
 import router from "@/router";
+import brendaPlaceholder from "@/assets/images/placeholder.png";
 
 const appStore = useAppStore();
 const appointmentStore = useAppointmentStore();
@@ -165,12 +171,21 @@ const toDoctorProfile = (data) => {
   router.push(`/profile-publick/${id}`);
 };
 
+const toAppointmentsHistory = () => {
+  router.push("/all-appointments");
+};
+
 const toMedBook = () => {
   router.push("/medical-book");
 };
 
-const deleteAppointment = (index) => {
-  appointments.value.splice(index, 1);
+const deleteAppointment = async (row) => {
+  await appointmentStore.deleteAppointment(row.id);
+  await appointmentStore.getAppointments();
+};
+
+const getActionIcon = (user) => {
+  return DeleteIcon;
 };
 
 watch(appointments, (newAppointments) => {
@@ -186,6 +201,7 @@ onMounted(async () => {
   loading.value = true;
   await appointmentStore.getAppointments();
   loading.value = false;
+  await appointmentStore.getAllAppointments();
 });
 </script>
 

@@ -2,7 +2,7 @@
   <div class="profile-wrapper">
     <h2 class="profile-text">Profile</h2>
     <div class="profiles-holder">
-      <DoctorProfile v-if="currentUser.role == 'doctor'"></DoctorProfile>
+      <DoctorProfile v-if="currentUser.roles == 'doctor'"></DoctorProfile>
       <UserProfile v-else></UserProfile>
     </div>
   </div>

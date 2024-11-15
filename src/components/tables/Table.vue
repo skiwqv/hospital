@@ -13,7 +13,7 @@
             >
               {{ column.label }}
             </th>
-            <th class="head-title">Delete</th>
+            <th v-if="deleteHandler" class="head-title">Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -27,11 +27,11 @@
             >
               {{ formatCellData(row, column.key) }}
             </td>
-            <td class="icon-wrapper" title="Delete Appointment">
+            <td v-if="deleteHandler" class="icon-wrapper">
               <component
-                :is="actionIcon || DeleteIcon"
+                :is="actionIcon ? actionIcon(row) : DeleteIcon"
                 class="delete-icon"
-                @click="handleDelete(index)"
+                @click="handleDelete(row)"
               />
             </td>
           </tr>
@@ -53,7 +53,7 @@ const props = defineProps({
   deleteHandler: Function,
   loading: Boolean,
   emptyMessage: String,
-  actionIcon: Object,
+  actionIcon: Function,
 });
 
 const emit = defineEmits(["viewProfile"]);
@@ -68,7 +68,9 @@ const handleClick = (row) => {
   emit("viewProfile", row);
 };
 
-const handleDelete = (index) => {
-  props.deleteHandler(index);
+const handleDelete = (row) => {
+  if (props.deleteHandler) {
+    props.deleteHandler(row);
+  }
 };
 </script>

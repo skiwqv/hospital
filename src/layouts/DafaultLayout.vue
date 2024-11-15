@@ -117,7 +117,7 @@
               <span
                 class="menu-item"
                 @click="toAdmin"
-                v-if="currentUser.role == 'admin'"
+                v-if="currentUser.roles == 'admin'"
               >
                 <AdminIcon class="menu-item-icon"></AdminIcon>
                 Admin</span
@@ -250,7 +250,7 @@ const headerLinks = ref([
   {
     label: "Appointment",
     to: "/appointment",
-    requiresPatient: currentUser.value?.role,
+    requiresPatient: currentUser.value?.roles,
   },
 ]);
 const navMenuLinks = ref([
@@ -261,7 +261,7 @@ const navMenuLinks = ref([
   {
     label: "Appointment",
     to: "/appointment",
-    requiresPatient: currentUser.value?.role,
+    requiresPatient: currentUser.value?.roles,
   },
 ]);
 const footerLinks = ref([
@@ -269,7 +269,7 @@ const footerLinks = ref([
   {
     label: "Appointment",
     to: "/appointment",
-    requiresPatient: currentUser.value?.role,
+    requiresPatient: currentUser.value?.roles,
   },
   { label: "Doctors", to: "/doctors" },
   { label: "About us", to: "/about" },
