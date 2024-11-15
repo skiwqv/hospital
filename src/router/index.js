@@ -58,6 +58,12 @@ const routes = [
         meta: { requiresAuth: true },
       },
       {
+        path: "/all-appointments",
+        name: "Appointments",
+        component: () => import("@/views/AllAppointments.vue"),
+        meta: { requiresAuth: true },
+      },
+      {
         path: "/profile",
         name: "Profile",
         component: () => import("@/views/Profile.vue"),
@@ -140,6 +146,10 @@ const routes = [
       },
     ],
   },
+  {
+    path: "/blocked",
+    component: () => import("@/layouts/BlockedLayout.vue"),
+  },
 ];
 
 const router = createRouter({
@@ -178,6 +188,10 @@ router.beforeEach(async (to, from, next) => {
     } catch (error) {
       return next({ name: "SignIn" });
     }
+  }
+
+  if (currentUser?.is_blocked && to.path !== "/blocked") {
+    return next({ path: "/blocked" });
   }
 
   if (to.meta.requiresAdmin && currentUser.roles !== "admin") {

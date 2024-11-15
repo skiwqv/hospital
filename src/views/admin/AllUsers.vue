@@ -3,8 +3,12 @@
     <div class="container">
       <Table
         title="Users"
-        :data="users"
+        :data="sortedUsers"
         :columns="[
+          {
+            label: 'ID',
+            key: 'id',
+          },
           {
             label: 'User',
             key: 'first_name',
@@ -13,7 +17,7 @@
           { label: 'Email', key: 'email' },
           { label: 'Role', key: 'roles' },
         ]"
-        :deleteHandler="blockUser"
+        :deleteHandler="toggleBlockUser"
         :loading="loading"
         emptyMessage="There are no users yet"
         @viewProfile="toProfile"
@@ -33,11 +37,13 @@ import UnbanIcon from "@/assets/icons/unban.svg";
 const adminStore = useAdminStore();
 const loading = ref(false);
 
-const users = computed(() => adminStore.allUsers);
-
-const deleteUser = (id) => {
-  users.value = users.value.filter((user) => user.id !== id);
-};
+const users = computed(() => adminStore.allUsers || []);
+const sortedUsers = computed(() =>
+  users.value
+    .filter((user) => user.roles !== "admin")
+    .slice()
+    .sort((a, b) => a.id - b.id)
+);
 
 const toProfile = (id) => {
   console.log("View profile for user ID:", id);
@@ -47,8 +53,10 @@ const getActionIcon = (user) => {
   return user.is_blocked ? UnbanIcon : BanIcon;
 };
 
-const blockUser = (user) => {
-  adminStore.blockUser(user.id);
+const toggleBlockUser = async (user) => {
+  const action = user.is_blocked ? "unblock" : "block";
+  await adminStore.toggleBlockUser(user.id, action);
+  await adminStore.getAllUsers();
 };
 
 onMounted(async () => {

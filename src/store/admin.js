@@ -36,17 +36,25 @@ export const useAdminStore = defineStore("admin", {
         console.log(error);
       }
     },
-    async blockUser(id) {
+    async toggleBlockUser(id, action) {
       const $toast = useToast();
       try {
         await authorizedApiClient.patch(`/users/admin/block/`, {
           user_id: id,
         });
-        $toast.success("User blocked successfully", {
+        const successMessage =
+          action === "block"
+            ? "User blocked successfully"
+            : "User unblocked successfully";
+        $toast.success(successMessage, {
           position: "bottom",
         });
       } catch (err) {
-        $toast.error("Failed to block user", {
+        const errorMessage =
+          action === "block"
+            ? "Failed to block user"
+            : "Failed to unblock user";
+        $toast.error(errorMessage, {
           position: "bottom",
         });
       }
