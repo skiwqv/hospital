@@ -80,53 +80,35 @@
       </div>
     </div>
 
-    <div class="appointments">
-      <h2>Patients with Appointments</h2>
-      <div class="appointments-table">
-        <table class="table">
-          <thead class="table-head">
-            <tr>
-              <th class="head-title">Patient</th>
-              <th class="head-title">Date</th>
-              <th class="head-title">Time</th>
-              <th class="head-title">Message</th>
-              <th class="head-title">Cancel</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(appointment, index) in appointments" :key="index">
-              <td
-                class="table-content link"
-                title="Open patient profile"
-                @click="toProfile(appointment.patient_id)"
-              >
-                {{ appointment.patient_name }}
-              </td>
-              <td class="table-content">{{ appointment.date }}</td>
-              <td class="table-content">{{ appointment.time }}</td>
-              <td class="table-content">{{ appointment.message }}</td>
-              <td class="icon-wrapper" title="Delete Appointment">
-                <DeleteIcon
-                  class="delete-icon"
-                  @click="cancelAppointment(index)"
-                />
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <Table
+      title="Booked appointments"
+      :data="appointments"
+      :columns="[
+        { label: 'Patient', key: 'patient_name', clickable: true },
+        { label: 'Date', key: 'date' },
+        { label: 'Time', key: 'time' },
+        { label: 'Message', key: 'message' },
+      ]"
+      :deleteHandler="deleteAppointment"
+      :loading="loading"
+      emptyMessage="There are no doctor's appointments yet"
+      @viewProfile="toProfile"
+      :actionIcon="getActionIcon"
+    />
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, watch } from "vue";
 import { useAppStore } from "@/store/app";
 import { useAppointmentStore } from "@/store/appointment";
 import UploadIcon from "@/assets/icons/upload.svg";
 import DeleteIcon from "@/assets/icons/delete.svg";
-import brendaPlaceholder from "@/assets/images/brenda.jpg";
+
+import brendaPlaceholder from "@/assets/images/placeholder.png";
 import router from "@/router";
+import { formatTime, sortDatesDescending } from "@/helpers/Formater";
+import Table from "@/components/tables/Table.vue";
 
 const appStore = useAppStore();
 const appointmentStore = useAppointmentStore();
@@ -138,6 +120,7 @@ const fullName = computed(() => {
 
 const imageSrc = ref(null);
 const imagePreview = ref(null);
+const loading = ref(true);
 
 const onFileChange = (event) => {
   const file = event.target.files[0];
@@ -158,16 +141,30 @@ const updateProfile = () => {
   } catch (error) {}
 };
 
-const cancelAppointment = (index) => {
-  appointments.value.splice(index, 1);
-};
+const toProfile = (data) => {
+  let id = data.patient_id;
 
-const toProfile = (id) => {
   router.push(`/profile-publick/${id}`);
 };
 
+const deleteAppointment = async (row) => {
+  await appointmentStore.deleteAppointment(row.id);
+  await appointmentStore.getAppointments();
+};
+
+watch(appointments, (newAppointments) => {
+  if (newAppointments && newAppointments.length) {
+    appointmentStore.appointments = sortDatesDescending(
+      newAppointments,
+      "date"
+    );
+  }
+});
+
 onMounted(async () => {
-  appointmentStore.getAppointments();
+  loading.value = true;
+  await appointmentStore.getAppointments();
+  loading.value = false;
 });
 </script>
 

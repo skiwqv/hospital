@@ -3,7 +3,7 @@
     <h2 class="profile-text">{{ `${userById.first_name} profile` }}</h2>
     <div class="profiles-holder">
       <DoctorProfile
-        v-if="userById.role == 'doctor'"
+        v-if="userById.roles == 'doctor'"
         :doctor="userById"
       ></DoctorProfile>
       <UserProfile v-else :user="userById"></UserProfile>

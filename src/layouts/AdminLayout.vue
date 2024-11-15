@@ -13,10 +13,7 @@
           >Med<span class="logo-text-secondary">dical</span></span
         >
       </div>
-      <div class="menu-icon" @click="isMenuOpen = !isMenuOpen">
-        <component :is="isMenuOpen ? CloseIcon : BurgerMenuIcon" />
-      </div>
-      <div class="nav-menu" :class="{ open: isMenuOpen }">
+      <div class="links-wrapper">
         <router-link
           v-for="(link, index) in headerLinks"
           :key="index"
@@ -24,7 +21,26 @@
           :exact="link.exact"
           :to="link.to"
           :class="{ 'link-active': isActive(link.to) }"
+          v-show="link.requiresPatient != 'doctor'"
+        >
+          {{ link.label }}
+        </router-link>
+      </div>
+      <div class="mobile-nav-wrapper">
+        <div class="menu-icon" @click="isMenuOpen = !isMenuOpen">
+          <component :is="isMenuOpen ? CloseIcon : BurgerMenuIcon" />
+        </div>
+      </div>
+      <div class="nav-menu" :class="{ open: isMenuOpen }">
+        <router-link
+          v-for="(link, index) in navMenuLinks"
+          :key="index"
+          class="link"
+          :exact="link.exact"
+          :to="link.to"
+          :class="{ 'link-active': isActive(link.to) }"
           @click="isMenuOpen = !isMenuOpen"
+          v-show="link.requiresPatient != 'doctor'"
         >
           {{ link.label }}
         </router-link>
@@ -36,7 +52,7 @@
       <button v-if="!currentUser" class="nav-button" @click="toSignIn">
         Sign In
       </button>
-      <div v-else class="user-wrapper">
+      <div class="user-wrapper" v-if="currentUser">
         <div class="dropdown" @click="dropdownVisible = !dropdownVisible">
           <ProfileIcon class="user-icon"></ProfileIcon>
           <div v-if="dropdownVisible" class="dropdown-menu">
@@ -48,7 +64,7 @@
               <span
                 class="menu-item"
                 @click="toAdmin"
-                v-if="currentUser.role == 'admin'"
+                v-if="currentUser.roles == 'admin'"
               >
                 <AdminIcon class="menu-item-icon"></AdminIcon>
                 Admin</span
@@ -86,6 +102,11 @@ const currentUser = computed(() => appStore.currentUser);
 const isMenuOpen = ref(false);
 const dropdownVisible = ref(false);
 const route = useRoute();
+
+const headerLinks = ref([
+  { label: "Create Doctor", to: "/admin", exact: true },
+  { label: "Users", to: "/all-users" },
+]);
 
 const toSignIn = () => {
   router.push("/signIn");

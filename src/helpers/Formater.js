@@ -31,4 +31,19 @@ function sliceFileName(file) {
   return decodeURIComponent(encodedFileName);
 }
 
-export { formatDate, formatTime, formatDateTime, addPadding, sliceFileName };
+function sortDatesDescending(date) {
+  return date.sort((a, b) => {
+    const dateA = new Date(`${a.date}T${a.time}`);
+    const dateB = new Date(`${b.date}T${b.time}`);
+    return dateB - dateA; // Sort in descending order
+  });
+}
+
+export {
+  formatDate,
+  formatTime,
+  formatDateTime,
+  addPadding,
+  sliceFileName,
+  sortDatesDescending,
+};

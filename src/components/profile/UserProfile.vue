@@ -84,47 +84,31 @@
         </div>
       </div>
     </section>
+    <Table
+      title="Booked appointments"
+      :data="appointments"
+      :columns="[
+        { label: 'Doctor', key: 'doctor_name', clickable: true },
+        { label: 'Date', key: 'date' },
+        { label: 'Time', key: 'time' },
+        { label: 'Message', key: 'message' },
+      ]"
+      :deleteHandler="deleteAppointment"
+      :loading="loading"
+      emptyMessage="There are no doctor's appointments yet"
+      @viewProfile="toDoctorProfile"
+      :actionIcon="getActionIcon"
+    />
     <section class="appointments">
-      <h2>Booked appointments</h2>
-      <div
-        v-if="appointments && appointments.length"
-        class="appointments-table"
+      <h2>Appointments History</h2>
+      <button
+        class="update-button"
+        title="Open your Appointments History"
+        @click="toAppointmentsHistory"
       >
-        <table class="table">
-          <thead class="table-head">
-            <tr>
-              <th class="head-title">Doctor</th>
-              <th class="head-title">Date</th>
-              <th class="head-title">Time</th>
-              <th class="head-title">Message</th>
-              <th class="head-title">Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(appointment, index) in appointments" :key="index">
-              <td
-                title="Open doctor profile"
-                class="table-content link"
-                @click="toDoctorProfile(appointment.doctor_id)"
-              >
-                {{ appointment.doctor_name }}
-              </td>
-              <td class="table-content">{{ formatDate(appointment.date) }}</td>
-              <td class="table-content">{{ formatTime(appointment.time) }}</td>
-              <td class="table-content">{{ appointment.message }}</td>
-              <td class="icon-wrapper" title="Delete Appointment">
-                <DeleteIcon
-                  class="delete-icon"
-                  @click="deleteAppointment(index)"
-                />
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <h4 v-else>There are no doctor's appointments yet</h4>
+        Open Appointments History
+      </button>
     </section>
-
     <section class="appointments">
       <h2>Medical Book</h2>
       <button
@@ -139,15 +123,15 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, watch } from "vue";
 import { useAppStore } from "@/store/app";
 import { useAppointmentStore } from "@/store/appointment";
-import { formatDate, formatTime } from "@/helpers/Formater";
-
+import { sortDatesDescending } from "@/helpers/Formater";
+import Table from "@/components/tables/Table.vue";
 import UploadIcon from "@/assets/icons/upload.svg";
 import DeleteIcon from "@/assets/icons/delete.svg";
-import brendaPlaceholder from "@/assets/images/brenda.jpg";
 import router from "@/router";
+import brendaPlaceholder from "@/assets/images/placeholder.png";
 
 const appStore = useAppStore();
 const appointmentStore = useAppointmentStore();
@@ -161,6 +145,7 @@ const fullName = computed(() => {
 
 const imageSrc = ref(null);
 const imagePreview = ref(null);
+const loading = ref(true);
 
 const onFileChange = (event) => {
   const file = event.target.files[0];
@@ -181,20 +166,42 @@ const updateProfile = () => {
   } catch (error) {}
 };
 
-const toDoctorProfile = (id) => {
+const toDoctorProfile = (data) => {
+  let id = data.doctor_id;
   router.push(`/profile-publick/${id}`);
+};
+
+const toAppointmentsHistory = () => {
+  router.push("/all-appointments");
 };
 
 const toMedBook = () => {
   router.push("/medical-book");
 };
 
-const deleteAppointment = (index) => {
-  appointments.value.splice(index, 1);
+const deleteAppointment = async (row) => {
+  await appointmentStore.deleteAppointment(row.id);
+  await appointmentStore.getAppointments();
 };
 
+const getActionIcon = (user) => {
+  return DeleteIcon;
+};
+
+watch(appointments, (newAppointments) => {
+  if (newAppointments && newAppointments.length) {
+    appointmentStore.appointments = sortDatesDescending(
+      newAppointments,
+      "date"
+    );
+  }
+});
+
 onMounted(async () => {
+  loading.value = true;
   await appointmentStore.getAppointments();
+  loading.value = false;
+  await appointmentStore.getAllAppointments();
 });
 </script>
 

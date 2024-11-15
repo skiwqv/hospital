@@ -6,6 +6,7 @@ export const useAppointmentStore = defineStore("appointment", {
     doctors: null,
     time: null,
     appointments: null,
+    allAppointments: null,
     records: null,
     record: null,
   }),
@@ -53,6 +54,13 @@ export const useAppointmentStore = defineStore("appointment", {
         this.appointments = data;
       } catch (error) {}
     },
+    async getAllAppointments() {
+      try {
+        const { data } = await authorizedApiClient.get("/appointment/get-all/");
+        this.allAppointments = data;
+        console.log(data);
+      } catch (err) {}
+    },
     async isAppointment(id) {
       try {
         const resp = await authorizedApiClient.get("/book/create/", {
@@ -86,6 +94,7 @@ export const useAppointmentStore = defineStore("appointment", {
         this.records = data;
       } catch (error) {}
     },
+
     async getRecordById(id) {
       try {
         const { data } = await authorizedApiClient.get("/book/get/", {
@@ -95,6 +104,17 @@ export const useAppointmentStore = defineStore("appointment", {
         });
         this.record = data;
       } catch (error) {}
+    },
+    async deleteAppointment(id) {
+      const $toast = useToast();
+      await authorizedApiClient.delete("/appointment/delete/", {
+        params: {
+          id: id,
+        },
+      });
+      $toast.success("Appointment deleted successfully", {
+        position: "bottom",
+      });
     },
   },
 });

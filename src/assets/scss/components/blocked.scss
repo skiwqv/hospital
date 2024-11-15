@@ -1,0 +1,41 @@
+.blocked-user-layout {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    background: url('../images/locked-bg.png') no-repeat center center;
+    background-size: cover;
+
+    .blocked-content {
+        max-width: 800px;
+        padding: 20px;
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+
+        .title {
+            font-weight: 700;
+            font-size: 24px;
+            color: $secondary;
+            margin-bottom: 20px;
+        }
+
+        .message {
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 1.5;
+            color: $black;
+            margin-bottom: 30px;
+        }
+
+        .contact-support {
+            font-weight: 600;
+            font-size: 16px;
+            color: $primary;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    }
+}
