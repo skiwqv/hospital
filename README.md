@@ -45,7 +45,3 @@ This project is a modern web application for an online hospital, built with Vue 
   Designed for a smooth and simple user experience.
 - **High Performance:**  
   Optimized page loading and minimal response times.
-
-  ```
-
-  ```
