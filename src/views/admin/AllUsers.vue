@@ -30,6 +30,7 @@
 <script setup>
 import { ref, computed, onMounted } from "vue";
 import { useAdminStore } from "@/store/admin";
+import router from "@/router";
 import Table from "@/components/tables/Table.vue";
 import BanIcon from "@/assets/icons/BanIcon.svg";
 import UnbanIcon from "@/assets/icons/unban.svg";
@@ -45,8 +46,9 @@ const sortedUsers = computed(() =>
     .sort((a, b) => a.id - b.id)
 );
 
-const toProfile = (id) => {
-  console.log("View profile for user ID:", id);
+const toProfile = (user) => {
+  let id = user.id;
+  router.push(`/profile-publick/${id}`);
 };
 
 const getActionIcon = (user) => {
