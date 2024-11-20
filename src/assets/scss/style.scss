@@ -138,6 +138,7 @@ body {
     line-height: 140%;
     color: $white;
     padding-left: 22px;
+    -webkit-appearance: none;
 
     &::placeholder {
         color: $white;
