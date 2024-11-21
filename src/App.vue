@@ -1,6 +1,6 @@
 <template>
   <div>
-    <progres-bar v-if="loading" :progress="progress"></progres-bar>
+    <progres-bar v-if="loading"></progres-bar>
     <router-view v-else></router-view>
   </div>
 </template>
@@ -19,19 +19,14 @@ let progress = ref(0);
 
 onMounted(async () => {
   loading.value = true;
-  try {
-    await appStore.getAllDoctors((progressValue) => {
-      progress.value = progressValue;
-    });
-    const token = window.localStorage.getItem("access");
-    if (token) {
-      await appStore.getUserData();
-    }
-  } catch (error) {
-    console.error("Error loading", error);
-  } finally {
-    loading.value = false;
+  await appStore.getAllDoctors((progressValue) => {
+    progress.value = progressValue;
+  });
+  const token = window.localStorage.getItem("access");
+  if (token) {
+    await appStore.getUserData();
   }
+  loading.value = false;
 });
 
 watch(

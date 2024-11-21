@@ -1,9 +1,9 @@
 <template>
   <section class="appointments">
-    <div class="container">
+    <div>
       <Table
         title="Users"
-        :data="sortedUsers"
+        :data="processedUsers"
         :columns="[
           {
             label: 'ID',
@@ -11,7 +11,7 @@
           },
           {
             label: 'User',
-            key: 'first_name',
+            key: 'full_name',
             clickable: true,
           },
           { label: 'Email', key: 'email' },
@@ -39,13 +39,16 @@ const adminStore = useAdminStore();
 const loading = ref(false);
 
 const users = computed(() => adminStore.allUsers || []);
-const sortedUsers = computed(() =>
+
+const processedUsers = computed(() =>
   users.value
     .filter((user) => user.roles !== "admin")
-    .slice()
+    .map((user) => ({
+      ...user,
+      full_name: `${user.first_name} ${user.last_name}`,
+    }))
     .sort((a, b) => a.id - b.id)
 );
-
 const toProfile = (user) => {
   let id = user.id;
   router.push(`/profile-publick/${id}`);
