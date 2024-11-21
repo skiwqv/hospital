@@ -145,6 +145,18 @@ body {
     }
 }
 
+.logo-text {
+    font-family: $font-family-display;
+    font-weight: 400;
+    font-size: 36px;
+    text-transform: uppercase;
+    color: $primary;
+
+    .logo-text-secondary {
+        color: $secondary
+    }
+}
+
 .select-wrapper {
     position: relative;
 

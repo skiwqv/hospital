@@ -125,14 +125,25 @@ export const useAppStore = defineStore("app", {
         console.error("Profile update failed:", error);
       }
     },
-    async getAllDoctors() {
+    async getAllDoctors(onProgress) {
       try {
-        const { data } = await authorizedApiClient.get("/doctor/all/");
+        const { data } = await authorizedApiClient.get("/doctor/all/", {
+          onDownloadProgress: (progressEvent) => {
+            if (onProgress) {
+              const progress = Math.round(
+                (progressEvent.loaded / progressEvent.total) * 100
+              );
+
+              onProgress(progress);
+            }
+          },
+        });
         this.allDoctors = data;
       } catch (error) {
         console.error("doctor failed:", error);
       }
     },
+
     async getUserById(id) {
       try {
         const { data } = await authorizedApiClient.get("/users/specific/", {
