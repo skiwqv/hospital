@@ -1,6 +1,6 @@
 <template>
   <section class="appointments">
-    <div class="container">
+    <div>
       <Table
         title="Appointments History"
         v-if="currentUser.roles == 'doctor'"
