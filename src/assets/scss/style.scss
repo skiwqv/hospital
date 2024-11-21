@@ -138,9 +138,22 @@ body {
     line-height: 140%;
     color: $white;
     padding-left: 22px;
+    -webkit-appearance: none;
 
     &::placeholder {
         color: $white;
+    }
+}
+
+.logo-text {
+    font-family: $font-family-display;
+    font-weight: 400;
+    font-size: 36px;
+    text-transform: uppercase;
+    color: $primary;
+
+    .logo-text-secondary {
+        color: $secondary
     }
 }
 

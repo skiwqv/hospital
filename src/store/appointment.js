@@ -58,7 +58,6 @@ export const useAppointmentStore = defineStore("appointment", {
       try {
         const { data } = await authorizedApiClient.get("/appointment/get-all/");
         this.allAppointments = data;
-        console.log(data);
       } catch (err) {}
     },
     async isAppointment(id) {

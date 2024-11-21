@@ -74,10 +74,6 @@ const list = ref([
   { text: "Always Caring" },
   { text: "A Legacy of Excellence" },
 ]);
-
-onMounted(async () => {
-  await appStore.getAllDoctors();
-});
 </script>
 
 <style></style>

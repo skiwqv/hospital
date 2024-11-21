@@ -27,10 +27,6 @@ const allDoctors = computed(() => appStore.allDoctors);
 
 import DoctorItem from "@/components/doctors/doctorItem.vue";
 import Contacts from "@/components/home/contacts.vue";
-
-onMounted(async () => {
-  await appStore.getAllDoctors();
-});
 </script>
 
 <style></style>

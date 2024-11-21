@@ -1,20 +1,36 @@
 <template>
-  <router-view></router-view>
+  <div>
+    <progres-bar v-if="loading" :progress="progress"></progres-bar>
+    <router-view v-else></router-view>
+  </div>
 </template>
 
 <script setup>
-import { onMounted, watch } from "vue";
+import { onMounted, watch, ref } from "vue";
 import { useAppStore } from "@/store/app";
 import { useNotifStore } from "@/store/notifications";
+import ProgresBar from "@/components/progressbars/ProgresBar.vue";
 
 const appStore = useAppStore();
 const notificationStore = useNotifStore();
 
-onMounted(() => {
-  const token = window.localStorage.getItem("access");
+let loading = ref(false);
+let progress = ref(0);
 
-  if (token) {
-    appStore.getUserData();
+onMounted(async () => {
+  loading.value = true;
+  try {
+    await appStore.getAllDoctors((progressValue) => {
+      progress.value = progressValue;
+    });
+    const token = window.localStorage.getItem("access");
+    if (token) {
+      await appStore.getUserData();
+    }
+  } catch (error) {
+    console.error("Error loading", error);
+  } finally {
+    loading.value = false;
   }
 });
 
