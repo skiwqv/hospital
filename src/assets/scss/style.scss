@@ -18,10 +18,6 @@ body {
     border-radius: 10px;
 }
 
-.container {
-    display: flex;
-    justify-content: center;
-}
 
 .data-table {
     padding: 20px;
@@ -30,7 +26,8 @@ body {
     margin-bottom: 30px;
 
     .table-wrapper {
-        overflow-y: scroll;
+        overflow-y: auto;
+        overflow-x: auto;
         max-height: 350px;
 
         &::-webkit-scrollbar {
@@ -154,6 +151,10 @@ body {
 
     .logo-text-secondary {
         color: $secondary
+    }
+
+    @include respond-to(md) {
+        color: $accent
     }
 }
 
