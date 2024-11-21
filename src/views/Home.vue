@@ -114,10 +114,6 @@ const specialties = ref([
   "Dermatology",
   "Gynaecology",
 ]);
-
-onMounted(async () => {
-  await appStore.getAllDoctors();
-});
 </script>
 
 <style></style>

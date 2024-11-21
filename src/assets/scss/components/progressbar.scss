@@ -1,0 +1,29 @@
+.progress-wrapper {
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%);
+    z-index: 9999;
+
+    .progress-bar {
+        position: relative;
+        height: 20px;
+        margin-top: 20px;
+        width: 100%;
+        background-color: #f3f3f3;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .progress-bar__fill {
+        height: 100%;
+        background-color: $primary;
+        transition: width 0.3s ease;
+    }
+}
