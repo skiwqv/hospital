@@ -48,7 +48,7 @@
     </section>
     <section class="records">
       <h2>Doctors Records</h2>
-      <div class="records-table">
+      <div class="records-table" v-if="records && records.lenght">
         <table class="table">
           <thead class="table-head">
             <tr>
@@ -83,6 +83,9 @@
             </tr>
           </tbody>
         </table>
+      </div>
+      <div v-else>
+        <p>There are no doctor's records yet</p>
       </div>
     </section>
   </div>
