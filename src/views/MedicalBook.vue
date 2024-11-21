@@ -48,7 +48,7 @@
     </section>
     <section class="records">
       <h2>Doctors Records</h2>
-      <div class="records-table" v-if="records && records.lenght">
+      <div class="records-table" v-if="records && records.length">
         <table class="table">
           <thead class="table-head">
             <tr>
